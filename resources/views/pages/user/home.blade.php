@@ -14,7 +14,7 @@
             <div class="col-12 col-lg-10 offset-lg-1">
 
                 @include('panels.welcome-panel')
-
+                <a href="{{ route('document.wordtopdf') }}">Convert Word To PDF</a>
             </div>
         </div>
     </div>

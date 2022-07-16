@@ -126,6 +126,7 @@
                             </p>
                             {!! HTML::icon_link(URL::to('/profile/'.$currentUser->name.'/edit'), 'fa fa-fw fa-plus ', trans('titles.createProfile'), array('class' => 'btn btn-small btn-info btn-block')) !!}
                         @endif
+                       
                     </div>
                 </div>
             </div>

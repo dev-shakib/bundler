@@ -14,7 +14,7 @@
             <div class="col-12 col-lg-10 offset-lg-1">
 
                 <?php echo $__env->make('panels.welcome-panel', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
+                <a href="<?php echo e(route('document.wordtopdf')); ?>">Convert Word To PDF</a>
             </div>
         </div>
     </div>

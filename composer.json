@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.3|^8.0",
         "ext-intl": "*",
+        "barryvdh/laravel-dompdf": "^2.0",
         "creativeorange/gravatar": "^1.0",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.2",
@@ -32,6 +33,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "laravelcollective/html": "^6.1",
+        "phpoffice/phpword": "^0.18.3",
         "pusher/pusher-php-server": "^4.1",
         "rap2hpoutre/laravel-log-viewer": "^1.4",
         "shvetsgroup/laravel-email-database-log": "^8.0.0",
@@ -40,7 +42,8 @@
         "socialiteproviders/instagram": "^3.0",
         "socialiteproviders/linkedin": "^3.1",
         "socialiteproviders/twitch": "^5.1",
-        "socialiteproviders/youtube": "^3.0"
+        "socialiteproviders/youtube": "^3.0",
+        "symfony/symfony": "5.4.x"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
