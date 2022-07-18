@@ -1,13 +1,13 @@
+@extends('layouts.admin')
 
+@section('template_title')
+    {{ Auth::user()->name }}'s' Bundle
+@endsection
 
-<?php $__env->startSection('template_title'); ?>
-    <?php echo e(Auth::user()->name); ?>'s' Bundle
-<?php $__env->stopSection(); ?>
+@section('template_fastload_css')
+@endsection
 
-<?php $__env->startSection('template_fastload_css'); ?>
-<?php $__env->stopSection(); ?>
-
-<?php $__env->startSection('content'); ?>
+@section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -38,9 +38,9 @@
                     <section class="col-lg-12 connectedSortable">
                         <div class="card">
                             <div class="card-body">
-                                <form action="<?php echo e(route('public.bundle.store')); ?>" enctype="multipart/form-data"
-                                    method="post">
-                                    <?php echo csrf_field(); ?>
+                                <form action="{{ route('public.bundle.files.store', [$bundle_id, $section_id]) }}"
+                                    enctype="multipart/form-data" method="post">
+                                    @csrf
                                     <label>FILE</label>
                                     <input type="file" name="files" required class="form-control" />
 
@@ -58,9 +58,7 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-<?php $__env->stopSection(); ?>
+@endsection
 
-<?php $__env->startSection('footer_scripts'); ?>
-<?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\LSKIT\bundler\resources\views/pages/user/bundle/create.blade.php ENDPATH**/ ?>
+@section('footer_scripts')
+@endsection

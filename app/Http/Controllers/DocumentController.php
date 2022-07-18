@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use PDF;
 use App\Models\File;
 use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
+use Auth;
 class DocumentController extends Controller
 {
     public function convertWordToPDF(Request $request)
@@ -45,7 +46,7 @@ class DocumentController extends Controller
             55, array(0,0,0),2,2,-30);
             return $pdf->download('mnp.pdf');
     }
-    public function uploadDocuments(Request $request)
+    public function uploadDocuments(Request $request,$bundle_id,$section_id)
     {
         $filename = $request->file('files')->store('public/files');
         $filename = explode('/',$filename);
@@ -86,13 +87,23 @@ class DocumentController extends Controller
             // return $pdf->download('mnp.pdf');
             file_put_contents($splitName[0].'.pdf', $output);
         }
-        File::create(['filename'=>$splitName[0].'.pdf', 'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id]);
+        File::create(['filename'=>$splitName[0].'.pdf', 'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
         unlink(storage_path("app/public/files".'\\'.$filename[2]));
         return redirect()->back();
     }
-    public function generate()
+    public function create($bundle_id,$section_id)
     {
-        $files = File::where("user_id",auth()->user()->id)->get();
+        $user = Auth::user();
+        $file = File::where('user_id',auth()->user()->id)->get();
+        if ($user->isAdmin()) {
+            return view('pages.admin.home');
+        }
+
+        return view('pages.user.bundle.files.create',['file'=>$file,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
+    }
+    public function generate($bundle_id)
+    {
+        $files = File::where(["user_id"=>auth()->user()->id,'bundle_id'=>$bundle_id])->get();
         // dd($files);
          $pdf = PDFMerger::init();
         foreach($files as $f)

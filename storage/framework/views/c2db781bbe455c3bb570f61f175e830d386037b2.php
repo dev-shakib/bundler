@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('template_title'); ?>
     <?php echo e(Auth::user()->name); ?>'s' Bundle
 <?php $__env->stopSection(); ?>
@@ -38,8 +36,8 @@
                     <section class="col-lg-12 connectedSortable">
                         <div class="card">
                             <div class="card-body">
-                                <form action="<?php echo e(route('public.bundle.store')); ?>" enctype="multipart/form-data"
-                                    method="post">
+                                <form action="<?php echo e(route('public.bundle.files.store', [$bundle_id, $section_id])); ?>"
+                                    enctype="multipart/form-data" method="post">
                                     <?php echo csrf_field(); ?>
                                     <label>FILE</label>
                                     <input type="file" name="files" required class="form-control" />
@@ -63,4 +61,4 @@
 <?php $__env->startSection('footer_scripts'); ?>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\LSKIT\bundler\resources\views/pages/user/bundle/create.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\LSKIT\bundler\resources\views/pages/user/bundle/files/create.blade.php ENDPATH**/ ?>

@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Section extends Model
 {
     use HasFactory;
+    protected $fillable = ['name','bundle_id','user_id'];
+    public function files()
+    {
+       return $this->hasMany(File::class,'section_id','id');
+    }
 }

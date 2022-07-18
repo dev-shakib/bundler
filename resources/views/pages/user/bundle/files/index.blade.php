@@ -21,7 +21,9 @@
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item ">Bundle</li>
-                            <li class="breadcrumb-item active">Add</li>
+                            <li class="breadcrumb-item ">Section</li>
+                            <li class="breadcrumb-item ">File</li>
+                            <li class="breadcrumb-item active">Index</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -38,15 +40,30 @@
                     <section class="col-lg-12 connectedSortable">
                         <div class="card">
                             <div class="card-body">
-                                <form action="{{ route('public.bundle.store') }}" enctype="multipart/form-data"
-                                    method="post">
-                                    @csrf
-                                    <label>FILE</label>
-                                    <input type="file" name="files" required class="form-control" />
+                                <a href="{{ route('public.bundle.files.create', [$section->bundle_id, $section->id]) }}"
+                                    class='btn btn-primary'>ADD FILE</a>
 
-                                    <input type="submit" class="btn btn-success" value="UPLOAD">
-
-                                </form>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>File Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($section->files as $f)
+                                            @php
+                                                $filename = explode('.', $f->filename);
+                                            @endphp
+                                            <tr>
+                                                <td>{{ $filename[0] . '.' . $f->mime_types }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </section>
