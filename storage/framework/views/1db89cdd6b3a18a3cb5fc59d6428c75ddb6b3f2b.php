@@ -1,13 +1,13 @@
-@extends('layouts.admin')
 
-@section('template_title')
-    {{ Auth::user()->name }}'s' Bundle
-@endsection
 
-@section('template_fastload_css')
-@endsection
+<?php $__env->startSection('template_title'); ?>
+    <?php echo e(Auth::user()->name); ?>'s' Bundle
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('template_fastload_css'); ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -35,10 +35,12 @@
         <div class="row">
             <div class="col-12 col-lg-10 offset-lg-1">
 
-                @include('panels.welcome-panel')
+                <?php echo $__env->make('panels.welcome-panel', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
             </div>
         </div>
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\bundler\resources\views/pages/admin/home.blade.php ENDPATH**/ ?>
