@@ -21,7 +21,9 @@
 
 <body>
     @include('frontend.partials.navbar')
-    @yield('main_section')
+    <div class="main-section">
+        @yield('main_section')
+    </div>
     @include('frontend.partials.footer')
 </body>
 </html>

@@ -9,7 +9,7 @@
         <button class="button2" style="vertical-align:center"><a href="{{route('sorry')}}"><span>Start
                     bundeling</span></a></button>
     </div>
-    <section class="col" style="vertical-align:center">
+    <section class="col">
         <div class="row">
             <div class="column">
 
