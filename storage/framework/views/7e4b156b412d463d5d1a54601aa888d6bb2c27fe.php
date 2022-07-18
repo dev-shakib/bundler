@@ -1,3 +1,5 @@
+
+
 <?php $__env->startSection('template_title'); ?>
     <?php echo e(Auth::user()->name); ?>'s' Bundle
 <?php $__env->stopSection(); ?>

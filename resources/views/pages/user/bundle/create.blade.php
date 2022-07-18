@@ -38,7 +38,7 @@
                     <section class="col-lg-12 connectedSortable">
                         <div class="card">
                             <div class="card-body">
-                                <form action="{{ route('public.bundle.store') }}" enctype="multipart/form-data"
+                                <form action="{{ route('public.bundle.files.store') }}" enctype="multipart/form-data"
                                     method="post">
                                     @csrf
                                     <label>FILE</label>

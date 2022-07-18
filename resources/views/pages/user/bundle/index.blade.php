@@ -38,7 +38,7 @@
                     <section class="col-lg-12 connectedSortable">
                         <div class="card">
                             <div class="card-body">
-                                <a href="{{ route('public.bundle.create') }}" class='btn btn-primary'>ADD FILE</a>
+                                <a href="{{ route('public.bundle.files.create') }}" class='btn btn-primary'>ADD FILE</a>
                                 <a href="{{ route('public.bundle.generate') }}">Generate Bundle</a>
                             </div>
                         </div>
