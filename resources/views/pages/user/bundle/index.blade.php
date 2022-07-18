@@ -39,8 +39,28 @@
                         <div class="card">
                             <div class="card-body">
                                 <a href="{{ route('public.bundle.create') }}" class='btn btn-primary'>ADD FILE</a>
-                                <a href="{{ route('document.wordtopdf') }}">Convert Word To PDF</a>
-                                <a href="{{ route('document.imgtopdf') }}">Convert Image To PDF</a>
+                                <a href="{{ route('public.bundle.generate') }}">Generate Bundle</a>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>File Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($file as $f)
+                                            @php
+                                                $filename = explode('.', $f->filename);
+                                            @endphp
+                                            <tr>
+                                                <td>{{ $filename[0] . '.' . $f->mime_types }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </section>

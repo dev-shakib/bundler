@@ -36,7 +36,9 @@
                     <section class="col-lg-12 connectedSortable">
                         <div class="card">
                             <div class="card-body">
-                                <form action="" enctype="multipart/form-data" method="post">
+                                <form action="<?php echo e(route('public.bundle.store')); ?>" enctype="multipart/form-data"
+                                    method="post">
+                                    <?php echo csrf_field(); ?>
                                     <label>FILE</label>
                                     <input type="file" name="files" required class="form-control" />
 

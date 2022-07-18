@@ -59,6 +59,8 @@ Route::group(['middleware' => ['auth', 'activated', 'activity', 'twostep', 'chec
     Route::get('/home', ['as' => 'public.home',   'uses' => 'App\Http\Controllers\UserController@index']);
     Route::get('/bundle/index', ['as' => 'public.bundle.index',   'uses' => 'App\Http\Controllers\UserController@bundle']);
     Route::get('/bundle/create', ['as' => 'public.bundle.create',   'uses' => 'App\Http\Controllers\UserController@create']);
+    Route::post('/bundle/store', ['as' => 'public.bundle.store',   'uses' => 'App\Http\Controllers\DocumentController@uploadDocuments']);
+    Route::get('/bundle/generate', ['as' => 'public.bundle.generate',   'uses' => 'App\Http\Controllers\DocumentController@generate']);
 
     // Show users profile - viewable by other users.
     Route::get('profile/{username}', [
