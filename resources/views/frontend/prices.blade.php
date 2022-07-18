@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 @section('main_section')
-    <header>
+    <header class="header">
         <h1> PRICE PLANS</h1>
     </header>
     <h2> In Bundle -B we belive that automation is the key of productivity. <br>

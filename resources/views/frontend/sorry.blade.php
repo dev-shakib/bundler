@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 @section('main_section')
-    <header>
+    <header class="header">
         <h1> OOPS! </h1>
     </header>
     <h2> We are not started yet! <br>
