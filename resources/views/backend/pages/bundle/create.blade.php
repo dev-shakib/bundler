@@ -1,13 +1,13 @@
+@extends('backend.layouts.app')
 
+@section('template_title')
+    {{ Auth::user()->name }}'s' Bundle
+@endsection
 
-<?php $__env->startSection('template_title'); ?>
-    <?php echo e(Auth::user()->name); ?>'s' Homepage
-<?php $__env->stopSection(); ?>
+@push('custom-css')
+@endpush
 
-<?php $__env->startPush('custom-css'); ?>
-<?php $__env->stopPush(); ?>
-
-<?php $__env->startSection('content'); ?>
+@section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -15,12 +15,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard</h1>
+                        <h1 class="m-0">Bundle</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard</li>
+                            <li class="breadcrumb-item ">Bundle</li>
+                            <li class="breadcrumb-item active">Add</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -35,8 +36,19 @@
                 <div class="row">
                     <!-- Left col -->
                     <section class="col-lg-12 connectedSortable">
-                        
-                        <a href="<?php echo e(route('document.wordtopdf')); ?>">Convert Word To PDF</a>
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="{{ route('public.bundle.store') }}" enctype="multipart/form-data"
+                                    method="post">
+                                    @csrf
+                                    <label>FILE</label>
+                                    <input type="file" name="files" required class="form-control" />
+
+                                    <input type="submit" class="btn btn-success" value="UPLOAD">
+
+                                </form>
+                            </div>
+                        </div>
                     </section>
                     <!-- /.Left col -->
                 </div>
@@ -46,9 +58,7 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-<?php $__env->stopSection(); ?>
+@endsection
 
-<?php $__env->startPush('custom-script'); ?>
-<?php $__env->stopPush(); ?>
-
-<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\bundler\resources\views/backend/pages/dashboard.blade.php ENDPATH**/ ?>
+@push('custom-script')
+@endpush

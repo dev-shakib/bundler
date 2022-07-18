@@ -1,11 +1,11 @@
-@extends('layouts.admin')
+@extends('backend.layouts.app')
 
 @section('template_title')
     {{ Auth::user()->name }}'s' Homepage
 @endsection
 
-@section('template_fastload_css')
-@endsection
+@push('custom-css')
+@endpush
 
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -47,3 +47,6 @@
     </div>
     <!-- /.content-wrapper -->
 @endsection
+
+@push('custom-script')
+@endpush
