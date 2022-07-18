@@ -43,3 +43,4 @@ packages/
 npm-debug.log
 yarn-error.log
 
+storage/logs/laravel.log
