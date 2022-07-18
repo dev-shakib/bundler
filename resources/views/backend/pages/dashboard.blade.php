@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('template_title')
-    {{ Auth::user()->name }}'s' Bundle
+    {{ Auth::user()->name }}'s' Homepage
 @endsection
 
 @section('template_fastload_css')
@@ -15,13 +15,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Bundle</h1>
+                        <h1 class="m-0">Dashboard</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item ">Bundle</li>
-                            <li class="breadcrumb-item active">Index</li>
+                            <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -32,13 +31,19 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-lg-10 offset-lg-1">
-
-                @include('panels.welcome-panel')
-
-            </div>
-        </div>
+                <!-- Main row -->
+                <div class="row">
+                    <!-- Left col -->
+                    <section class="col-lg-12 connectedSortable">
+                        {{-- @include('panels.welcome-panel') --}}
+                        <a href="{{ route('document.wordtopdf') }}">Convert Word To PDF</a>
+                    </section>
+                    <!-- /.Left col -->
+                </div>
+                <!-- /.row (main row) -->
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
     </div>
-
+    <!-- /.content-wrapper -->
 @endsection

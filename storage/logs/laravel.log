@@ -56,11 +56,13 @@ esbot\\carbon\\src\\Carbon\\Laravel\\ServiceProvider.php(29): Carbon\\Laravel\\S
 #26 D:\\laragon\\www\\bundler\\server.php(21): require_once('D:\\\\laragon\\\\www\\\\...')
 #27 {main}
 "} 
-[2022-07-16 07:24:36] local.ERROR: View [navbar] not found. (View: D:\laragon\www\bundler\resources\views\frontend\layouts\app.blade.php) {"view":{"view":"D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php","data":[]},"exception":"[object] (Facade\\Ignition\\Exceptions\\ViewException(code: 0): View [navbar] not found. (View: D:\\laragon\\www\\bundler\esources\\views\\frontend\\layouts\\app.blade.php) at D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:137)
+[2022-07-16 07:24:36] local.ERROR: View [navbar] not found. (View: D:\laragon\www\bundler\resources\views\frontend\layouts\app.blade.php) {"view":{"view":"D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php","data":[]},"exception":"[object] (Facade\\Ignition\\Exceptions\\ViewException(code: 0): View [navbar] not found. (View: D:\\laragon\\www\\bundler\
+esources\\views\\frontend\\layouts\\app.blade.php) at D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:137)
 [stacktrace]
 #0 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(79): Illuminate\\View\\FileViewFinder->findInPaths('navbar', Array)
 #1 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Factory.php(138): Illuminate\\View\\FileViewFinder->find('navbar')
-#2 D:\\laragon\\www\\bundler\esources\\views/frontend/layouts/app.blade.php(23): Illuminate\\View\\Factory->make('navbar', Array)
+#2 D:\\laragon\\www\\bundler\
+esources\\views/frontend/layouts/app.blade.php(23): Illuminate\\View\\Factory->make('navbar', Array)
 #3 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(107): require('D:\\\\laragon\\\\www\\\\...')
 #4 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(108): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
 #5 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\laragon\\\\www\\\\...', Array)
@@ -69,7 +71,8 @@ esbot\\carbon\\src\\Carbon\\Laravel\\ServiceProvider.php(29): Carbon\\Laravel\\S
 #8 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(139): Facade\\Ignition\\Views\\Engines\\CompilerEngine->get('D:\\\\laragon\\\\www\\\\...', Array)
 #9 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(122): Illuminate\\View\\View->getContents()
 #10 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(91): Illuminate\\View\\View->renderContents()
-#11 D:\\laragon\\www\\bundler\esources\\views/frontend/homepage.blade.php(51): Illuminate\\View\\View->render()
+#11 D:\\laragon\\www\\bundler\
+esources\\views/frontend/homepage.blade.php(51): Illuminate\\View\\View->render()
 #12 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(107): require('D:\\\\laragon\\\\www\\\\...')
 #13 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(108): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
 #14 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\laragon\\\\www\\\\...', Array)
@@ -202,11 +205,13 @@ esbot\\carbon\\src\\Carbon\\Laravel\\ServiceProvider.php(29): Carbon\\Laravel\\S
 #68 D:\\laragon\\www\\bundler\\server.php(21): require_once('D:\\\\laragon\\\\www\\\\...')
 #69 {main}
 "} 
-[2022-07-16 07:26:11] local.ERROR: View [partials.navbar] not found. (View: D:\laragon\www\bundler\resources\views\frontend\layouts\app.blade.php) {"view":{"view":"D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php","data":[]},"exception":"[object] (Facade\\Ignition\\Exceptions\\ViewException(code: 0): View [partials.navbar] not found. (View: D:\\laragon\\www\\bundler\esources\\views\\frontend\\layouts\\app.blade.php) at D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:137)
+[2022-07-16 07:26:11] local.ERROR: View [partials.navbar] not found. (View: D:\laragon\www\bundler\resources\views\frontend\layouts\app.blade.php) {"view":{"view":"D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php","data":[]},"exception":"[object] (Facade\\Ignition\\Exceptions\\ViewException(code: 0): View [partials.navbar] not found. (View: D:\\laragon\\www\\bundler\
+esources\\views\\frontend\\layouts\\app.blade.php) at D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:137)
 [stacktrace]
 #0 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(79): Illuminate\\View\\FileViewFinder->findInPaths('partials.navbar', Array)
 #1 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Factory.php(138): Illuminate\\View\\FileViewFinder->find('partials.navbar')
-#2 D:\\laragon\\www\\bundler\esources\\views/frontend/layouts/app.blade.php(23): Illuminate\\View\\Factory->make('partials.navbar', Array)
+#2 D:\\laragon\\www\\bundler\
+esources\\views/frontend/layouts/app.blade.php(23): Illuminate\\View\\Factory->make('partials.navbar', Array)
 #3 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(107): require('D:\\\\laragon\\\\www\\\\...')
 #4 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(108): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
 #5 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\laragon\\\\www\\\\...', Array)
@@ -215,7 +220,8 @@ esbot\\carbon\\src\\Carbon\\Laravel\\ServiceProvider.php(29): Carbon\\Laravel\\S
 #8 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(139): Facade\\Ignition\\Views\\Engines\\CompilerEngine->get('D:\\\\laragon\\\\www\\\\...', Array)
 #9 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(122): Illuminate\\View\\View->getContents()
 #10 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(91): Illuminate\\View\\View->renderContents()
-#11 D:\\laragon\\www\\bundler\esources\\views/frontend/homepage.blade.php(51): Illuminate\\View\\View->render()
+#11 D:\\laragon\\www\\bundler\
+esources\\views/frontend/homepage.blade.php(51): Illuminate\\View\\View->render()
 #12 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(107): require('D:\\\\laragon\\\\www\\\\...')
 #13 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(108): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
 #14 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\laragon\\\\www\\\\...', Array)
@@ -348,11 +354,13 @@ esbot\\carbon\\src\\Carbon\\Laravel\\ServiceProvider.php(29): Carbon\\Laravel\\S
 #68 D:\\laragon\\www\\bundler\\server.php(21): require_once('D:\\\\laragon\\\\www\\\\...')
 #69 {main}
 "} 
-[2022-07-16 07:28:56] local.ERROR: View [partials.navbar] not found. (View: D:\laragon\www\bundler\resources\views\frontend\layouts\app.blade.php) {"view":{"view":"D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php","data":[]},"exception":"[object] (Facade\\Ignition\\Exceptions\\ViewException(code: 0): View [partials.navbar] not found. (View: D:\\laragon\\www\\bundler\esources\\views\\frontend\\layouts\\app.blade.php) at D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:137)
+[2022-07-16 07:28:56] local.ERROR: View [partials.navbar] not found. (View: D:\laragon\www\bundler\resources\views\frontend\layouts\app.blade.php) {"view":{"view":"D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php","data":[]},"exception":"[object] (Facade\\Ignition\\Exceptions\\ViewException(code: 0): View [partials.navbar] not found. (View: D:\\laragon\\www\\bundler\
+esources\\views\\frontend\\layouts\\app.blade.php) at D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:137)
 [stacktrace]
 #0 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(79): Illuminate\\View\\FileViewFinder->findInPaths('partials.navbar', Array)
 #1 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Factory.php(138): Illuminate\\View\\FileViewFinder->find('partials.navbar')
-#2 D:\\laragon\\www\\bundler\esources\\views/frontend/layouts/app.blade.php(23): Illuminate\\View\\Factory->make('partials.navbar', Array)
+#2 D:\\laragon\\www\\bundler\
+esources\\views/frontend/layouts/app.blade.php(23): Illuminate\\View\\Factory->make('partials.navbar', Array)
 #3 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(107): require('D:\\\\laragon\\\\www\\\\...')
 #4 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(108): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
 #5 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\laragon\\\\www\\\\...', Array)
@@ -361,7 +369,8 @@ esbot\\carbon\\src\\Carbon\\Laravel\\ServiceProvider.php(29): Carbon\\Laravel\\S
 #8 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(139): Facade\\Ignition\\Views\\Engines\\CompilerEngine->get('D:\\\\laragon\\\\www\\\\...', Array)
 #9 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(122): Illuminate\\View\\View->getContents()
 #10 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(91): Illuminate\\View\\View->renderContents()
-#11 D:\\laragon\\www\\bundler\esources\\views/frontend/homepage.blade.php(51): Illuminate\\View\\View->render()
+#11 D:\\laragon\\www\\bundler\
+esources\\views/frontend/homepage.blade.php(51): Illuminate\\View\\View->render()
 #12 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(107): require('D:\\\\laragon\\\\www\\\\...')
 #13 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(108): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
 #14 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\laragon\\\\www\\\\...', Array)
@@ -494,11 +503,13 @@ esbot\\carbon\\src\\Carbon\\Laravel\\ServiceProvider.php(29): Carbon\\Laravel\\S
 #68 D:\\laragon\\www\\bundler\\server.php(21): require_once('D:\\\\laragon\\\\www\\\\...')
 #69 {main}
 "} 
-[2022-07-16 08:56:18] local.ERROR: Route [home] not defined. (View: D:\laragon\www\bundler\resources\views\frontend\partials\navbar.blade.php) {"view":{"view":"D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php","data":[]},"exception":"[object] (Facade\\Ignition\\Exceptions\\ViewException(code: 0): Route [home] not defined. (View: D:\\laragon\\www\\bundler\esources\\views\\frontend\\partials\
+[2022-07-16 08:56:18] local.ERROR: Route [home] not defined. (View: D:\laragon\www\bundler\resources\views\frontend\partials\navbar.blade.php) {"view":{"view":"D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php","data":[]},"exception":"[object] (Facade\\Ignition\\Exceptions\\ViewException(code: 0): Route [home] not defined. (View: D:\\laragon\\www\\bundler\
+esources\\views\\frontend\\partials\
 avbar.blade.php) at D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:444)
 [stacktrace]
 #0 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\helpers.php(739): Illuminate\\Routing\\UrlGenerator->route('home', Array, true)
-#1 D:\\laragon\\www\\bundler\esources\\views/frontend/partials/navbar.blade.php(2): route('home')
+#1 D:\\laragon\\www\\bundler\
+esources\\views/frontend/partials/navbar.blade.php(2): route('home')
 #2 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(107): require('D:\\\\laragon\\\\www\\\\...')
 #3 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(108): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
 #4 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\laragon\\\\www\\\\...', Array)
@@ -507,7 +518,8 @@ avbar.blade.php) at D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\
 #7 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(139): Facade\\Ignition\\Views\\Engines\\CompilerEngine->get('D:\\\\laragon\\\\www\\\\...', Array)
 #8 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(122): Illuminate\\View\\View->getContents()
 #9 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(91): Illuminate\\View\\View->renderContents()
-#10 D:\\laragon\\www\\bundler\esources\\views/frontend/layouts/app.blade.php(23): Illuminate\\View\\View->render()
+#10 D:\\laragon\\www\\bundler\
+esources\\views/frontend/layouts/app.blade.php(23): Illuminate\\View\\View->render()
 #11 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(107): require('D:\\\\laragon\\\\www\\\\...')
 #12 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(108): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
 #13 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\laragon\\\\www\\\\...', Array)
@@ -516,7 +528,8 @@ avbar.blade.php) at D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\
 #16 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(139): Facade\\Ignition\\Views\\Engines\\CompilerEngine->get('D:\\\\laragon\\\\www\\\\...', Array)
 #17 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(122): Illuminate\\View\\View->getContents()
 #18 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(91): Illuminate\\View\\View->renderContents()
-#19 D:\\laragon\\www\\bundler\esources\\views/frontend/sorry.blade.php(14): Illuminate\\View\\View->render()
+#19 D:\\laragon\\www\\bundler\
+esources\\views/frontend/sorry.blade.php(14): Illuminate\\View\\View->render()
 #20 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(107): require('D:\\\\laragon\\\\www\\\\...')
 #21 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(108): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
 #22 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\laragon\\\\www\\\\...', Array)
@@ -657,11 +670,13 @@ avbar.blade.php) at D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\
 #76 D:\\laragon\\www\\bundler\\server.php(21): require_once('D:\\\\laragon\\\\www\\\\...')
 #77 {main}
 "} 
-[2022-07-16 08:56:52] local.ERROR: Route [/home] not defined. (View: D:\laragon\www\bundler\resources\views\frontend\partials\navbar.blade.php) {"view":{"view":"D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php","data":[]},"exception":"[object] (Facade\\Ignition\\Exceptions\\ViewException(code: 0): Route [/home] not defined. (View: D:\\laragon\\www\\bundler\esources\\views\\frontend\\partials\
+[2022-07-16 08:56:52] local.ERROR: Route [/home] not defined. (View: D:\laragon\www\bundler\resources\views\frontend\partials\navbar.blade.php) {"view":{"view":"D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php","data":[]},"exception":"[object] (Facade\\Ignition\\Exceptions\\ViewException(code: 0): Route [/home] not defined. (View: D:\\laragon\\www\\bundler\
+esources\\views\\frontend\\partials\
 avbar.blade.php) at D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:444)
 [stacktrace]
 #0 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\helpers.php(739): Illuminate\\Routing\\UrlGenerator->route('/home', Array, true)
-#1 D:\\laragon\\www\\bundler\esources\\views/frontend/partials/navbar.blade.php(2): route('/home')
+#1 D:\\laragon\\www\\bundler\
+esources\\views/frontend/partials/navbar.blade.php(2): route('/home')
 #2 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(107): require('D:\\\\laragon\\\\www\\\\...')
 #3 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(108): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
 #4 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\laragon\\\\www\\\\...', Array)
@@ -670,7 +685,8 @@ avbar.blade.php) at D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\
 #7 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(139): Facade\\Ignition\\Views\\Engines\\CompilerEngine->get('D:\\\\laragon\\\\www\\\\...', Array)
 #8 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(122): Illuminate\\View\\View->getContents()
 #9 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(91): Illuminate\\View\\View->renderContents()
-#10 D:\\laragon\\www\\bundler\esources\\views/frontend/layouts/app.blade.php(23): Illuminate\\View\\View->render()
+#10 D:\\laragon\\www\\bundler\
+esources\\views/frontend/layouts/app.blade.php(23): Illuminate\\View\\View->render()
 #11 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(107): require('D:\\\\laragon\\\\www\\\\...')
 #12 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(108): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
 #13 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\laragon\\\\www\\\\...', Array)
@@ -679,7 +695,8 @@ avbar.blade.php) at D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\
 #16 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(139): Facade\\Ignition\\Views\\Engines\\CompilerEngine->get('D:\\\\laragon\\\\www\\\\...', Array)
 #17 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(122): Illuminate\\View\\View->getContents()
 #18 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(91): Illuminate\\View\\View->renderContents()
-#19 D:\\laragon\\www\\bundler\esources\\views/frontend/sorry.blade.php(14): Illuminate\\View\\View->render()
+#19 D:\\laragon\\www\\bundler\
+esources\\views/frontend/sorry.blade.php(14): Illuminate\\View\\View->render()
 #20 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(107): require('D:\\\\laragon\\\\www\\\\...')
 #21 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(108): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
 #22 D:\\laragon\\www\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\laragon\\\\www\\\\...', Array)
@@ -2872,11 +2889,13 @@ esbot\\carbon\\src\\Carbon\\Laravel\\ServiceProvider.php(29): Carbon\\Laravel\\S
 #35 D:\\LSKIT\\bundler\\server.php(21): require_once('D:\\\\LSKIT\\\\bundle...')
 #36 {main}
 "} 
-[2022-07-16 21:19:10] local.ERROR: htmlspecialchars() expects parameter 1 to be string, array given (View: D:\LSKIT\bundler\resources\views\imgPdf.blade.php) {"view":{"view":"D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\helpers.php","data":[]},"userId":6,"exception":"[object] (Facade\\Ignition\\Exceptions\\ViewException(code: 0): htmlspecialchars() expects parameter 1 to be string, array given (View: D:\\LSKIT\\bundler\esources\\views\\imgPdf.blade.php) at D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\helpers.php:118)
+[2022-07-16 21:19:10] local.ERROR: htmlspecialchars() expects parameter 1 to be string, array given (View: D:\LSKIT\bundler\resources\views\imgPdf.blade.php) {"view":{"view":"D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\helpers.php","data":[]},"userId":6,"exception":"[object] (Facade\\Ignition\\Exceptions\\ViewException(code: 0): htmlspecialchars() expects parameter 1 to be string, array given (View: D:\\LSKIT\\bundler\
+esources\\views\\imgPdf.blade.php) at D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\helpers.php:118)
 [stacktrace]
 #0 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'htmlspecialchar...', 'D:\\\\LSKIT\\\\bundle...', 118, Array)
 #1 D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\helpers.php(118): htmlspecialchars(Array, 3, 'UTF-8', true)
-#2 D:\\LSKIT\\bundler\esources\\views/imgPdf.blade.php(1): e(Array)
+#2 D:\\LSKIT\\bundler\
+esources\\views/imgPdf.blade.php(1): e(Array)
 #3 D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(107): require('D:\\\\LSKIT\\\\bundle...')
 #4 D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(108): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
 #5 D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\LSKIT\\\\bundle...', Array)
@@ -6420,15 +6439,19 @@ Stack trace:
 [stacktrace]
 #0 {main}
 "} 
-[2022-07-18 08:27:55] local.ERROR: Invalid argument supplied for foreach() (View: D:\LSKIT\bundler\resources\views\imgPdf.blade.php) {"view":{"view":"D:\\LSKIT\\bundler\esources\\views/imgPdf.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-1944679250 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#1603</a><samp data-depth=1 class=sf-dump-expanded>
+[2022-07-18 08:27:55] local.ERROR: Invalid argument supplied for foreach() (View: D:\LSKIT\bundler\resources\views\imgPdf.blade.php) {"view":{"view":"D:\\LSKIT\\bundler\
+esources\\views/imgPdf.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-1944679250 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#1603</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
 </pre><script>Sfdump(\"sf-dump-1944679250\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
 ","image":"<pre class=sf-dump id=sf-dump-1905252009 data-indent-pad=\"  \">\"<span class=sf-dump-str title=\"44 characters\">dnNsqBwqk86dyrBRap0Lumr9QMLAaGRqLXUHKpac.jpg</span>\"
 </pre><script>Sfdump(\"sf-dump-1905252009\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-"}},"userId":6,"exception":"[object] (Facade\\Ignition\\Exceptions\\ViewException(code: 0): Invalid argument supplied for foreach() (View: D:\\LSKIT\\bundler\esources\\views\\imgPdf.blade.php) at D:\\LSKIT\\bundler\esources\\views/imgPdf.blade.php:1)
+"}},"userId":6,"exception":"[object] (Facade\\Ignition\\Exceptions\\ViewException(code: 0): Invalid argument supplied for foreach() (View: D:\\LSKIT\\bundler\
+esources\\views\\imgPdf.blade.php) at D:\\LSKIT\\bundler\
+esources\\views/imgPdf.blade.php:1)
 [stacktrace]
-#0 D:\\LSKIT\\bundler\esources\\views/imgPdf.blade.php(1): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Invalid argumen...', 'D:\\\\LSKIT\\\\bundle...', 1, Array)
+#0 D:\\LSKIT\\bundler\
+esources\\views/imgPdf.blade.php(1): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Invalid argumen...', 'D:\\\\LSKIT\\\\bundle...', 1, Array)
 #1 D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(107): require('D:\\\\LSKIT\\\\bundle...')
 #2 D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(108): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
 #3 D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\LSKIT\\\\bundle...', Array)
@@ -6671,11 +6694,13 @@ Stack trace:
 [stacktrace]
 #0 {main}
 "} 
-[2022-07-18 08:29:46] local.ERROR: htmlspecialchars() expects parameter 1 to be string, array given (View: D:\LSKIT\bundler\resources\views\imgPdf.blade.php) {"view":{"view":"D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\helpers.php","data":[]},"userId":6,"exception":"[object] (Facade\\Ignition\\Exceptions\\ViewException(code: 0): htmlspecialchars() expects parameter 1 to be string, array given (View: D:\\LSKIT\\bundler\esources\\views\\imgPdf.blade.php) at D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\helpers.php:118)
+[2022-07-18 08:29:46] local.ERROR: htmlspecialchars() expects parameter 1 to be string, array given (View: D:\LSKIT\bundler\resources\views\imgPdf.blade.php) {"view":{"view":"D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\helpers.php","data":[]},"userId":6,"exception":"[object] (Facade\\Ignition\\Exceptions\\ViewException(code: 0): htmlspecialchars() expects parameter 1 to be string, array given (View: D:\\LSKIT\\bundler\
+esources\\views\\imgPdf.blade.php) at D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\helpers.php:118)
 [stacktrace]
 #0 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'htmlspecialchar...', 'D:\\\\LSKIT\\\\bundle...', 118, Array)
 #1 D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\helpers.php(118): htmlspecialchars(Array, 3, 'UTF-8', true)
-#2 D:\\LSKIT\\bundler\esources\\views/imgPdf.blade.php(1): e(Array)
+#2 D:\\LSKIT\\bundler\
+esources\\views/imgPdf.blade.php(1): e(Array)
 #3 D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(107): require('D:\\\\LSKIT\\\\bundle...')
 #4 D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(108): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
 #5 D:\\LSKIT\\bundler\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\LSKIT\\\\bundle...', Array)
