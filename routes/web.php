@@ -61,7 +61,11 @@ Route::group(['middleware' => ['auth', 'activated', 'activity', 'twostep', 'chec
     Route::get('/bundle/create', ['as' => 'public.bundle.create',   'uses' => 'App\Http\Controllers\UserController@create']);
     Route::post('/bundle/store', ['as' => 'public.bundle.store',   'uses' => 'App\Http\Controllers\DocumentController@uploadDocuments']);
     Route::get('/bundle/generate', ['as' => 'public.bundle.generate',   'uses' => 'App\Http\Controllers\DocumentController@generate']);
+     Route::resource(
+        'bundle',
+        \App\Http\Controllers\BundleController::class,
 
+    );
     // Show users profile - viewable by other users.
     Route::get('profile/{username}', [
         'as'   => '{username}',
