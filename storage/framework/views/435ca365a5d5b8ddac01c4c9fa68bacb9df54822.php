@@ -48,7 +48,7 @@
                       </a>
                   </li>
                   <li class="nav-item">
-                      <a href="<?php echo e(route('public.bundle.index')); ?>" class="nav-link">
+                      <a href="<?php echo e(route('bundle.index')); ?>" class="nav-link">
                           <i class="nav-icon fas fa-th"></i>
                           <p>
                               BUNDLE

@@ -15,6 +15,8 @@ class CreateBundlesTable extends Migration
     {
         Schema::create('bundles', function (Blueprint $table) {
             $table->id();
+            $table->text('name');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

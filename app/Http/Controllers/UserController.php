@@ -26,30 +26,11 @@ class UserController extends Controller
         $user = Auth::user();
 
         if ($user->isAdmin()) {
-            return view('backend.pages.dashboard');
-        }
-
-        return view('backend.pages.dashboard');
-    }
-
-    public function bundle()
-    {
-        $user = Auth::user();
-        $file = File::where('user_id',auth()->user()->id)->get();
-        if ($user->isAdmin()) {
             return view('pages.admin.home');
         }
 
-        return view('pages.user.bundle.index',['file'=>$file]);
+        return view('pages.user.home');
     }
-    public function create()
-    {
-        $user = Auth::user();
 
-        if ($user->isAdmin()) {
-            return view('pages.admin.home');
-        }
 
-        return view('pages.user.bundle.create');
-    }
 }

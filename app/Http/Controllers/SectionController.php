@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Auth;
+use App\Models\Section;
 class SectionController extends Controller
 {
     /**
@@ -35,7 +36,19 @@ class SectionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+        if ($user->isAdmin()) {
+            return view('pages.admin.home');
+        }
+        $validated = $request->validate([
+        'bundle_id' => 'required',
+        'name' => 'required|max:255',
+        ]);
+        $data['name'] = $request->name;
+        $data['bundle_id'] = $request->bundle_id;
+        $data['user_id'] = $user->id;
+        Section::create($data);
+        return redirect()->back();
     }
 
     /**
@@ -46,7 +59,13 @@ class SectionController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = Auth::user();
+        if ($user->isAdmin()) {
+            return view('pages.admin.home');
+        }
+
+        $section = Section::with('files')->where(['user_id'=>$user->id,"id"=>$id])->first();
+        return view('pages.user.bundle.files.index',['section'=>$section]);
     }
 
     /**
