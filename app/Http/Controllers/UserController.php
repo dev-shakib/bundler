@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
-
+use App\Models\File;
 class UserController extends Controller
 {
     /**
@@ -35,12 +35,12 @@ class UserController extends Controller
     public function bundle()
     {
         $user = Auth::user();
-
+        $file = File::where('user_id',auth()->user()->id)->get();
         if ($user->isAdmin()) {
             return view('pages.admin.home');
         }
 
-        return view('pages.user.bundle.index');
+        return view('pages.user.bundle.index',['file'=>$file]);
     }
     public function create()
     {

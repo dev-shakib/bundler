@@ -178,6 +178,7 @@ return [
         \SocialiteProviders\Manager\ServiceProvider::class,
 
         Barryvdh\DomPDF\ServiceProvider::class,
+        Webklex\PDFMerger\Providers\PDFMergerServiceProvider::class,
     ],
 
     /*
@@ -235,6 +236,7 @@ return [
         'Image'         => Intervention\Image\Facades\Image::class,
         'Uuid'          => jeremykenedy\Uuid\Uuid::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'PDFMerger' => Webklex\PDFMerger\Facades\PDFMergerFacade::class,
     ],
 
 ];

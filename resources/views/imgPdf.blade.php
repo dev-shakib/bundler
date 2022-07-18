@@ -1,3 +1,3 @@
 @foreach ($image as $img)
-    <img src="{{ public_path($img) }}" alt='{{ $img }}'><br>
+    <img src="{{ storage_path('app/public/files/' . $img) }}" alt='{{ $img }}' style="width: 100%"><br>
 @endforeach
