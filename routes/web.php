@@ -57,6 +57,8 @@ Route::group(['middleware' => ['auth', 'activated', 'activity', 'twostep', 'chec
 
     //  Homepage Route - Redirect based on user role is in controller.
     Route::get('/home', ['as' => 'public.home',   'uses' => 'App\Http\Controllers\UserController@index']);
+    Route::get('/bundle/index', ['as' => 'public.bundle.index',   'uses' => 'App\Http\Controllers\UserController@bundle']);
+    Route::get('/bundle/create', ['as' => 'public.bundle.create',   'uses' => 'App\Http\Controllers\UserController@create']);
 
     // Show users profile - viewable by other users.
     Route::get('profile/{username}', [
@@ -136,7 +138,7 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
 
 Route::redirect('/php', '/phpinfo', 301);
 
-// GUEST 
+// GUEST
 
 Route::get('/document/convert-word-to-pdf', '\App\Http\Controllers\DocumentController@convertWordToPDF')->name('document.wordtopdf');
 Route::get('/document/convert-img-to-pdf', '\App\Http\Controllers\DocumentController@convertImageToPDF')->name('document.imgtopdf');

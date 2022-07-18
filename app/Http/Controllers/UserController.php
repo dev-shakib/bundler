@@ -31,4 +31,25 @@ class UserController extends Controller
 
         return view('pages.user.home');
     }
+
+    public function bundle()
+    {
+        $user = Auth::user();
+
+        if ($user->isAdmin()) {
+            return view('pages.admin.home');
+        }
+
+        return view('pages.user.bundle.index');
+    }
+    public function create()
+    {
+        $user = Auth::user();
+
+        if ($user->isAdmin()) {
+            return view('pages.admin.home');
+        }
+
+        return view('pages.user.bundle.create');
+    }
 }
