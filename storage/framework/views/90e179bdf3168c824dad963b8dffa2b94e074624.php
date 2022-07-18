@@ -38,8 +38,26 @@
                     <section class="col-lg-12 connectedSortable">
                         <div class="card">
                             <div class="card-body">
-                                <a href="<?php echo e(route('public.bundle.create')); ?>" class='btn btn-primary'>ADD FILE</a>
-                                <a href="<?php echo e(route('public.bundle.generate')); ?>">Generate Bundle</a>
+                                <?php if($errors->any()): ?>
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <li><?php echo e($error); ?></li>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </ul>
+                                    </div>
+                                <?php endif; ?>
+                                <form action="<?php echo e(route('bundle.store')); ?>" method="post">
+                                    <?php echo csrf_field(); ?>
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <input type="text" placeholder="Bundle Name" class="form-control"
+                                                name="name">
+                                        </div>
+                                        <div class="col-sm-4"><input type="submit" class="btn btn-success"
+                                                value="Create" /></div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <div class="card">
@@ -47,16 +65,23 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>File Name</th>
+                                            <th>Bundle Name</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php $__currentLoopData = $file; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $f): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <?php
-                                                $filename = explode('.', $f->filename);
-                                            ?>
+                                        <?php $__currentLoopData = $bundle; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $b): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-                                                <td><?php echo e($filename[0] . '.' . $f->mime_types); ?></td>
+                                                <td>
+                                                    <?php echo e($b->name); ?>
+
+                                                </td>
+                                                <td>
+                                                    <a href="<?php echo e(route('bundle.show', $b->id)); ?>"
+                                                        class="btn btn-outline-primary"><i class="fa fa-eye"></i> VIEW</a>
+                                                    <a href="<?php echo e(route('public.bundle.generate', [$b->id])); ?>"
+                                                        class="btn btn-outline-info">Generate Bundle</a>
+                                                </td>
                                             </tr>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>
@@ -76,4 +101,5 @@
 
 <?php $__env->startPush('custom-script'); ?>
 <?php $__env->stopPush(); ?>
+
 <?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\bundler\resources\views/backend/pages/bundle/index.blade.php ENDPATH**/ ?>
