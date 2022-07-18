@@ -39,8 +39,28 @@
                         <div class="card">
                             <div class="card-body">
                                 <a href="<?php echo e(route('public.bundle.create')); ?>" class='btn btn-primary'>ADD FILE</a>
-                                <a href="<?php echo e(route('document.wordtopdf')); ?>">Convert Word To PDF</a>
-                                <a href="<?php echo e(route('document.imgtopdf')); ?>">Convert Image To PDF</a>
+                                <a href="<?php echo e(route('public.bundle.generate')); ?>">Generate Bundle</a>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>File Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $__currentLoopData = $file; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $f): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php
+                                                $filename = explode('.', $f->filename);
+                                            ?>
+                                            <tr>
+                                                <td><?php echo e($filename[0] . '.' . $f->mime_types); ?></td>
+                                            </tr>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </section>

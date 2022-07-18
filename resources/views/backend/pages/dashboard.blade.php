@@ -47,6 +47,3 @@
     </div>
     <!-- /.content-wrapper -->
 @endsection
-
-@section('footer_scripts')
-@endsection
