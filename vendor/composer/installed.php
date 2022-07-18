@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => 'dev-develop',
-    'version' => 'dev-develop',
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
     'aliases' => 
     array (
     ),
-    'reference' => 'ef484c4219308943c0cc26970e20edd27f5ca095',
+    'reference' => '627030b8a56568946ed8b1935eb2ee2de2c4948a',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -683,12 +683,12 @@
     ),
     'laravel/laravel' => 
     array (
-      'pretty_version' => 'dev-develop',
-      'version' => 'dev-develop',
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
       'aliases' => 
       array (
       ),
-      'reference' => 'ef484c4219308943c0cc26970e20edd27f5ca095',
+      'reference' => '627030b8a56568946ed8b1935eb2ee2de2c4948a',
     ),
     'laravel/serializable-closure' => 
     array (
