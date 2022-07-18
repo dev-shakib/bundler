@@ -21,6 +21,8 @@
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item ">Bundle</li>
+                            <li class="breadcrumb-item ">Section</li>
+                            <li class="breadcrumb-item ">File</li>
                             <li class="breadcrumb-item active">Index</li>
                         </ol>
                     </div><!-- /.col -->
@@ -38,26 +40,9 @@
                     <section class="col-lg-12 connectedSortable">
                         <div class="card">
                             <div class="card-body">
-                                @if ($errors->any())
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
-                                <form action="{{ route('bundle.store') }}" method="post">
-                                    @csrf
-                                    <div class="row">
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="Bundle Name" class="form-control"
-                                                name="name">
-                                        </div>
-                                        <div class="col-sm-4"><input type="submit" class="btn btn-success"
-                                                value="Create" /></div>
-                                    </div>
-                                </form>
+                                <a href="{{ route('public.bundle.files.create', [$section->bundle_id, $section->id]) }}"
+                                    class='btn btn-primary'>ADD FILE</a>
+
                             </div>
                         </div>
                         <div class="card">
@@ -65,22 +50,16 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Bundle Name</th>
-                                            <th>Action</th>
+                                            <th>File Name</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($bundle as $b)
+                                        @foreach ($section->files as $f)
+                                            @php
+                                                $filename = explode('.', $f->filename);
+                                            @endphp
                                             <tr>
-                                                <td>
-                                                    {{ $b->name }}
-                                                </td>
-                                                <td>
-                                                    <a href="{{ route('bundle.show', $b->id) }}"
-                                                        class="btn btn-outline-primary"><i class="fa fa-eye"></i> VIEW</a>
-                                                    <a href="{{ route('public.bundle.generate', [$b->id]) }}"
-                                                        class="btn btn-outline-info">Generate Bundle</a>
-                                                </td>
+                                                <td>{{ $filename[0] . '.' . $f->mime_types }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>

@@ -12,16 +12,16 @@ class BundleController extends Controller
     {
         $user = Auth::user();
         if ($user->isAdmin()) {
-            return view('pages.admin.home');
+            return view('backend.pages.dashboard');
         }
          $bundle = Bundle::where('user_id',$user->id)->get();
-        return view('pages.user.bundle.index',['bundle'=>$bundle]);
+        return view('backend.pages.bundle.index',['bundle'=>$bundle]);
     }
     public function store(Request $request)
     {
         $user = Auth::user();
         if ($user->isAdmin()) {
-            return view('pages.admin.home');
+            return view('backend.pages.dashboard');
         }
         $validated = $request->validate([
         'name' => 'required|max:255',
@@ -35,10 +35,10 @@ class BundleController extends Controller
     {
         $user = Auth::user();
         if ($user->isAdmin()) {
-            return view('pages.admin.home');
+            return view('backend.pages.dashboard');
         }
 
         $bundle = Bundle::with('section')->where(['user_id'=>$user->id,"id"=>$id])->first();
-        return view('pages.user.bundle.show',['bundle'=>$bundle]);
+        return view('backend.pages.bundle.show',['bundle'=>$bundle]);
     }
 }
