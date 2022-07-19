@@ -1,7 +1,7 @@
 
 
 <?php $__env->startSection('template_title'); ?>
-    <?php echo e(Auth::user()->name); ?>'s' Homepage
+    <?php echo e(Auth::user()->name); ?>'s' Bundle
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('custom-css'); ?>
@@ -15,12 +15,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard</h1>
+                        <h1 class="m-0">Bundle</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard</li>
+                            <li class="breadcrumb-item ">Bundle</li>
+                            <li class="breadcrumb-item active">Add</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -35,8 +36,19 @@
                 <div class="row">
                     <!-- Left col -->
                     <section class="col-lg-12 connectedSortable">
-                        
-                        
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="<?php echo e(route('public.bundle.files.store', [$bundle_id, $section_id])); ?>"
+                                    enctype="multipart/form-data" method="post">
+                                    <?php echo csrf_field(); ?>
+                                    <label>FILE</label>
+                                    <input type="file" name="files" required class="form-control" />
+
+                                    <input type="submit" class="btn btn-success" value="UPLOAD">
+
+                                </form>
+                            </div>
+                        </div>
                     </section>
                     <!-- /.Left col -->
                 </div>
@@ -51,4 +63,4 @@
 <?php $__env->startPush('custom-script'); ?>
 <?php $__env->stopPush(); ?>
 
-<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\bundler\resources\views/backend/pages/dashboard.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\bundler\resources\views/backend/pages/bundle/files/create.blade.php ENDPATH**/ ?>

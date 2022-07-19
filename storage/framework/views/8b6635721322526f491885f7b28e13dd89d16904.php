@@ -37,6 +37,7 @@
                           </p>
                       </a>
                   </li>
+                  <?php if (Auth::check() && Auth::user()->hasRole('user')): ?>
                   <li class="nav-item">
                       <a href="<?php echo e(route('bundle.index')); ?>" class="nav-link">
                           <i class="nav-icon fas fa-th"></i>
@@ -45,39 +46,40 @@
                           </p>
                       </a>
                   </li>
+                  <?php endif; ?>
                   <?php if (Auth::check() && Auth::user()->hasRole('admin')): ?>
                       <li class="nav-item">
                           <a class="nav-link <?php echo e(Request::is('roles') || Request::is('permissions') ? 'active' : null); ?>"
                               href="<?php echo e(route('laravelroles::roles.index')); ?>">
-                              <i class="nav-icon fas fa-tachometer-alt"></i>
+                              <i class="nav-icon fas fa-tasks"></i>
                               <p><?php echo trans('titles.laravelroles'); ?></p>
                           </a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link <?php echo e(Request::is('users', 'users/' . Auth::user()->id, 'users/' . Auth::user()->id . '/edit') ? 'active' : null); ?>"
                               href="<?php echo e(url('/users')); ?>">
-                              <i class="nav-icon fas fa-tachometer-alt"></i>
+                              <i class="nav-icon fas fa-users"></i>
                               <p><?php echo trans('titles.adminUserList'); ?></p>
                           </a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link <?php echo e(Request::is('users/create') ? 'active' : null); ?>"
                               href="<?php echo e(url('/users/create')); ?>">
-                              <i class="nav-icon fas fa-tachometer-alt"></i>
+                              <i class="nav-icon fas fa-plus"></i>
                               <p> <?php echo trans('titles.adminNewUser'); ?> </p>
                           </a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link <?php echo e(Request::is('activity') ? 'active' : null); ?>"
                               href="<?php echo e(url('/activity')); ?>">
-                              <i class="nav-icon fas fa-tachometer-alt"></i>
+                              <i class="nav-icon fas fa-history"></i>
                               <p> <?php echo trans('titles.adminActivity'); ?></p>
                           </a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link <?php echo e(Request::is('active-users') ? 'active' : null); ?>"
                               href="<?php echo e(url('/active-users')); ?>">
-                              <i class="nav-icon fas fa-tachometer-alt"></i>
+                              <i class="nav-icon fas fa-ban"></i>
                               <p> <?php echo trans('titles.activeUsers'); ?> </p>
                           </a>
                       </li>
