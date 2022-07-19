@@ -47,6 +47,7 @@
                           </p>
                       </a>
                   </li>
+                  @role('user')
                   <li class="nav-item">
                       <a href="{{ route('bundle.index') }}" class="nav-link">
                           <i class="nav-icon fas fa-th"></i>
@@ -55,39 +56,40 @@
                           </p>
                       </a>
                   </li>
+                  @endrole
                   @role('admin')
                       <li class="nav-item">
                           <a class="nav-link {{ Request::is('roles') || Request::is('permissions') ? 'active' : null }}"
                               href="{{ route('laravelroles::roles.index') }}">
-                              <i class="nav-icon fas fa-tachometer-alt"></i>
+                              <i class="nav-icon fas fa-tasks"></i>
                               <p>{!! trans('titles.laravelroles') !!}</p>
                           </a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link {{ Request::is('users', 'users/' . Auth::user()->id, 'users/' . Auth::user()->id . '/edit') ? 'active' : null }}"
                               href="{{ url('/users') }}">
-                              <i class="nav-icon fas fa-tachometer-alt"></i>
+                              <i class="nav-icon fas fa-users"></i>
                               <p>{!! trans('titles.adminUserList') !!}</p>
                           </a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link {{ Request::is('users/create') ? 'active' : null }}"
                               href="{{ url('/users/create') }}">
-                              <i class="nav-icon fas fa-tachometer-alt"></i>
+                              <i class="nav-icon fas fa-plus"></i>
                               <p> {!! trans('titles.adminNewUser') !!} </p>
                           </a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link {{ Request::is('activity') ? 'active' : null }}"
                               href="{{ url('/activity') }}">
-                              <i class="nav-icon fas fa-tachometer-alt"></i>
+                              <i class="nav-icon fas fa-history"></i>
                               <p> {!! trans('titles.adminActivity') !!}</p>
                           </a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link {{ Request::is('active-users') ? 'active' : null }}"
                               href="{{ url('/active-users') }}">
-                              <i class="nav-icon fas fa-tachometer-alt"></i>
+                              <i class="nav-icon fas fa-ban"></i>
                               <p> {!! trans('titles.activeUsers') !!} </p>
                           </a>
                       </li>

@@ -96,10 +96,10 @@ class DocumentController extends Controller
         $user = Auth::user();
         $file = File::where('user_id',auth()->user()->id)->get();
         if ($user->isAdmin()) {
-            return view('pages.admin.home');
+            return view('backend.pages.dashboard');
         }
 
-        return view('pages.user.bundle.files.create',['file'=>$file,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
+        return view('backend.pages.bundle.files.create',['file'=>$file,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
     }
     public function generate($bundle_id)
     {

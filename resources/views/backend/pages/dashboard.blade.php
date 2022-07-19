@@ -36,7 +36,7 @@
                     <!-- Left col -->
                     <section class="col-lg-12 connectedSortable">
                         {{-- @include('panels.welcome-panel') --}}
-                        <a href="{{ route('document.wordtopdf') }}">Convert Word To PDF</a>
+                        {{-- <a href="{{ route('document.wordtopdf') }}">Convert Word To PDF</a> --}}
                     </section>
                     <!-- /.Left col -->
                 </div>
