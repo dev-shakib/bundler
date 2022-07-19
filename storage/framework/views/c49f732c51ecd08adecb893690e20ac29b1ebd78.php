@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="<?php echo e(asset('admin/')); ?>/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="<?php echo e(asset('admin/')); ?>/plugins/summernote/summernote-bs4.min.css">
+    <link href="<?php echo e(mix('/css/app.css')); ?>" rel="stylesheet">
     <?php echo $__env->yieldPushContent('custom-css'); ?>
 </head>
 
@@ -86,11 +87,20 @@
     <!-- AdminLTE App -->
     <script src="<?php echo e(asset('admin/')); ?>/js/adminlte.js"></script>
     <!-- AdminLTE for demo purposes -->
-    
+    <script src="<?php echo e(asset('admin/')); ?>/js/demo.js"></script>
     <!-- Custom js for a perticular page -->
     <?php echo $__env->yieldPushContent('custom-script'); ?>
+    <script src="<?php echo e(mix('/js/app.js')); ?>"></script>
+    <?php if(config('settings.googleMapsAPIStatus')): ?>
+        <?php echo HTML::script(
+            '//maps.googleapis.com/maps/api/js?key=' . config('settings.googleMapsAPIKey') . '&libraries=places&dummy=.js',
+            ['type' => 'text/javascript'],
+        ); ?>
+
+    <?php endif; ?>
+    <?php echo $__env->yieldContent('footer_scripts'); ?>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    
+    <script src="<?php echo e(asset('admin/')); ?>/js/pages/dashboard.js"></script>
 </body>
 
 </html>

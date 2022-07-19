@@ -68,7 +68,7 @@ class ProfilesController extends Controller
             'currentTheme' => $currentTheme,
         ];
 
-        return view('profiles.show')->with($data);
+        return view('backend.pages.profiles.show')->with($data);
     }
 
     /**
@@ -100,7 +100,7 @@ class ProfilesController extends Controller
 
         ];
 
-        return view('profiles.edit')->with($data);
+        return view('backend.pages.profiles.edit')->with($data);
     }
 
     /**
@@ -131,7 +131,7 @@ class ProfilesController extends Controller
         $user->updated_ip_address = $ipAddress->getClientIp();
         $user->save();
 
-        return redirect('profile/'.$user->name.'/edit')->with('success', trans('profile.updateSuccess'));
+        return redirect('backend.pages.profile/'.$user->name.'/edit')->with('success', trans('profile.updateSuccess'));
     }
 
     /**
@@ -191,7 +191,7 @@ class ProfilesController extends Controller
 
         $user->save();
 
-        return redirect('profile/'.$user->name.'/edit')->with('success', trans('profile.updateAccountSuccess'));
+        return redirect('backend.pages.profile/'.$user->name.'/edit')->with('success', trans('profile.updateAccountSuccess'));
     }
 
     /**
@@ -214,7 +214,7 @@ class ProfilesController extends Controller
         $user->updated_ip_address = $ipAddress->getClientIp();
         $user->save();
 
-        return redirect('profile/'.$user->name.'/edit')->with('success', trans('profile.updatePWSuccess'));
+        return redirect('backend.pages.profile/'.$user->name.'/edit')->with('success', trans('profile.updatePWSuccess'));
     }
 
     /**
@@ -275,7 +275,7 @@ class ProfilesController extends Controller
         $ipAddress = new CaptureIpTrait();
 
         if ($user->id !== $currentUser->id) {
-            return redirect('profile/'.$user->name.'/edit')->with('error', trans('profile.errorDeleteNotYour'));
+            return redirect('backend.pages.profile/'.$user->name.'/edit')->with('error', trans('profile.errorDeleteNotYour'));
         }
 
         // Create and encrypt user account restore token

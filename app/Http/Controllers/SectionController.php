@@ -38,7 +38,7 @@ class SectionController extends Controller
     {
         $user = Auth::user();
         if ($user->isAdmin()) {
-            return view('pages.admin.home');
+            return view('backend.pages.dashboard');
         }
         $validated = $request->validate([
         'bundle_id' => 'required',
@@ -61,11 +61,11 @@ class SectionController extends Controller
     {
         $user = Auth::user();
         if ($user->isAdmin()) {
-            return view('pages.admin.home');
+            return view('backend.pages.dashboard');
         }
 
         $section = Section::with('files')->where(['user_id'=>$user->id,"id"=>$id])->first();
-        return view('pages.user.bundle.files.index',['section'=>$section]);
+        return view('backend.pages.bundle.files.index',['section'=>$section]);
     }
 
     /**

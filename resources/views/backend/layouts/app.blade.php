@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="{{ asset('admin/') }}/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('admin/') }}/plugins/summernote/summernote-bs4.min.css">
+    <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
     @stack('custom-css')
 </head>
 
@@ -86,11 +87,19 @@
     <!-- AdminLTE App -->
     <script src="{{ asset('admin/') }}/js/adminlte.js"></script>
     <!-- AdminLTE for demo purposes -->
-    {{-- <script src="{{ asset('admin/') }}/js/demo.js"></script> --}}
+    <script src="{{ asset('admin/') }}/js/demo.js"></script>
     <!-- Custom js for a perticular page -->
     @stack('custom-script')
+    <script src="{{ mix('/js/app.js') }}"></script>
+    @if (config('settings.googleMapsAPIStatus'))
+        {!! HTML::script(
+            '//maps.googleapis.com/maps/api/js?key=' . config('settings.googleMapsAPIKey') . '&libraries=places&dummy=.js',
+            ['type' => 'text/javascript'],
+        ) !!}
+    @endif
+    @yield('footer_scripts')
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    {{-- <script src="{{ asset('admin/') }}/js/pages/dashboard.js"></script> --}}
+    <script src="{{ asset('admin/') }}/js/pages/dashboard.js"></script>
 </body>
 
 </html>

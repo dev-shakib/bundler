@@ -1,13 +1,13 @@
-@extends('backend.layouts.app')
 
-@section('template_title')
-    {{ Auth::user()->name }}'s' Bundle
-@endsection
 
-@push('custom-css')
-@endpush
+<?php $__env->startSection('template_title'); ?>
+    <?php echo e(Auth::user()->name); ?>'s' Bundle
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startPush('custom-css'); ?>
+<?php $__env->stopPush(); ?>
+
+<?php $__env->startSection('content'); ?>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -21,6 +21,8 @@
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item ">Bundle</li>
+                            <li class="breadcrumb-item ">Section</li>
+                            <li class="breadcrumb-item ">File</li>
                             <li class="breadcrumb-item active">Index</li>
                         </ol>
                     </div><!-- /.col -->
@@ -38,8 +40,9 @@
                     <section class="col-lg-12 connectedSortable">
                         <div class="card">
                             <div class="card-body">
-                                <a href="{{ route('public.bundle.create') }}" class='btn btn-primary'>ADD FILE</a>
-                                <a href="{{ route('public.bundle.generate') }}">Generate Bundle</a>
+                                <a href="<?php echo e(route('public.bundle.files.create', [$section->bundle_id, $section->id])); ?>"
+                                    class='btn btn-primary'>ADD FILE</a>
+
                             </div>
                         </div>
                         <div class="card">
@@ -51,14 +54,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($file as $f)
-                                            @php
+                                        <?php $__currentLoopData = $section->files; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $f): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php
                                                 $filename = explode('.', $f->filename);
-                                            @endphp
+                                            ?>
                                             <tr>
-                                                <td>{{ $filename[0] . '.' . $f->mime_types }}</td>
+                                                <td><?php echo e($filename[0] . '.' . $f->mime_types); ?></td>
                                             </tr>
-                                        @endforeach
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -72,7 +75,8 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-@endsection
+<?php $__env->stopSection(); ?>
 
-@push('custom-script')
-@endpush
+<?php $__env->startPush('custom-script'); ?>
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\bundler\resources\views/backend/pages/bundle/files/index.blade.php ENDPATH**/ ?>
