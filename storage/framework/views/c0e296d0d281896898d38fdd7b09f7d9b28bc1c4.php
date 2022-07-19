@@ -1,13 +1,11 @@
-@extends('backend.layouts.app')
+<?php $__env->startSection('template_title'); ?>
+    <?php echo e(Auth::user()->name); ?>'s' Bundle
+<?php $__env->stopSection(); ?>
 
-@section('template_title')
-    {{ Auth::user()->name }}'s' Bundle
-@endsection
+<?php $__env->startPush('custom-css'); ?>
+<?php $__env->stopPush(); ?>
 
-@push('custom-css')
-@endpush
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -40,7 +38,7 @@
                     <section class="col-lg-12 connectedSortable">
                         <div class="card">
                             <div class="card-body">
-                                <a href="{{ route('public.bundle.files.create', [$section->bundle_id, $section->id]) }}"
+                                <a href="<?php echo e(route('public.bundle.files.create', [$section->bundle_id, $section->id])); ?>"
                                     class='btn btn-primary'>ADD FILE</a>
 
                             </div>
@@ -55,19 +53,19 @@
                                         </tr>
                                     </thead>
                                     <tbody class="sort_files">
-                                        @foreach ($section->files as $f)
-                                            @php
+                                        <?php $__currentLoopData = $section->files; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $f): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php
                                                 $filename = explode('.', $f->filename);
-                                            @endphp
-                                            <tr data-id="{{ $f->id }}">
+                                            ?>
+                                            <tr data-id="<?php echo e($f->id); ?>">
 
-                                                <td><span class="handle"></span>{{ $filename[0] . '.' . $f->mime_types }}</td>
+                                                <td><span class="handle"></span><?php echo e($filename[0] . '.' . $f->mime_types); ?></td>
                                                 <td>
-                                                    <a href="{{ route('public.bundle.files.show',[$section->bundle_id, $section->id,$f->id]) }}" class="btn btn-outline-info"><i class="fa fa-eye"></i> EDIT</a>
-                                                    <a href="{{ route('public.bundle.files.delete',[$f->id]) }}" class="btn btn-outline-danger"><i class="fa fa-trash"></i> DELETE</a>
+                                                    <a href="<?php echo e(route('public.bundle.files.show',[$section->bundle_id, $section->id,$f->id])); ?>" class="btn btn-outline-info"><i class="fa fa-eye"></i> EDIT</a>
+                                                    <a href="<?php echo e(route('public.bundle.files.delete',[$f->id])); ?>" class="btn btn-outline-danger"><i class="fa fa-trash"></i> DELETE</a>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -81,18 +79,18 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-@endsection
+<?php $__env->stopSection(); ?>
 
-@push('custom-script')
+<?php $__env->startPush('custom-script'); ?>
 
 <script>
     $(document).ready(function(){
 $('tbody').sortable();
     	function updateToDatabase(idString){
-    	   $.ajaxSetup({ headers: {'X-CSRF-TOKEN': '{{csrf_token()}}'}});
+    	   $.ajaxSetup({ headers: {'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'}});
 
     	   $.ajax({
-              url:'{{url('/bundle/files/update-order')}}',
+              url:'<?php echo e(url('/bundle/files/update-order')); ?>',
               method:'POST',
               data:{ids:idString},
               success:function(){
@@ -112,4 +110,6 @@ $('tbody').sortable();
 
     })
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\LSKIT\bundler\resources\views/backend/pages/bundle/files/index.blade.php ENDPATH**/ ?>

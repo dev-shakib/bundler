@@ -90,7 +90,6 @@
     <script src="{{ asset('admin/') }}/js/demo.js"></script>
     <!-- Custom js for a perticular page -->
     @stack('custom-script')
-    <script src="{{ mix('/js/app.js') }}"></script>
     @if (config('settings.googleMapsAPIStatus'))
         {!! HTML::script(
             '//maps.googleapis.com/maps/api/js?key=' . config('settings.googleMapsAPIKey') . '&libraries=places&dummy=.js',

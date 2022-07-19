@@ -1,13 +1,11 @@
-@extends('backend.layouts.app')
+<?php $__env->startSection('template_title'); ?>
+    <?php echo e(Auth::user()->name); ?>'s' Bundle
+<?php $__env->stopSection(); ?>
 
-@section('template_title')
-    {{ Auth::user()->name }}'s' Bundle
-@endsection
+<?php $__env->startPush('custom-css'); ?>
+<?php $__env->stopPush(); ?>
 
-@push('custom-css')
-@endpush
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -38,17 +36,17 @@
                     <section class="col-lg-12 connectedSortable">
                         <div class="card">
                             <div class="card-body">
-                                @if ($errors->any())
+                                <?php if($errors->any()): ?>
                                     <div class="alert alert-danger">
                                         <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
+                                            <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <li><?php echo e($error); ?></li>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </ul>
                                     </div>
-                                @endif
-                                <form action="{{ route('bundle.store') }}" method="post">
-                                    @csrf
+                                <?php endif; ?>
+                                <form action="<?php echo e(route('bundle.store')); ?>" method="post">
+                                    <?php echo csrf_field(); ?>
                                     <div class="row">
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Bundle Name" class="form-control"
@@ -70,20 +68,21 @@
                                         </tr>
                                     </thead>
                                     <tbody class="">
-                                        @foreach ($bundle as $b)
+                                        <?php $__currentLoopData = $bundle; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $b): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
                                                 <td>
-                                                    {{ $b->name }}
+                                                    <?php echo e($b->name); ?>
+
                                                 </td>
                                                 <td>
 
-                                                    <a href="{{ route('bundle.show', $b->id) }}"
+                                                    <a href="<?php echo e(route('bundle.show', $b->id)); ?>"
                                                         class="btn btn-outline-primary"><i class="fa fa-eye"></i> VIEW</a>
-                                                    <a href="{{ route('public.bundle.generate', [$b->id]) }}"
+                                                    <a href="<?php echo e(route('public.bundle.generate', [$b->id])); ?>"
                                                         class="btn btn-outline-info">Generate Bundle</a>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -97,7 +96,9 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-@endsection
+<?php $__env->stopSection(); ?>
 
-@push('custom-script')
-@endpush
+<?php $__env->startPush('custom-script'); ?>
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\LSKIT\bundler\resources\views/backend/pages/bundle/index.blade.php ENDPATH**/ ?>

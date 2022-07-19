@@ -1,13 +1,11 @@
-@extends('backend.layouts.app')
+<?php $__env->startSection('template_title'); ?>
+    <?php echo e(Auth::user()->name); ?>'s' Bundle
+<?php $__env->stopSection(); ?>
 
-@section('template_title')
-    {{ Auth::user()->name }}'s' Bundle
-@endsection
+<?php $__env->startPush('custom-css'); ?>
+<?php $__env->stopPush(); ?>
 
-@push('custom-css')
-@endpush
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -40,7 +38,7 @@
                             <div class="col-sm-12 ">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h2><u>Bundle Name:</u> {{ $bundle->name }}</h2>
+                                        <h2><u>Bundle Name:</u> <?php echo e($bundle->name); ?></h2>
 
                                     </div>
                                 </div>
@@ -56,31 +54,32 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="sort_section">
-                                                @foreach ($bundle->section as $s)
-                                                    <tr data-id="{{ $s->id }}">
+                                                <?php $__currentLoopData = $bundle->section; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <tr data-id="<?php echo e($s->id); ?>">
                                                         <td>
-                                                            {{ $s->name }}
+                                                            <?php echo e($s->name); ?>
+
                                                         </td>
                                                         <td>
-                                                            <a href="{{ route('public.bundle.section.edit', [$bundle->id, $s->id]) }}"
+                                                            <a href="<?php echo e(route('public.bundle.section.edit', [$bundle->id, $s->id])); ?>"
                                                                 class="btn btn-outline-primary"><i class="fa fa-pencil"></i>
                                                                 Rename
                                                                 </a>
-                                                                <a href="{{ route('public.bundle.files.create', [$bundle->id, $s->id]) }}"
+                                                                <a href="<?php echo e(route('public.bundle.files.create', [$bundle->id, $s->id])); ?>"
                                                                     class="btn btn-outline-primary"><i class="fa fa-plus"></i>
                                                                     Add
                                                                     File</a>
-                                                                <a href="{{ route('section.show', $s->id) }}"
+                                                                <a href="<?php echo e(route('section.show', $s->id)); ?>"
                                                                     class="btn btn-outline-primary"><i class="fa fa-eye"></i>
                                                                     View
                                                                     File</a>
-                                                                <a href="{{ route('public.bundle.section.destroy', [ $s->id]) }}"
+                                                                <a href="<?php echo e(route('public.bundle.section.destroy', [ $s->id])); ?>"
                                                                     class="btn btn-outline-danger"><i class="fa fa-trash"></i>
                                                                     Delete
                                                                     </a>
                                                         </td>
                                                     </tr>
-                                                @endforeach
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -89,18 +88,18 @@
                             <div class="col-sm-4">
                                 <div class="card ">
                                     <div class="card-body">
-                                        @if ($errors->any())
+                                        <?php if($errors->any()): ?>
                                             <div class="alert alert-danger">
                                                 <ul>
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
+                                                    <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <li><?php echo e($error); ?></li>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </ul>
                                             </div>
-                                        @endif
-                                        <form action="{{ route('section.store') }}" method="post">
-                                            @csrf
-                                            <input type="hidden" name="bundle_id" value="{{ $bundle->id }}">
+                                        <?php endif; ?>
+                                        <form action="<?php echo e(route('section.store')); ?>" method="post">
+                                            <?php echo csrf_field(); ?>
+                                            <input type="hidden" name="bundle_id" value="<?php echo e($bundle->id); ?>">
                                             <div class="row">
                                                 <div class="col-sm-8">
                                                     <input type="text" placeholder="Section Name" class="form-control"
@@ -122,17 +121,17 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-@endsection
+<?php $__env->stopSection(); ?>
 
-@push('custom-script')
+<?php $__env->startPush('custom-script'); ?>
 <script>
     $(document).ready(function(){
 $('tbody').sortable();
     	function updateToDatabase(idString){
-    	   $.ajaxSetup({ headers: {'X-CSRF-TOKEN': '{{csrf_token()}}'}});
+    	   $.ajaxSetup({ headers: {'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'}});
 
     	   $.ajax({
-              url:'{{url('/bundle/section/update-order')}}',
+              url:'<?php echo e(url('/bundle/section/update-order')); ?>',
               method:'POST',
               data:{ids:idString},
               success:function(){
@@ -152,4 +151,6 @@ $('tbody').sortable();
 
     })
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\LSKIT\bundler\resources\views/backend/pages/bundle/show.blade.php ENDPATH**/ ?>

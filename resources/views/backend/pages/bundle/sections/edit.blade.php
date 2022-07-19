@@ -5,7 +5,6 @@
 @endsection
 
 @push('custom-css')
-<link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -22,7 +21,9 @@
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item ">Bundle</li>
-                            <li class="breadcrumb-item active">Add</li>
+                            <li class="breadcrumb-item ">Section</li>
+                            <li class="breadcrumb-item ">{{ $section->name }}</li>
+                            <li class="breadcrumb-item active">edit</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -39,17 +40,30 @@
                     <section class="col-lg-12 connectedSortable">
                         <div class="card">
                             <div class="card-body">
-                                <form action="{{ route('public.bundle.files.store') }}"
-                                    enctype="multipart/form-data" method="post" id="image-upload" class="dropzone">
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                                <form action="{{ route('section.update',[$section->id]) }}" method="post">
+                                    @method("PUT")
                                     @csrf
-                                    <input type="hidden" name="bundle_id" value="{{ $bundle_id }}"/>
-                                    <input type="hidden" name="section_id" value="{{ $section_id }}"/>
-                                    <div>
-                                        <h3>Upload .jpeg,.jpg,.png,.gif,.doc,.docx,.pdf By Click On Box</h3>
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <input type="text" placeholder="Section Name" value="{{ $section->name }}" class="form-control"
+                                                name="name">
+                                        </div>
+                                        <div class="col-sm-4"><input type="submit" class="btn btn-success"
+                                                value="Update" /></div>
                                     </div>
                                 </form>
                             </div>
                         </div>
+
                     </section>
                     <!-- /.Left col -->
                 </div>
@@ -62,11 +76,4 @@
 @endsection
 
 @push('custom-script')
- <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.2.0/min/dropzone.min.js"></script>
- <script type="text/javascript">
-        Dropzone.options.imageUpload = {
-            maxFilesize         :       1,
-            acceptedFiles: ".jpeg,.jpg,.png,.gif,.doc,.docx,.pdf"
-        };
-</script>
 @endpush

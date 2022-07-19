@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="{{ asset('admin/') }}/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('admin/') }}/plugins/summernote/summernote-bs4.min.css">
+
+    @yield('template_fastload_css')
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -88,6 +90,7 @@
     <script src="{{ asset('admin/') }}/js/demo.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('admin/') }}/js/pages/dashboard.js"></script>
+    @yield('footer_scripts')
 </body>
 
 </html>

@@ -21,7 +21,9 @@
 
 <body>
     <?php echo $__env->make('frontend.partials.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-    <?php echo $__env->yieldContent('main_section'); ?>
+    <div class="main-section">
+        <?php echo $__env->yieldContent('main_section'); ?>
+    </div>
     <?php echo $__env->make('frontend.partials.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 </body>
 </html>

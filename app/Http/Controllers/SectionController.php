@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
+use Redirect;
 use App\Models\Section;
 class SectionController extends Controller
 {
@@ -74,11 +75,26 @@ class SectionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($bundle_id,$id)
     {
-        //
-    }
+         $user = Auth::user();
+        if ($user->isAdmin()) {
+            return view('backend.pages.dashboard');
+        }
 
+        $section = Section::where(['user_id'=>$user->id,"id"=>$id])->first();
+        return view('backend.pages.bundle.sections.edit',['section'=>$section]);
+    }
+    public function updateOrder(Request $request){
+        if($request->has('ids')){
+            $arr = explode(',',$request->input('ids'));
+
+            foreach($arr as $sortOrder => $id){
+               Section::where('id',$id)->update(['sort_id'=>$sortOrder]);
+            }
+            return ['success'=>true,'message'=>'Updated'];
+        }
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -88,7 +104,18 @@ class SectionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $section = Section::where('id',$id);
+        if($section->count() > 0)
+        {
+            $section->update(['name'=>$request->name]);
+            $sec =  $section->first();
+
+            return redirect()->route('bundle.show',[$sec->bundle_id]);
+
+        }else{
+
+            dump("no data found");
+        }
     }
 
     /**
@@ -99,6 +126,15 @@ class SectionController extends Controller
      */
     public function destroy($id)
     {
-        //
+         $section = Section::where('id',$id);
+        if($section->count() > 0)
+        {
+            $section->delete();
+            return redirect()->back();
+
+        }else{
+
+            dump("no data found");
+        }
     }
 }

@@ -5,6 +5,7 @@
 @endsection
 
 @section('template_fastload_css')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -39,13 +40,11 @@
                         <div class="card">
                             <div class="card-body">
                                 <form action="{{ route('public.bundle.files.store', [$bundle_id, $section_id]) }}"
-                                    enctype="multipart/form-data" method="post">
+                                    enctype="multipart/form-data" method="post" id="image-upload" class="dropzone">
                                     @csrf
-                                    <label>FILE</label>
-                                    <input type="file" name="files" required class="form-control" />
-
-                                    <input type="submit" class="btn btn-success" value="UPLOAD">
-
+                                    <div>
+                                        <h3>Upload .jpeg,.jpg,.png,.gif,.doc,.docx,.pdf By Click On Box</h3>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -61,4 +60,11 @@
 @endsection
 
 @section('footer_scripts')
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.2.0/min/dropzone.min.js"></script>
+ <script type="text/javascript">
+        Dropzone.options.imageUpload = {
+            maxFilesize         :       1,
+            acceptedFiles: ".jpeg,.jpg,.png,.gif,.doc,.docx,.pdf"
+        };
+</script>
 @endsection

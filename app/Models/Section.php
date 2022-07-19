@@ -11,6 +11,6 @@ class Section extends Model
     protected $fillable = ['name','bundle_id','user_id'];
     public function files()
     {
-       return $this->hasMany(File::class,'section_id','id');
+       return $this->hasMany(File::class,'section_id','id')->orderBy('sort_id','asc');
     }
 }
