@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use PDF;
 use App\Models\File;
+use App\Models\Section;
+use App\Models\generatedTable;
 use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
 use Auth;
+use Session;
 class DocumentController extends Controller
 {
     public function convertWordToPDF(Request $request)
@@ -157,10 +160,11 @@ class DocumentController extends Controller
         {
             $data['image'] = [$filename[2]];
             // $data['image'] = ['img1.jpg','img2.jpg'];
-
+            $sec = Section::where('id',$section_id)->first();
+            $data['section_name'] = $sec->name;
             $pdf = PDF::loadView('imgPdf', $data);
             $pdf->setPaper('L');
-             $output=$pdf->output();
+            $output=$pdf->output();
             $canvas = $pdf->getDomPDF()->getCanvas();
 
             $height = $canvas->get_height();
@@ -177,6 +181,7 @@ class DocumentController extends Controller
         }
         File::create(['filename'=>$splitName[0].'.pdf', 'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
         unlink(storage_path("app/public/files".'\\'.$filename[2]));
+        // return "<script>window.location.href='".route('section.show',)."'</scrip>";
         return response()->json(['success'=>$splitName[0].'.pdf']);
     }
     public function create($bundle_id,$section_id)
@@ -194,13 +199,21 @@ class DocumentController extends Controller
         $files = File::where(["user_id"=>auth()->user()->id,'bundle_id'=>$bundle_id])->get();
         // dd($files);
          $pdf = PDFMerger::init();
+
         foreach($files as $f)
         {
+            // $sec = Section::where('id',$f->section_id)->first();
             $pdf->addPDF(public_path($f->filename), 'all');
+            // $pdf->addString($sec->name);
         }
         $fileName = time().'.pdf';
         $pdf->merge();
+
         $pdf->save(public_path($fileName));
-        return response()->download(public_path($fileName));
+
+        generatedTable::create(['bundle_id'=>$bundle_id,'filename'=>$fileName]);
+        Session::flash('message', 'Bundle Generated Successfully');
+        return redirect()->back();
     }
+
 }

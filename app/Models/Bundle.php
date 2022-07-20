@@ -13,4 +13,8 @@ class Bundle extends Model
     {
        return $this->hasMany(Section::class,'bundle_id','id')->orderBy('sort_id','asc');
     }
+    public function generated()
+    {
+       return $this->hasMany(generatedTable::class,'bundle_id','id');
+    }
 }

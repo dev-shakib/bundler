@@ -60,11 +60,18 @@
                         </div>
                         <div class="card">
                             <div class="card-body">
+                                 <?php if(Session::has('message')): ?>
+
+                                    <div class="alert alert-success">
+                                        <h4><?php echo e(Session::get('message')); ?></h4>
+                                    </div>
+                                <?php endif; ?>
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th>Bundle Name</th>
                                             <th>Action</th>
+
                                         </tr>
                                     </thead>
                                     <tbody class="">
@@ -82,6 +89,8 @@
                                                         class="btn btn-outline-primary"><i class="fa fa-pencil"></i> RENAME</a>
                                                     <a href="<?php echo e(route('public.bundle.generate', [$b->id])); ?>"
                                                         class="btn btn-outline-info">Generate Bundle</a>
+                                                    <a href="<?php echo e(route('public.bundle.generated_bundle', [$b->id])); ?>"
+                                                        class="btn btn-outline-info">View Generated Bundle</a>
                                                     <form action="<?php echo e(route('bundle.destroy',[$b->id])); ?>" method="post">
                                                         <?php echo csrf_field(); ?>
                                                         <?php echo method_field("DELETE"); ?>

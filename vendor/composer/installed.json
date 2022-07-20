@@ -1670,17 +1670,17 @@
         },
         {
             "name": "fideloper/proxy",
-            "version": "4.4.2",
-            "version_normalized": "4.4.2.0",
+            "version": "4.4.1",
+            "version_normalized": "4.4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fideloper/TrustedProxy.git",
-                "reference": "a751f2bc86dd8e6cfef12dc0cbdada82f5a18750"
+                "reference": "c073b2bd04d1c90e04dc1b787662b558dd65ade0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fideloper/TrustedProxy/zipball/a751f2bc86dd8e6cfef12dc0cbdada82f5a18750",
-                "reference": "a751f2bc86dd8e6cfef12dc0cbdada82f5a18750",
+                "url": "https://api.github.com/repos/fideloper/TrustedProxy/zipball/c073b2bd04d1c90e04dc1b787662b558dd65ade0",
+                "reference": "c073b2bd04d1c90e04dc1b787662b558dd65ade0",
                 "shasum": ""
             },
             "require": {
@@ -1690,9 +1690,9 @@
             "require-dev": {
                 "illuminate/http": "^5.0|^6.0|^7.0|^8.0|^9.0",
                 "mockery/mockery": "^1.0",
-                "phpunit/phpunit": "^8.5.8|^9.3.3"
+                "phpunit/phpunit": "^6.0"
             },
-            "time": "2022-02-09T13:33:34+00:00",
+            "time": "2020-10-22T13:48:01+00:00",
             "type": "library",
             "extra": {
                 "laravel": {
@@ -1725,7 +1725,7 @@
             ],
             "support": {
                 "issues": "https://github.com/fideloper/TrustedProxy/issues",
-                "source": "https://github.com/fideloper/TrustedProxy/tree/4.4.2"
+                "source": "https://github.com/fideloper/TrustedProxy/tree/4.4.1"
             },
             "install-path": "../fideloper/proxy"
         },
@@ -3300,6 +3300,72 @@
             "install-path": "../jeremykenedy/uuid"
         },
         {
+            "name": "jorenvanhocht/laravel-share",
+            "version": "4.2.0",
+            "version_normalized": "4.2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jorenvh/laravel-share.git",
+                "reference": "86af334068038a840567ed62f2082fe3ac981476"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jorenvh/laravel-share/zipball/86af334068038a840567ed62f2082fe3ac981476",
+                "reference": "86af334068038a840567ed62f2082fe3ac981476",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.13|^7.0",
+                "phpunit/phpunit": "^9.3"
+            },
+            "time": "2022-02-11T17:20:09+00:00",
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Jorenvh\\Share\\Providers\\ShareServiceProvider"
+                    ],
+                    "aliases": {
+                        "Share": "Jorenvh\\Share\\ShareFacade"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Jorenvh\\Share\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joren Van Hocht",
+                    "email": "joren@codeswitch.be",
+                    "homepage": "https://codeswitch.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Optional package for Laravel to generate social share links.",
+            "homepage": "https://github.com/jorenvh/laravel-share",
+            "keywords": [
+                "laravel",
+                "share",
+                "social links",
+                "social share links"
+            ],
+            "support": {
+                "issues": "https://github.com/jorenvh/laravel-share/issues",
+                "source": "https://github.com/jorenvh/laravel-share/tree/4.2.0"
+            },
+            "install-path": "../jorenvanhocht/laravel-share"
+        },
+        {
             "name": "laminas/laminas-code",
             "version": "4.5.2",
             "version_normalized": "4.5.2.0",
@@ -3435,17 +3501,17 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.83.20",
-            "version_normalized": "8.83.20.0",
+            "version": "v8.83.19",
+            "version_normalized": "8.83.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "aa5908e83fccb18b135ca31aa0342cf4bd6909a8"
+                "reference": "4264f2ee12330bdb1be050998f58ba7271236395"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/aa5908e83fccb18b135ca31aa0342cf4bd6909a8",
-                "reference": "aa5908e83fccb18b135ca31aa0342cf4bd6909a8",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/4264f2ee12330bdb1be050998f58ba7271236395",
+                "reference": "4264f2ee12330bdb1be050998f58ba7271236395",
                 "shasum": ""
             },
             "require": {
@@ -3564,7 +3630,7 @@
                 "symfony/psr-http-message-bridge": "Required to use PSR-7 bridging features (^2.0).",
                 "wildbit/swiftmailer-postmark": "Required to use Postmark mail driver (^3.0)."
             },
-            "time": "2022-07-19T14:11:02+00:00",
+            "time": "2022-07-13T13:23:09+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -4012,17 +4078,17 @@
         },
         {
             "name": "league/commonmark",
-            "version": "2.3.4",
-            "version_normalized": "2.3.4.0",
+            "version": "2.3.3",
+            "version_normalized": "2.3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "155ec1c95626b16fda0889cf15904d24890a60d5"
+                "reference": "0da1dca5781dd3cfddbe328224d9a7a62571addc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/155ec1c95626b16fda0889cf15904d24890a60d5",
-                "reference": "155ec1c95626b16fda0889cf15904d24890a60d5",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/0da1dca5781dd3cfddbe328224d9a7a62571addc",
+                "reference": "0da1dca5781dd3cfddbe328224d9a7a62571addc",
                 "shasum": ""
             },
             "require": {
@@ -4055,7 +4121,7 @@
             "suggest": {
                 "symfony/yaml": "v2.3+ required if using the Front Matter extension"
             },
-            "time": "2022-07-17T16:25:47+00:00",
+            "time": "2022-06-07T21:28:26+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -6522,23 +6588,23 @@
         },
         {
             "name": "psr/cache",
-            "version": "1.0.1",
-            "version_normalized": "1.0.1.0",
+            "version": "2.0.0",
+            "version_normalized": "2.0.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/cache.git",
-                "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8"
+                "reference": "213f9dbc5b9bfbc4f8db86d2838dc968752ce13b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/cache/zipball/d11b50ad223250cf17b86e38383413f5a6764bf8",
-                "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8",
+                "url": "https://api.github.com/repos/php-fig/cache/zipball/213f9dbc5b9bfbc4f8db86d2838dc968752ce13b",
+                "reference": "213f9dbc5b9bfbc4f8db86d2838dc968752ce13b",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=8.0.0"
             },
-            "time": "2016-08-06T20:24:11+00:00",
+            "time": "2021-02-03T23:23:37+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -6558,7 +6624,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for caching libraries",
@@ -6568,7 +6634,7 @@
                 "psr-6"
             ],
             "support": {
-                "source": "https://github.com/php-fig/cache/tree/master"
+                "source": "https://github.com/php-fig/cache/tree/2.0.0"
             },
             "install-path": "../psr/cache"
         },
@@ -6847,23 +6913,23 @@
         },
         {
             "name": "psr/link",
-            "version": "1.0.0",
-            "version_normalized": "1.0.0.0",
+            "version": "1.1.1",
+            "version_normalized": "1.1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/link.git",
-                "reference": "eea8e8662d5cd3ae4517c9b864493f59fca95562"
+                "reference": "846c25f58a1f02b93a00f2404e3626b6bf9b7807"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/link/zipball/eea8e8662d5cd3ae4517c9b864493f59fca95562",
-                "reference": "eea8e8662d5cd3ae4517c9b864493f59fca95562",
+                "url": "https://api.github.com/repos/php-fig/link/zipball/846c25f58a1f02b93a00f2404e3626b6bf9b7807",
+                "reference": "846c25f58a1f02b93a00f2404e3626b6bf9b7807",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=8.0.0"
             },
-            "time": "2016-10-28T16:06:13+00:00",
+            "time": "2021-03-11T22:59:13+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -6887,6 +6953,7 @@
                 }
             ],
             "description": "Common interfaces for HTTP links",
+            "homepage": "https://github.com/php-fig/link",
             "keywords": [
                 "http",
                 "http-link",
@@ -6896,7 +6963,7 @@
                 "rest"
             ],
             "support": {
-                "source": "https://github.com/php-fig/link/tree/master"
+                "source": "https://github.com/php-fig/link/tree/1.1.1"
             },
             "install-path": "../psr/link"
         },
@@ -7278,26 +7345,25 @@
         },
         {
             "name": "ramsey/uuid",
-            "version": "4.2.3",
-            "version_normalized": "4.2.3.0",
+            "version": "4.3.1",
+            "version_normalized": "4.3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ramsey/uuid.git",
-                "reference": "fc9bb7fb5388691fd7373cd44dcb4d63bbcf24df"
+                "reference": "8505afd4fea63b81a85d3b7b53ac3cb8dc347c28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/fc9bb7fb5388691fd7373cd44dcb4d63bbcf24df",
-                "reference": "fc9bb7fb5388691fd7373cd44dcb4d63bbcf24df",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/8505afd4fea63b81a85d3b7b53ac3cb8dc347c28",
+                "reference": "8505afd4fea63b81a85d3b7b53ac3cb8dc347c28",
                 "shasum": ""
             },
             "require": {
                 "brick/math": "^0.8 || ^0.9",
+                "ext-ctype": "*",
                 "ext-json": "*",
-                "php": "^7.2 || ^8.0",
-                "ramsey/collection": "^1.0",
-                "symfony/polyfill-ctype": "^1.8",
-                "symfony/polyfill-php80": "^1.14"
+                "php": "^8.0",
+                "ramsey/collection": "^1.0"
             },
             "replace": {
                 "rhumsaa/uuid": "self.version"
@@ -7332,12 +7398,9 @@
                 "paragonie/random-lib": "Provides RandomLib for use with the RandomLibAdapter",
                 "ramsey/uuid-doctrine": "Allows the use of Ramsey\\Uuid\\Uuid as Doctrine field type."
             },
-            "time": "2021-09-25T23:10:38+00:00",
+            "time": "2022-03-27T21:42:02+00:00",
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-main": "4.x-dev"
-                },
                 "captainhook": {
                     "force-install": true
                 }
@@ -7363,7 +7426,7 @@
             ],
             "support": {
                 "issues": "https://github.com/ramsey/uuid/issues",
-                "source": "https://github.com/ramsey/uuid/tree/4.2.3"
+                "source": "https://github.com/ramsey/uuid/tree/4.3.1"
             },
             "funding": [
                 {

@@ -62,11 +62,18 @@
                         </div>
                         <div class="card">
                             <div class="card-body">
+                                 @if(Session::has('message'))
+
+                                    <div class="alert alert-success">
+                                        <h4>{{ Session::get('message') }}</h4>
+                                    </div>
+                                @endif
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th>Bundle Name</th>
                                             <th>Action</th>
+
                                         </tr>
                                     </thead>
                                     <tbody class="">
@@ -83,6 +90,8 @@
                                                         class="btn btn-outline-primary"><i class="fa fa-pencil"></i> RENAME</a>
                                                     <a href="{{ route('public.bundle.generate', [$b->id]) }}"
                                                         class="btn btn-outline-info">Generate Bundle</a>
+                                                    <a href="{{ route('public.bundle.generated_bundle', [$b->id]) }}"
+                                                        class="btn btn-outline-info">View Generated Bundle</a>
                                                     <form action="{{ route('bundle.destroy',[$b->id]) }}" method="post">
                                                         @csrf
                                                         @method("DELETE")

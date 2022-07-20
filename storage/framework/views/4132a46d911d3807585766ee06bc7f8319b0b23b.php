@@ -34,7 +34,7 @@
                 <!-- Main row -->
                 <div class="row">
                     <!-- Left col -->
-                    <section class="col-lg-12 connectedSortable">
+                    <section class="col-lg-6 connectedSortable">
                         <div class="card">
                             <div class="card-body">
                                 <form action="<?php echo e(route('public.bundle.files.update')); ?>"
@@ -51,6 +51,19 @@
                         </div>
                     </section>
                     <!-- /.Left col -->
+                    <!-- Right Col -->
+                    <section class="col-lg-6">
+                        <div class="card">
+                            <div class='card-header'>
+                                Preview
+                            </div>
+                            <div class="card-body">
+                                <a href="<?php echo e(asset($file->filename)); ?>" class="btn btn-outline-primary">DOWNLOAD & PREVIEW</a>
+
+                            </div>
+                        </div>
+                    </section>
+                    <!-- /.Right Col -->
                 </div>
                 <!-- /.row (main row) -->
             </div><!-- /.container-fluid -->
@@ -62,14 +75,24 @@
 
 <?php $__env->startPush('custom-script'); ?>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.2.0/min/dropzone.min.js"></script>
+
  <script type="text/javascript">
         Dropzone.options.imageUpload = {
             maxFilesize         :       1,
             uploadMultiple:false,
             queueLimit:1,
-            acceptedFiles: ".jpeg,.jpg,.png,.gif,.doc,.docx,.pdf"
+            acceptedFiles: ".jpeg,.jpg,.png,.gif,.doc,.docx,.pdf",
+             init: function() {
+                var home = "<?php echo e(route("section.show",[$file->section_id])); ?>";
+                //now we will submit the form when the button is clicked
+                 this.on("success", function(files, response) {
+                location.href = home;  // this will redirect you when the file is added to dropzone
+                //location.reload();
+                });
+            }
         };
 </script>
+
 <?php $__env->stopPush(); ?>
 
 <?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\LSKIT\bundler\resources\views/backend/pages/bundle/files/show.blade.php ENDPATH**/ ?>

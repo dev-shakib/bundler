@@ -8,6 +8,7 @@ use Auth;
 use App\Models\Bundle;
 use App\Models\Section;
 use App\Models\File;
+use App\Models\generatedTable;
 class BundleController extends Controller
 {
     public function index()
@@ -83,5 +84,28 @@ class BundleController extends Controller
         }else{
             dump("no data found");
         }
+    }
+    public function generated_destroy($id)
+    {
+        $bundle = generatedTable::where('id',$id);
+        if($bundle->count() > 0)
+        {
+            $file = $bundle->first();
+                unlink(public_path($file->filename));
+                generatedTable::where('id',$file->id)->delete();
+            return redirect()->back();
+        }else{
+            dump("no data found");
+        }
+    }
+    public function generated_bundle($id)
+    {
+        $bundle = Bundle::with('generated')->where('id',$id);
+        if($bundle->count() > 0)
+        {
+            $b = $bundle->first();
+            return view('backend.pages.bundle.generated_bundle',['bundle'=>$b]);
+        }
+
     }
 }
