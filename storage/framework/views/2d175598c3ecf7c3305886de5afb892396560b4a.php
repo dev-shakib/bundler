@@ -45,53 +45,18 @@
                                         </ul>
                                     </div>
                                 <?php endif; ?>
-                                <form action="<?php echo e(route('bundle.store')); ?>" method="post">
+                                <form action="<?php echo e(route('bundle.update',[$bundle->id])); ?>" method="post">
                                     <?php echo csrf_field(); ?>
+                                    <?php echo method_field("put"); ?>
                                     <div class="row">
                                         <div class="col-sm-8">
-                                            <input type="text" placeholder="Bundle Name" class="form-control"
+                                            <input type="text" placeholder="Bundle Name" value="<?php echo e($bundle->name); ?>" class="form-control"
                                                 name="name">
                                         </div>
                                         <div class="col-sm-4"><input type="submit" class="btn btn-success"
                                                 value="Create" /></div>
                                     </div>
                                 </form>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Bundle Name</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="">
-                                        <?php $__currentLoopData = $bundle; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $b): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <tr>
-                                                <td>
-                                                    <?php echo e($b->name); ?>
-
-                                                </td>
-                                                <td>
-
-                                                    <a href="<?php echo e(route('bundle.show', $b->id)); ?>"
-                                                        class="btn btn-outline-primary"><i class="fa fa-eye"></i> VIEW</a>
-                                                    <a href="<?php echo e(route('bundle.edit', $b->id)); ?>"
-                                                        class="btn btn-outline-primary"><i class="fa fa-pencil"></i> RENAME</a>
-                                                    <a href="<?php echo e(route('public.bundle.generate', [$b->id])); ?>"
-                                                        class="btn btn-outline-info">Generate Bundle</a>
-                                                    <form action="<?php echo e(route('bundle.destroy',[$b->id])); ?>" method="post">
-                                                        <?php echo csrf_field(); ?>
-                                                        <?php echo method_field("DELETE"); ?>
-                                                        <button type="submit" class="btn btn-outline-danger"><i class="fa fa-trash"></i> DELETE</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
                     </section>
@@ -108,4 +73,4 @@
 <?php $__env->startPush('custom-script'); ?>
 <?php $__env->stopPush(); ?>
 
-<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\LSKIT\bundler\resources\views/backend/pages/bundle/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\LSKIT\bundler\resources\views/backend/pages/bundle/edit.blade.php ENDPATH**/ ?>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Redirect;
 use App\Models\Section;
+use App\Models\File;
 class SectionController extends Controller
 {
     /**
@@ -129,6 +130,10 @@ class SectionController extends Controller
          $section = Section::where('id',$id);
         if($section->count() > 0)
         {
+            $s = $section->first();
+            $file = File::where('section_id',$s->id)->first();
+            unlink(public_path($file->filename));
+            File::where('id',$file->id)->delete();
             $section->delete();
             return redirect()->back();
 

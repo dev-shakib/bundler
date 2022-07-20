@@ -29,7 +29,7 @@
                   data-accordion="false">
                   <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
-                  <li class="nav-item menu-open">
+                  <li class="nav-item <?php echo e(Request::is('home') ? 'menu-open' : null); ?>">
                       <a href="<?php echo e(route('public.home')); ?>" class="nav-link">
                           <i class="nav-icon fas fa-tachometer-alt"></i>
                           <p>
@@ -38,7 +38,7 @@
                       </a>
                   </li>
                   <?php if (Auth::check() && Auth::user()->hasRole('user')): ?>
-                  <li class="nav-item">
+                  <li class="nav-item <?php echo e(Request::is('bundle*') ? 'menu-open' : null); ?>">
                       <a href="<?php echo e(route('bundle.index')); ?>" class="nav-link">
                           <i class="nav-icon fas fa-th"></i>
                           <p>
@@ -49,28 +49,28 @@
                   <?php endif; ?>
                   <?php if (Auth::check() && Auth::user()->hasRole('admin')): ?>
                       <li class="nav-item">
-                          <a class="nav-link <?php echo e(Request::is('roles') || Request::is('permissions') ? 'active' : null); ?>"
+                          <a class="nav-link <?php echo e(Request::is('roles') || Request::is('permissions') ? 'menu-open' : null); ?>"
                               href="<?php echo e(route('laravelroles::roles.index')); ?>">
                               <i class="nav-icon fas fa-tasks"></i>
                               <p><?php echo trans('titles.laravelroles'); ?></p>
                           </a>
                       </li>
                       <li class="nav-item">
-                          <a class="nav-link <?php echo e(Request::is('users', 'users/' . Auth::user()->id, 'users/' . Auth::user()->id . '/edit') ? 'active' : null); ?>"
+                          <a class="nav-link <?php echo e(Request::is('users', 'users/' . Auth::user()->id, 'users/' . Auth::user()->id . '/edit') ? 'menu-open' : null); ?>"
                               href="<?php echo e(url('/users')); ?>">
                               <i class="nav-icon fas fa-users"></i>
                               <p><?php echo trans('titles.adminUserList'); ?></p>
                           </a>
                       </li>
                       <li class="nav-item">
-                          <a class="nav-link <?php echo e(Request::is('users/create') ? 'active' : null); ?>"
+                          <a class="nav-link <?php echo e(Request::is('users/create') ? 'menu-open' : null); ?>"
                               href="<?php echo e(url('/users/create')); ?>">
                               <i class="nav-icon fas fa-plus"></i>
                               <p> <?php echo trans('titles.adminNewUser'); ?> </p>
                           </a>
                       </li>
                       <li class="nav-item">
-                          <a class="nav-link <?php echo e(Request::is('activity') ? 'active' : null); ?>"
+                          <a class="nav-link <?php echo e(Request::is('activity') ? 'menu-open' : null); ?>"
                               href="<?php echo e(url('/activity')); ?>">
                               <i class="nav-icon fas fa-history"></i>
                               <p> <?php echo trans('titles.adminActivity'); ?></p>
