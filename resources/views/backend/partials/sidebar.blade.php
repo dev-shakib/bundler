@@ -39,7 +39,7 @@
                   data-accordion="false">
                   <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
-                  <li class="nav-item menu-open">
+                  <li class="nav-item {{ Request::is('home') ? 'menu-open' : null }}">
                       <a href="{{ route('public.home') }}" class="nav-link">
                           <i class="nav-icon fas fa-tachometer-alt"></i>
                           <p>
@@ -48,7 +48,7 @@
                       </a>
                   </li>
                   @role('user')
-                  <li class="nav-item">
+                  <li class="nav-item {{ Request::is('bundle*') ? 'menu-open' : null }}">
                       <a href="{{ route('bundle.index') }}" class="nav-link">
                           <i class="nav-icon fas fa-th"></i>
                           <p>
@@ -59,28 +59,28 @@
                   @endrole
                   @role('admin')
                       <li class="nav-item">
-                          <a class="nav-link {{ Request::is('roles') || Request::is('permissions') ? 'active' : null }}"
+                          <a class="nav-link {{ Request::is('roles') || Request::is('permissions') ? 'menu-open' : null }}"
                               href="{{ route('laravelroles::roles.index') }}">
                               <i class="nav-icon fas fa-tasks"></i>
                               <p>{!! trans('titles.laravelroles') !!}</p>
                           </a>
                       </li>
                       <li class="nav-item">
-                          <a class="nav-link {{ Request::is('users', 'users/' . Auth::user()->id, 'users/' . Auth::user()->id . '/edit') ? 'active' : null }}"
+                          <a class="nav-link {{ Request::is('users', 'users/' . Auth::user()->id, 'users/' . Auth::user()->id . '/edit') ? 'menu-open' : null }}"
                               href="{{ url('/users') }}">
                               <i class="nav-icon fas fa-users"></i>
                               <p>{!! trans('titles.adminUserList') !!}</p>
                           </a>
                       </li>
                       <li class="nav-item">
-                          <a class="nav-link {{ Request::is('users/create') ? 'active' : null }}"
+                          <a class="nav-link {{ Request::is('users/create') ? 'menu-open' : null }}"
                               href="{{ url('/users/create') }}">
                               <i class="nav-icon fas fa-plus"></i>
                               <p> {!! trans('titles.adminNewUser') !!} </p>
                           </a>
                       </li>
                       <li class="nav-item">
-                          <a class="nav-link {{ Request::is('activity') ? 'active' : null }}"
+                          <a class="nav-link {{ Request::is('activity') ? 'menu-open' : null }}"
                               href="{{ url('/activity') }}">
                               <i class="nav-icon fas fa-history"></i>
                               <p> {!! trans('titles.adminActivity') !!}</p>
