@@ -33,7 +33,7 @@
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item ">Bundle</li>
-                            <li class="breadcrumb-item active">Index</li>
+                            <li class="breadcrumb-item active">Generated BUNDLE</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -48,30 +48,7 @@
                 <div class="row">
                     <!-- Left col -->
                     <section class="col-lg-12 connectedSortable">
-                        <div class="card">
-                            <div class="card-body">
-                                @if ($errors->any())
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
-                                <form action="{{ route('bundle.store') }}" method="post">
-                                    @csrf
-                                    <div class="row">
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="Bundle Name" class="form-control"
-                                                name="name">
-                                        </div>
-                                        <div class="col-sm-4"><input type="submit" class="btn btn-success"
-                                                value="Create" /></div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+
                         <div class="card">
                             <div class="card-body">
                                  @if(Session::has('message'))

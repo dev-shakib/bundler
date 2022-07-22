@@ -83,7 +83,7 @@
                                                 </td>
                                                 <td>
 
-                                                    <a href="<?php echo e(route('bundle.show', $b->id)); ?>"
+                                                    <a href="<?php echo e(route('bundle.show_single', [$b->slug,$b->id])); ?>"
                                                         class="btn btn-outline-primary"><i class="fa fa-eye"></i> VIEW</a>
                                                     <a href="<?php echo e(route('bundle.edit', $b->id)); ?>"
                                                         class="btn btn-outline-primary"><i class="fa fa-pencil"></i> RENAME</a>

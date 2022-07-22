@@ -31,7 +31,7 @@
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item ">Bundle</li>
-                            <li class="breadcrumb-item active">Index</li>
+                            <li class="breadcrumb-item active">Generated BUNDLE</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -46,30 +46,7 @@
                 <div class="row">
                     <!-- Left col -->
                     <section class="col-lg-12 connectedSortable">
-                        <div class="card">
-                            <div class="card-body">
-                                <?php if($errors->any()): ?>
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <li><?php echo e($error); ?></li>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                        </ul>
-                                    </div>
-                                <?php endif; ?>
-                                <form action="<?php echo e(route('bundle.store')); ?>" method="post">
-                                    <?php echo csrf_field(); ?>
-                                    <div class="row">
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="Bundle Name" class="form-control"
-                                                name="name">
-                                        </div>
-                                        <div class="col-sm-4"><input type="submit" class="btn btn-success"
-                                                value="Create" /></div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+
                         <div class="card">
                             <div class="card-body">
                                  <?php if(Session::has('message')): ?>

@@ -84,7 +84,7 @@
                                                 </td>
                                                 <td>
 
-                                                    <a href="{{ route('bundle.show', $b->id) }}"
+                                                    <a href="{{ route('bundle.show_single', [$b->slug,$b->id]) }}"
                                                         class="btn btn-outline-primary"><i class="fa fa-eye"></i> VIEW</a>
                                                     <a href="{{ route('bundle.edit', $b->id) }}"
                                                         class="btn btn-outline-primary"><i class="fa fa-pencil"></i> RENAME</a>

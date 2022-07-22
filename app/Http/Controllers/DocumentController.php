@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\File;
 use App\Models\Section;
 use App\Models\generatedTable;
 use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
+
+
+use NPDF;
 use Auth;
+use Storage;
+use File as Files;
 use Session;
 class DocumentController extends Controller
 {
@@ -21,11 +26,12 @@ class DocumentController extends Controller
         \PhpOffice\PhpWord\Settings::setPdfRendererName('DomPDF');
 
         //Load word file
-        $Content = \PhpOffice\PhpWord\IOFactory::load(public_path('result.docx'));
+        $Content = \PhpOffice\PhpWord\IOFactory::load(public_path('demo.docx'));
 
         //Save it into PDF
         $PDFWriter = \PhpOffice\PhpWord\IOFactory::createWriter($Content,'PDF');
         $PDFWriter->save(public_path('new-result.pdf'));
+
         echo 'File has been successfully converted';
 
     }
@@ -151,23 +157,48 @@ class DocumentController extends Controller
 
             //Load word file
             $Content = \PhpOffice\PhpWord\IOFactory::load(storage_path("app/public/files".'\\'.$filename[2]));
-
+            $section = $Content->addSection();
+            $header = $section->addHeader();
+            $header->addWatermark(public_path('logo.png'),array('marginTop' => 200, 'marginLeft' => 55));
+            $section->addText('The header reference to the current section includes a watermark image.');
             //Save it into PDF
             $PDFWriter = \PhpOffice\PhpWord\IOFactory::createWriter($Content,'PDF');
-            $PDFWriter->save(public_path( $splitName[0].'.pdf'));
+            $PDFWriter->save(public_path('pdf/'. $splitName[0].'.pdf'));
+            // $pdf = NPDF::loadFile(public_path('pdf/'. $splitName[0].'.pdf')); $pdf->save(public_path('file.pdf'));
+            unlink(storage_path("app/public/files".'\\'.$filename[2]));
 
         }else if($splitName[1] == "jpe" || $splitName[1] == "jpeg" || $splitName[1] == "gif"  || $splitName[1] == "png"  || $splitName[1] == "JPG" || $splitName[1] == "jpg"  || $splitName[1] == "JPEG"  || $splitName[1] == "PNG" || $splitName[1] == "GIF")
         {
-            $data['image'] = [$filename[2]];
-            // $data['image'] = ['img1.jpg','img2.jpg'];
+            $image = [$filename[2]];
+            // $image = ['img1.jpg','img2.jpg'];
 
-            $pdf = PDF::loadView('imgPdf', $data);
+            $pdf = Pdf::loadView('imgPdf', compact('image'));
+            // return view('imgPdf', compact('image'));
             $pdf->setPaper('L');
             $output=$pdf->output();
-            file_put_contents($splitName[0].'.pdf', $output);
+            $canvas = $pdf->getDomPDF()->getCanvas();
+
+            $height = $canvas->get_height();
+            $width = $canvas->get_width();
+
+            $canvas->set_opacity(.2,"Multiply");
+
+            $canvas->set_opacity(.2);
+
+            $canvas->page_text($width/5, $height/2, 'Nicesnippets.com', null,
+            55, array(0,0,0),2,2,-30);
+            $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
+            unlink(storage_path("app/public/files".'\\'.$filename[2]));
+        }else{
+            $sourcePath=storage_path("app/public/files/".$filename[2]);
+            $destinationPath=public_path('pdf/'.$filename[2]);
+            if(Files::exists($sourcePath)){
+                Files::move($sourcePath,$destinationPath);
+            }
+
         }
         File::create(['filename'=>$splitName[0].'.pdf', 'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
-        unlink(storage_path("app/public/files".'\\'.$filename[2]));
+
         // return "<script>window.location.href='".route('section.show',)."'</scrip>";
         return response()->json(['success'=>$splitName[0].'.pdf']);
     }
@@ -185,21 +216,36 @@ class DocumentController extends Controller
     {
         $files = File::where(["user_id"=>auth()->user()->id,'bundle_id'=>$bundle_id])->get();
         // dd($files);
-         $pdf = PDFMerger::init();
-
-        foreach($files as $f)
+        $sections = Section::with('files')->where('bundle_id',$bundle_id)->orderBy('sort_id','ASC')->get();
+        $pdf = PDFMerger::init();
+        foreach($sections as $sec)
         {
-            // $sec = Section::where('id',$f->section_id)->first();
-            $pdf->addPDF(public_path($f->filename), 'all');
-            // $pdf->addString($sec->name);
+            if (!file_exists(public_path('pdf'))) {
+                mkdir(public_path('pdf'), 0777, true);
+            }
+            if($sec->isDefault == 0){
+                $cpdf = PDF::loadView('sectionPdf', compact('sec'));
+                $cpdf->setPaper('L');
+                $output=$cpdf->output();
+                file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
+                $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
+            }
+            foreach($sec->files as $f){
+                $pdf->addPDF(public_path("pdf/".$f->filename), 'all');
+            }
         }
         $fileName = time().'.pdf';
         $pdf->merge();
-
-        $pdf->save(public_path($fileName));
-
-        generatedTable::create(['bundle_id'=>$bundle_id,'filename'=>$fileName]);
+         if (!file_exists(public_path('generated_pdf'))) {
+                mkdir(public_path('generated_pdf'), 0777, true);
+            }
+        $pdf->save(public_path('generated_pdf/'.$fileName));
         Session::flash('message', 'Bundle Generated Successfully');
+        // foreach($sections as $sece)
+        // {
+        //     unlink(public_path('pdf/section'.$sece->id.'.pdf'));
+        // }
+        generatedTable::create(['bundle_id'=>$bundle_id,'filename'=>$fileName]);
         return redirect()->back();
     }
 
