@@ -5,6 +5,18 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('custom-css'); ?>
+<style>
+    .social-links{
+
+    }
+    .social-links ul{
+        padding: 0;
+        margin: 0;
+    }
+    .social-links ul li{
+        display: inline-block;
+    }
+</style>
 <?php $__env->stopPush(); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -71,29 +83,27 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Bundle Name</th>
+                                            <th>Generated Bundle Name</th>
                                             <th>Action</th>
 
                                         </tr>
                                     </thead>
                                     <tbody class="">
-                                        <?php $__currentLoopData = $bundle; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $b): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php $__currentLoopData = $bundle->generated; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $b): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
                                                 <td>
-                                                    <?php echo e($b->name); ?>
+                                                    <?php echo e($b->filename); ?>
 
                                                 </td>
                                                 <td>
 
-                                                    <a href="<?php echo e(route('bundle.show', $b->id)); ?>"
-                                                        class="btn btn-outline-primary"><i class="fa fa-eye"></i> VIEW</a>
-                                                    <a href="<?php echo e(route('bundle.edit', $b->id)); ?>"
-                                                        class="btn btn-outline-primary"><i class="fa fa-pencil"></i> RENAME</a>
-                                                    <a href="<?php echo e(route('public.bundle.generate', [$b->id])); ?>"
-                                                        class="btn btn-outline-info">Generate Bundle</a>
-                                                    <a href="<?php echo e(route('public.bundle.generated_bundle', [$b->id])); ?>"
-                                                        class="btn btn-outline-info">View Generated Bundle</a>
-                                                    <form action="<?php echo e(route('bundle.destroy',[$b->id])); ?>" method="post">
+                                                    <a href="<?php echo e(asset($b->filename)); ?>" class="btn btn-outline-primary" ><i class="fa fa-download"></i> DOWNLOAD</a>
+                                                    <div class="social-links">
+                                                        <?php echo Share::page(asset($b->filename))->facebook()->twitter()->linkedin()->whatsapp(); ?>
+
+
+                                                    </div>
+                                                    <form action="<?php echo e(route('bundle.generated.destroy',[$b->id])); ?>" method="post">
                                                         <?php echo csrf_field(); ?>
                                                         <?php echo method_field("DELETE"); ?>
                                                         <button type="submit" class="btn btn-outline-danger"><i class="fa fa-trash"></i> DELETE</button>
@@ -117,6 +127,13 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('custom-script'); ?>
+<script src="<?php echo e(asset('js/share.js')); ?>"></script>
+<script>
+    $(document).ready(function(){
+        $('.social-links ul li a').addClass('btn');
+        $('.social-links ul li a').addClass('btn-outline-primary');
+    });
+</script>
 <?php $__env->stopPush(); ?>
 
-<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\bundler\resources\views/backend/pages/bundle/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\bundler\resources\views/backend/pages/bundle/generated_bundle.blade.php ENDPATH**/ ?>
