@@ -160,23 +160,10 @@ class DocumentController extends Controller
         {
             $data['image'] = [$filename[2]];
             // $data['image'] = ['img1.jpg','img2.jpg'];
-            $sec = Section::where('id',$section_id)->first();
-            $data['section_name'] = $sec->name;
+
             $pdf = PDF::loadView('imgPdf', $data);
             $pdf->setPaper('L');
             $output=$pdf->output();
-            $canvas = $pdf->getDomPDF()->getCanvas();
-
-            $height = $canvas->get_height();
-            $width = $canvas->get_width();
-
-            $canvas->set_opacity(.2,"Multiply");
-
-            $canvas->set_opacity(.2);
-
-            $canvas->page_text($width/5, $height/2, 'Nicesnippets.com', null,
-            55, array(0,0,0),2,2,-30);
-            // return $pdf->download('mnp.pdf');
             file_put_contents($splitName[0].'.pdf', $output);
         }
         File::create(['filename'=>$splitName[0].'.pdf', 'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
