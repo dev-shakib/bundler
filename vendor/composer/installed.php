@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '044bc9c75cc12bb8f11674c0085da639c85f0688',
+    'reference' => 'a6427e42ad3fa27f7c93ec55f314a7fd95c897c7',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -706,7 +706,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '044bc9c75cc12bb8f11674c0085da639c85f0688',
+      'reference' => 'a6427e42ad3fa27f7c93ec55f314a7fd95c897c7',
     ),
     'laravel/serializable-closure' => 
     array (
@@ -1256,8 +1256,8 @@
     array (
       'provided' => 
       array (
-        0 => '1.0|2.0',
-        1 => '1.0',
+        0 => '1.0',
+        1 => '1.0|2.0',
       ),
     ),
     'psy/psysh' => 
