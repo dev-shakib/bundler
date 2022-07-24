@@ -21,6 +21,7 @@ Route::group(['middleware' => ['web', 'checkblocked']], function () {
     Route::get('/prices', 'App\Http\Controllers\Frontend\HomeController@prices')->name('prices');
     Route::get('/sorry', 'App\Http\Controllers\Frontend\HomeController@sorry')->name('sorry');
     Route::get('/terms', 'App\Http\Controllers\TermsController@terms')->name('terms');
+    Route::get('/waterpdf', 'App\Http\Controllers\DocumentController@watermark')->name('pdf');
 });
 
 // Authentication Routes
