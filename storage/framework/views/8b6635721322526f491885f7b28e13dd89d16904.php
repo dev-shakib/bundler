@@ -69,13 +69,7 @@
                               <p> <?php echo trans('titles.adminNewUser'); ?> </p>
                           </a>
                       </li>
-                      <li class="nav-item">
-                          <a class="nav-link <?php echo e(Request::is('activity') ? 'menu-open' : null); ?>"
-                              href="<?php echo e(url('/activity')); ?>">
-                              <i class="nav-icon fas fa-history"></i>
-                              <p> <?php echo trans('titles.adminActivity'); ?></p>
-                          </a>
-                      </li>
+                      
                   <?php endif; ?>
               </ul>
           </nav>

@@ -19,10 +19,10 @@
 ?>
 
 <?php $__env->startSection('content'); ?>
-<div class="content-wrappeR">
+<div class="content-wrapper">
     <div class="container my-2">
         <div class="row">
-            <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-3">
+            <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
                 <div class="card">
                     <div class="card-header">
                         <?php echo e(trans('profile.showProfileTitle',['username' => $user->name])); ?>
@@ -74,16 +74,7 @@
                             <?php endif; ?>
 
                             <?php if($user->profile): ?>
-                                <?php if($user->profile->theme_id && ($currentUser->id == $user->id || $currentUser->hasRole('admin'))): ?>
-                                    <dt>
-                                        <?php echo e(trans('profile.showProfileTheme')); ?>
-
-                                    </dt>
-                                    <dd>
-                                        <?php echo e($currentTheme->name); ?>
-
-                                    </dd>
-                                <?php endif; ?>
+                                
 
                                 <?php if($user->profile->location): ?>
                                     <dt>
