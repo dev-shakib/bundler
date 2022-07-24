@@ -111,6 +111,9 @@ class DocumentController extends Controller
     }
     public function update(Request $request)
     {
+        if (!file_exists(storage_path('app/public/files'))) {
+            mkdir(public_path('app/public/files'), 0777, true);
+        }
         $filename = $request->file('file')->store('public/files');
         $bundle_id= $request->bundle_id;
         $section_id= $request->section_id;
@@ -173,6 +176,9 @@ class DocumentController extends Controller
     }
     public function uploadDocuments(Request $request)
     {
+        if (!file_exists(storage_path('app/public/files'))) {
+            mkdir(public_path('app/public/files'), 0777, true);
+        }
         $filename = $request->file('file')->store('public/files');
         $bundle_id= $request->bundle_id;
         $section_id= $request->section_id;
