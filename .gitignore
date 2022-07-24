@@ -34,7 +34,7 @@ package-lock.json
 yarn.lock
 
 ### Assets ###
- 
+
 packages/
 .phpunit.result.cache
 .env.backup
@@ -45,3 +45,4 @@ yarn-error.log
 
 storage/logs/laravel.log
 storage/logs/laravel.log
+*.log
