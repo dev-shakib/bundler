@@ -180,7 +180,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Webklex\PDFMerger\Providers\PDFMergerServiceProvider::class,
         Jorenvh\Share\Providers\ShareServiceProvider::class,
-        niklasravnsborg\LaravelPdf\PdfServiceProvider::class
+        Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class,
     ],
 
     /*
@@ -238,7 +238,7 @@ return [
         'Image'         => Intervention\Image\Facades\Image::class,
         'Uuid'          => jeremykenedy\Uuid\Uuid::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
-        'NPDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
+        'MPDF' => Meneses\LaravelMpdf\Facades\LaravelMpdf::class,
         'PDFMerger' => Webklex\PDFMerger\Facades\PDFMergerFacade::class,
         'Share' => Jorenvh\Share\ShareFacade::class,
     ],

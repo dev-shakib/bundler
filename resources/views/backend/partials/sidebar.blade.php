@@ -56,6 +56,14 @@
                           </p>
                       </a>
                   </li>
+                  <li class="nav-item {{ Request::is('setting*') ? 'menu-open' : null }}">
+                      <a href="{{ route('setting.index') }}" class="nav-link">
+                          <i class="nav-icon fas fa-cogs"></i>
+                          <p>
+                              SETTINGS
+                          </p>
+                      </a>
+                  </li>
                   @endrole
                   @role('admin')
                       <li class="nav-item">

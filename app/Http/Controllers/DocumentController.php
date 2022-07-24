@@ -8,6 +8,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\File;
 use App\Models\Section;
 use App\Models\generatedTable;
+use App\Models\Setting;
 use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
 
 
@@ -16,25 +17,45 @@ use Auth;
 use Storage;
 use File as Files;
 use Session;
-
-use setasign\Fpdi\Fpdi; 
+use MPDF;
+use setasign\Fpdi\Fpdi;
 class DocumentController extends Controller
 {
     public function convertWordToPDF(Request $request)
     {
             /* Set the PDF Engine Renderer Path */
-        $domPdfPath = base_path('vendor/dompdf/dompdf');
+        $domPdfPath = base_path('vendor/mpdf/mpdf');
         \PhpOffice\PhpWord\Settings::setPdfRendererPath($domPdfPath);
-        \PhpOffice\PhpWord\Settings::setPdfRendererName('DomPDF');
+        \PhpOffice\PhpWord\Settings::setPdfRendererName('MPDF');
 
         //Load word file
         $Content = \PhpOffice\PhpWord\IOFactory::load(public_path('demo.docx'));
 
         //Save it into PDF
-        $PDFWriter = \PhpOffice\PhpWord\IOFactory::createWriter($Content,'PDF');
-        $PDFWriter->save(public_path('new-result.pdf'));
+        $PDFWriter = \PhpOffice\PhpWord\IOFactory::createWriter($Content,'HTML');
+        $PDFWriter->save(public_path('../resources/views/pdf/encoded.blade.php'));
+        $watermark = true;
+        $watermark_type = "TEXT";
+            if($watermark_type == "TEXT")
+            {
+            $watermark_content = "HRIDOY BUNDLE";
 
-        echo 'File has been successfully converted';
+            }else{
+            $watermark_content = public_path('logo.png');
+            }
+        $view['view'] = view('pdf.encoded')->render();
+        $pdf = MPDF::loadView('newDocsPdf', $view);
+        if($watermark_type == "TEXT")
+        {
+            $pdf->mpdf->SetWatermarkText('DRAFT');
+            $pdf->mpdf->showWatermarkText = true;
+
+
+        }else{
+
+            $pdf->SetWatermarkImage();
+        }
+        return $pdf->download('mnp.pdf');
 
     }
     public function convertImageToPDF(Request $request)
@@ -159,15 +180,32 @@ class DocumentController extends Controller
 
             //Load word file
             $Content = \PhpOffice\PhpWord\IOFactory::load(storage_path("app/public/files".'\\'.$filename[2]));
-            $section = $Content->addSection();
-            $header = $section->addHeader();
-            $header->addWatermark(public_path('logo.png'),array('marginTop' => 200, 'marginLeft' => 55));
-            $section->addText('The header reference to the current section includes a watermark image.');
+
+
             //Save it into PDF
-            $PDFWriter = \PhpOffice\PhpWord\IOFactory::createWriter($Content,'PDF');
-            $PDFWriter->save(public_path('pdf/'. $splitName[0].'.pdf'));
+            $PDFWriter = \PhpOffice\PhpWord\IOFactory::createWriter($Content,'HTML');
+             if (!file_exists(public_path('../resources/views/pdf'))) {
+                mkdir(public_path('../resources/views/pdf'), 0777, true);
+            }
+            $PDFWriter->save(public_path('../resources/views/pdf/'. $splitName[0].'.blade.php'));
             // $pdf = NPDF::loadFile(public_path('pdf/'. $splitName[0].'.pdf')); $pdf->save(public_path('file.pdf'));
-            unlink(storage_path("app/public/files".'\\'.$filename[2]));
+            $watermark = true;
+            $watermark_type = "TEXT";
+              if($watermark_type == "TEXT")
+              {
+                $watermark_content == "HRIDOY BUNDLE";
+
+              }else{
+                $watermark_content == public_path('logo.png');
+              }
+            $view['view'] = view('pdf.'.$splitName[0])->render();
+            $view['watermark'] = true;
+            $view['watermark_type']=$watermark_type;
+            $view['watermark_content']=$watermark_content;
+
+            $pdf = MPDF::loadView('newDocsPdf', $view);
+            $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
+            unlink(public_path("../resources/views/pdf/".'\\'.$splitName[0].'.blade.php'));
 
         }else if($splitName[1] == "jpe" || $splitName[1] == "jpeg" || $splitName[1] == "gif"  || $splitName[1] == "png"  || $splitName[1] == "JPG" || $splitName[1] == "jpg"  || $splitName[1] == "JPEG"  || $splitName[1] == "PNG" || $splitName[1] == "GIF")
         {
@@ -256,81 +294,90 @@ class DocumentController extends Controller
 
     //setWaterMark
 
-    public function watermark(){
-        // Source file and watermark config 
-        
-        $file = public_path('new-result.pdf');
-        $text = 'Bundler-B'; 
-        
+    public function watermark($path){
+        // Source file and watermark config
+        $settings = Setting::where(['user_id'=>auth()->user()->id,'name'=>"watermark"])->first();
+        $file = public_path('generated_pdf/'.$path);
+        $text = $settings->value;
+
         // dd($file);
-        // Text font settings 
-        $name = uniqid(); 
-        $font_size = 5; 
-        $opacity = 100; 
-        $ts = explode("\n", $text); 
-        $width = 0; 
-        foreach($ts as $k=>$string){ 
-            $width = max($width, strlen($string)); 
-        } 
-        $width  = imagefontwidth($font_size)*$width; 
-        $height = imagefontheight($font_size)*count($ts); 
-        $el = imagefontheight($font_size); 
-        $em = imagefontwidth($font_size); 
-        $img = imagecreatetruecolor($width, $height); 
-        
-        // Background color 
-        $bg = imagecolorallocate($img, 255, 255, 255); 
-        imagefilledrectangle($img, 0, 0, $width, $height, $bg); 
-        
-        // Font color settings 
-        $color = imagecolorallocate($img, 0, 0, 0); 
-        foreach($ts as $k=>$string){ 
-            $len = strlen($string); 
-            $ypos = 0; 
-            for($i=0;$i<$len;$i++){ 
-                $xpos = $i * $em; 
-                $ypos = $k * $el; 
-                imagechar($img, $font_size, $xpos, $ypos, $string, $color); 
-                $string = substr($string, 1);       
-            } 
-        } 
-        imagecolortransparent($img, $bg); 
-        $blank = imagecreatetruecolor($width, $height); 
-        $tbg = imagecolorallocate($blank, 255, 255, 255); 
-        imagefilledrectangle($blank, 0, 0, $width, $height, $tbg); 
-        imagecolortransparent($blank, $tbg); 
-        $op = !empty($opacity)?$opacity:100; 
-        if ( ($op < 0) OR ($op >100) ){ 
-            $op = 100; 
-        } 
-        
-        // Create watermark image 
-        imagecopymerge($blank, $img, 0, 0, 0, 0, $width, $height, $op); 
-        imagepng($blank, $name.".png"); 
-        
-        // Set source PDF file 
-        $pdf = new Fpdi(); 
-        if(file_exists($file)){ 
-            $pagecount = $pdf->setSourceFile($file); 
-        }else{ 
-            die('Source PDF not found!'); 
-        } 
-        
-        // Add watermark to PDF pages 
-        for($i=1;$i<=$pagecount;$i++){ 
-            $tpl = $pdf->importPage($i); 
-            $size = $pdf->getTemplateSize($tpl); 
-            $pdf->addPage(); 
-            $pdf->useTemplate($tpl, 1, 1, $size['width'], $size['height'], TRUE); 
-            
-            //Put the watermark 
-            $xxx_final = ($size['width']-50); 
-            $yyy_final = ($size['height']-25); 
-            $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png'); 
-        } 
-        @unlink($name.'.png'); 
-        
-        // Output PDF with watermark 
+        // Text font settings
+        $name = uniqid();
+        $font_size = 5;
+        $opacity = 100;
+        $ts = explode("\n", $text);
+        $width = 0;
+        foreach($ts as $k=>$string){
+            $width = max($width, strlen($string));
+        }
+        $width  = imagefontwidth($font_size)*$width;
+        $height = imagefontheight($font_size)*count($ts);
+        $el = imagefontheight($font_size);
+        $em = imagefontwidth($font_size);
+        $img = imagecreatetruecolor($width, $height);
+
+        // Background color
+        $bg = imagecolorallocate($img, 255, 255, 255);
+        imagefilledrectangle($img, 0, 0, $width, $height, $bg);
+
+        // Font color settings
+        $color = imagecolorallocate($img, 0, 0, 0);
+        foreach($ts as $k=>$string){
+            $len = strlen($string);
+            $ypos = 0;
+            for($i=0;$i<$len;$i++){
+                $xpos = $i * $em;
+                $ypos = $k * $el;
+                imagechar($img, $font_size, $xpos, $ypos, $string, $color);
+                $string = substr($string, 1);
+            }
+        }
+        imagecolortransparent($img, $bg);
+        $blank = imagecreatetruecolor($width, $height);
+        $tbg = imagecolorallocate($blank, 255, 255, 255);
+        imagefilledrectangle($blank, 0, 0, $width, $height, $tbg);
+        imagecolortransparent($blank, $tbg);
+        $op = !empty($opacity)?$opacity:100;
+        if ( ($op < 0) OR ($op >100) ){
+            $op = 100;
+        }
+
+        // Create watermark image
+        imagecopymerge($blank, $img, 0, 0, 0, 0, $width, $height, $op);
+        imagepng($blank, $name.".png");
+
+        // Set source PDF file
+        $pdf = new Fpdi();
+        if(file_exists($file)){
+            $pagecount = $pdf->setSourceFile($file);
+        }else{
+            die('Source PDF not found!');
+        }
+
+        // Add watermark to PDF pages
+        for($i=1;$i<=$pagecount;$i++){
+            $tpl = $pdf->importPage($i);
+            $size = $pdf->getTemplateSize($tpl);
+            $pdf->addPage();
+            $pdf->useTemplate($tpl, 1, 1, $size['width'], $size['height'], TRUE);
+
+            //Put the watermark
+            $xxx_final = ($size['width']-50);
+            $yyy_final = ($size['height']-25);
+            if($settings->type == "TEXT"){
+                $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
+            }else{
+                $xxx_final = ($size['width']-75);
+                $yyy_final = ($size['height']-35);
+                $image = public_path('watermark/'.$settings->value);
+                $pdf->Image($image, $xxx_final, $yyy_final, 0, 0, 'png');
+
+            }
+
+        }
+        @unlink($name.'.png');
+
+        // Output PDF with watermark
         $pdf->Output('D', 'my-document.pdf');
     }
 

@@ -21,7 +21,7 @@ Route::group(['middleware' => ['web', 'checkblocked']], function () {
     Route::get('/prices', 'App\Http\Controllers\Frontend\HomeController@prices')->name('prices');
     Route::get('/sorry', 'App\Http\Controllers\Frontend\HomeController@sorry')->name('sorry');
     Route::get('/terms', 'App\Http\Controllers\TermsController@terms')->name('terms');
-    Route::get('/waterpdf', 'App\Http\Controllers\DocumentController@watermark')->name('pdf');
+    Route::get('/waterpdf/{filename}', 'App\Http\Controllers\DocumentController@watermark')->name('pdf');
 });
 
 // Authentication Routes
@@ -74,6 +74,11 @@ Route::group(['middleware' => ['auth', 'activated', 'activity', 'twostep', 'chec
     Route::get('/bundle/{bundle_name}/{bundle_id}', ['as' => 'bundle.show_single',   'uses' => 'App\Http\Controllers\BundleController@show']);
     Route::get('/bundle/generated-bundle/bundle-list/{bundle_id}', ['as' => 'public.bundle.generated_bundle',   'uses' => 'App\Http\Controllers\BundleController@generated_bundle']);
     Route::delete('/bundle/generated_bundle/{bundle_id}', ['as' => 'bundle.generated.destroy',   'uses' => 'App\Http\Controllers\BundleController@generated_destroy']);
+    Route::resource(
+        'setting',
+        \App\Http\Controllers\SettingController::class,
+
+    );
     Route::resource(
         'section',
         \App\Http\Controllers\SectionController::class,
