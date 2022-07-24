@@ -105,13 +105,13 @@ class SectionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $section = Section::where('id',$id);
+        $section = Section::with('bundle')->where('id',$id);
+
         if($section->count() > 0)
         {
             $section->update(['name'=>$request->name]);
             $sec =  $section->first();
-
-            return redirect()->route('bundle.show',[$sec->bundle_id]);
+            return redirect()->route('bundle.show_single',[$sec->bundle->slug,$sec->bundle_id]);
 
         }else{
 
@@ -132,7 +132,7 @@ class SectionController extends Controller
         {
             $s = $section->first();
             $file = File::where('section_id',$s->id)->first();
-            unlink(public_path($file->filename));
+            unlink(public_path('pdf/'.$file->filename));
             File::where('id',$file->id)->delete();
             $section->delete();
             return redirect()->back();

@@ -13,4 +13,8 @@ class Section extends Model
     {
        return $this->hasMany(File::class,'section_id','id')->orderBy('sort_id','asc');
     }
+    public function bundle()
+    {
+       return $this->belongsTo(Bundle::class,'bundle_id','id');
+    }
 }

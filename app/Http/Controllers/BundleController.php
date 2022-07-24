@@ -62,7 +62,7 @@ class BundleController extends Controller
             return view('backend.pages.dashboard');
         }
 
-
+         $bundle = Bundle::with('section')->where(['user_id'=>$user->id,"id"=>$id])->first();
         return view('backend.pages.bundle.edit',['bundle'=>$bundle]);
     }
     public function update(Request $request,$id)
@@ -91,6 +91,10 @@ class BundleController extends Controller
                     File::where('id',$file->id)->delete();
                 }
                 Section::where('id',$s->id)->delete();
+            }
+            if(generatedTable::where('bundle_id',$b->id)->count() > 0)
+            {
+               generatedTable::where('bundle_id',$b->id)->delete();
             }
             $bundle->delete();
             return redirect()->back();

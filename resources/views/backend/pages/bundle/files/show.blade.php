@@ -59,7 +59,7 @@
                             Preview
                         </div>
                         <div class="card-body">
-                            <a href="{{ asset($file->filename) }}" class="btn btn-outline-primary">DOWNLOAD & PREVIEW</a>
+                            <a href="{{ asset('pdf/'.$file->filename) }}" class="btn btn-outline-primary">DOWNLOAD & PREVIEW</a>
 
                         </div>
                     </div>
