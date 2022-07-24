@@ -1,5 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bundler</title>
 
-<?php $__env->startSection('main_section'); ?>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="<?php echo e(asset('frontend/css/style.css')); ?>">
+</head>
+</body>
     <div class="main">
         <svg width="380px" height="500px" class="sorry-svg" viewBox="0 0 837 1045" version="1.1"
             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -23,6 +34,6 @@
             <a href="<?php echo e(route('home')); ?>" class="btn btn-primary">Go to Home Page</a>
         </div>
     </div>
-<?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('frontend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\bundler\resources\views/frontend/sorry.blade.php ENDPATH**/ ?>
+</body>
+</html>
+<?php /**PATH D:\laragon\www\bundler\resources\views/frontend/sorry.blade.php ENDPATH**/ ?>
