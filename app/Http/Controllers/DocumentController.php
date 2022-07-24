@@ -189,19 +189,9 @@ class DocumentController extends Controller
             }
             $PDFWriter->save(public_path('../resources/views/pdf/'. $splitName[0].'.blade.php'));
             // $pdf = NPDF::loadFile(public_path('pdf/'. $splitName[0].'.pdf')); $pdf->save(public_path('file.pdf'));
-            $watermark = true;
-            $watermark_type = "TEXT";
-              if($watermark_type == "TEXT")
-              {
-                $watermark_content == "HRIDOY BUNDLE";
 
-              }else{
-                $watermark_content == public_path('logo.png');
-              }
             $view['view'] = view('pdf.'.$splitName[0])->render();
-            $view['watermark'] = true;
-            $view['watermark_type']=$watermark_type;
-            $view['watermark_content']=$watermark_content;
+
 
             $pdf = MPDF::loadView('newDocsPdf', $view);
             $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
