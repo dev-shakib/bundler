@@ -6,7 +6,7 @@
 
 @push('custom-css')
     <style>
-        #map-canvas {
+        #map-canvas{
             min-height: 300px;
             height: 100%;
             width: 100%;
@@ -15,21 +15,21 @@
 @endpush
 
 @php
-$currentUser = Auth::user();
+    $currentUser = Auth::user()
 @endphp
 
 @section('content')
+<div class="content-wrappeR">
     <div class="container my-2">
         <div class="row">
-            <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+            <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-3">
                 <div class="card">
                     <div class="card-header">
-                        {{ trans('profile.showProfileTitle', ['username' => $user->name]) }}
+                        {{ trans('profile.showProfileTitle',['username' => $user->name]) }}
                     </div>
                     <div class="card-body">
 
-                        <img src="@if ($user->profile->avatar_status == 1) {{ $user->profile->avatar }} @else {{ Gravatar::get($user->email) }} @endif"
-                            alt="{{ $user->name }}" class="user-avatar">
+                        <img src="@if ($user->profile->avatar_status == 1) {{ $user->profile->avatar }} @else {{ Gravatar::get($user->email) }} @endif" alt="{{ $user->name }}" class="user-avatar">
 
                         <dl class="user-info">
                             <dt>
@@ -65,14 +65,14 @@ $currentUser = Auth::user();
                             @endif
 
                             @if ($user->profile)
-                                {{-- @if ($user->profile->theme_id && ($currentUser->id == $user->id || $currentUser->hasRole('admin')))
+                                @if ($user->profile->theme_id && ($currentUser->id == $user->id || $currentUser->hasRole('admin')))
                                     <dt>
                                         {{ trans('profile.showProfileTheme') }}
                                     </dt>
                                     <dd>
                                         {{ $currentTheme->name }}
                                     </dd>
-                                @endif --}}
+                                @endif
 
                                 @if ($user->profile->location)
                                     <dt>
@@ -81,9 +81,8 @@ $currentUser = Auth::user();
                                     <dd>
                                         {{ $user->profile->location }} <br />
 
-                                        @if (config('settings.googleMapsAPIStatus'))
-                                            Latitude: <span id="latitude"></span> / Longitude: <span id="longitude"></span>
-                                            <br />
+                                        @if(config('settings.googleMapsAPIStatus'))
+                                            Latitude: <span id="latitude"></span> / Longitude: <span id="longitude"></span> <br />
 
                                             <div id="map-canvas"></div>
                                         @endif
@@ -104,10 +103,7 @@ $currentUser = Auth::user();
                                         {{ trans('profile.showProfileTwitterUsername') }}
                                     </dt>
                                     <dd>
-                                        {!! HTML::link('https://twitter.com/' . $user->profile->twitter_username, $user->profile->twitter_username, [
-                                            'class' => 'twitter-link',
-                                            'target' => '_blank',
-                                        ]) !!}
+                                        {!! HTML::link('https://twitter.com/'.$user->profile->twitter_username, $user->profile->twitter_username, array('class' => 'twitter-link', 'target' => '_blank')) !!}
                                     </dd>
                                 @endif
 
@@ -116,10 +112,7 @@ $currentUser = Auth::user();
                                         {{ trans('profile.showProfileGitHubUsername') }}
                                     </dt>
                                     <dd>
-                                        {!! HTML::link('https://github.com/' . $user->profile->github_username, $user->profile->github_username, [
-                                            'class' => 'github-link',
-                                            'target' => '_blank',
-                                        ]) !!}
+                                        {!! HTML::link('https://github.com/'.$user->profile->github_username, $user->profile->github_username, array('class' => 'github-link', 'target' => '_blank')) !!}
                                     </dd>
                                 @endif
                             @endif
@@ -128,35 +121,28 @@ $currentUser = Auth::user();
 
                         @if ($user->profile)
                             @if ($currentUser->id == $user->id)
-                                {!! HTML::icon_link(
-                                    URL::to('/profile/' . $currentUser->name . '/edit'),
-                                    'fa fa-fw fa-cog',
-                                    trans('titles.editProfile'),
-                                    ['class' => 'btn btn-small btn-info btn-block'],
-                                ) !!}
+                                {!! HTML::icon_link(URL::to('/profile/'.$currentUser->name.'/edit'), 'fa fa-fw fa-cog', trans('titles.editProfile'), array('class' => 'btn btn-small btn-info btn-block')) !!}
                             @endif
                         @else
                             <p>
                                 {{ trans('profile.noProfileYet') }}
                             </p>
-                            {!! HTML::icon_link(
-                                URL::to('/profile/' . $currentUser->name . '/edit'),
-                                'fa fa-fw fa-plus ',
-                                trans('titles.createProfile'),
-                                ['class' => 'btn btn-small btn-info btn-block'],
-                            ) !!}
+                            {!! HTML::icon_link(URL::to('/profile/'.$currentUser->name.'/edit'), 'fa fa-fw fa-plus ', trans('titles.createProfile'), array('class' => 'btn btn-small btn-info btn-block')) !!}
                         @endif
-
+                       
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+</div>
+    
 @endsection
 
 @section('footer_scripts')
-    @if (config('settings.googleMapsAPIStatus'))
+
+    @if(config('settings.googleMapsAPIStatus'))
         @include('scripts.google-maps-geocode-and-map')
     @endif
+
 @endsection
