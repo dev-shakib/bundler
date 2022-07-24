@@ -1,21 +1,7 @@
-    <!-- header section start  -->
-    <header class="custom-navbar">
-        <nav class="navbar navbar-expand-lg">
-            <div class="container">
-              <a class="navbar-brand text-shadow-1 fz-24 text-dark" href="#">BUNDLE-B</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="<?php echo e(route('home')); ?>">Home</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/sorry">Link</a>
-                  </li>
-                </ul><!-- navbar-nav./  -->
-              </div><!-- collapse./  -->
-            </div><!-- container./  -->
-          </nav>
-    </header><!-- header./  --><?php /**PATH D:\laragon\www\bundler\resources\views/frontend/partials/navbar.blade.php ENDPATH**/ ?>
+<div class="topnav">
+    <button class="button" style="-moz-box-align: center"><a href="<?php echo e(route('prices')); ?>"><span>Prices</span></a></button>
+    <button class="button" style="-moz-box-align: center"><a href="<?php echo e(route('home')); ?>"><span>Bundeling</span></a></button>
+    <button class="button" style="-moz-box-align: center"><a href="<?php echo e(route('sorry')); ?>"><span>Login/Register
+            </span></a></button>
+</div>
+<?php /**PATH D:\laragon\www\bundler\resources\views/frontend/partials/navbar.blade.php ENDPATH**/ ?>

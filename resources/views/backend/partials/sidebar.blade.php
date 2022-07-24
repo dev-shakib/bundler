@@ -79,13 +79,13 @@
                               <p> {!! trans('titles.adminNewUser') !!} </p>
                           </a>
                       </li>
-                      {{-- <li class="nav-item">
+                      <li class="nav-item">
                           <a class="nav-link {{ Request::is('activity') ? 'menu-open' : null }}"
                               href="{{ url('/activity') }}">
                               <i class="nav-icon fas fa-history"></i>
                               <p> {!! trans('titles.adminActivity') !!}</p>
                           </a>
-                      </li> --}}
+                      </li>
                   @endrole
               </ul>
           </nav>

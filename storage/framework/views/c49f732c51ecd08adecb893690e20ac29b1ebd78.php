@@ -44,10 +44,7 @@
 
         <?php echo $__env->make('backend.partials.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
-        <div class="content-wrapper">
-            <?php echo $__env->yieldContent('content'); ?>
-        </div>
-        
+        <?php echo $__env->yieldContent('content'); ?>
 
         <?php echo $__env->make('backend.partials.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
