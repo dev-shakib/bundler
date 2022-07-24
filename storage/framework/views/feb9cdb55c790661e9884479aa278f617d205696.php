@@ -9,7 +9,7 @@
                         <h2 class="fz-50 pb-3">Bundle-B</h2>
                         <p>Simple bundeling solution for busy lawyer's</p>
                         <p>Create secure Court bundles quickly, easy and free</p>
-                        <a href="<?php echo e(route('login')); ?>" class="btn btn-primary mt-3">Start bundeling</a>
+                        <a href="#" class="btn btn-primary mt-3">Start bundeling</a>
                     </div><!-- col./  -->
                 </div><!-- row./  -->
             </div><!-- container./  -->
@@ -89,7 +89,7 @@
                     </div><!-- col./  -->
 
                     <div class="col-12 col-md-4">
-                        <a href="<?php echo e(route('register')); ?>" class="btn btn-primary">Try for free</a>
+                        <a href="#" class="btn btn-primary">Try for free</a>
                     </div><!-- col./  -->
                 </div><!-- row./  -->
             </div><!-- container./  -->

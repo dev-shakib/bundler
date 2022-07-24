@@ -33,7 +33,7 @@
             <div class="col-12 col-md-4">
                 <div class="item">
                     <h3 class="fz-20 fw-600">Let's Keep in Touch</h3>
-                    <p>We want to hear from you. Please send an email to <a class="links" href="mailto:info@bundle-b.com">info@bundle-b.com</a></p>
+                    <p>We want to hear from you. Please send an email to info@bundle-b.com</p>
                 </div>
             </div><!-- col./  -->
         </div><!-- row./  -->

@@ -12,7 +12,7 @@
                     <a class="nav-link active" aria-current="page" href="{{route('home')}}">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="{{route('login')}}">Link</a>
+                    <a class="nav-link" href="/sorry">Link</a>
                   </li>
                 </ul><!-- navbar-nav./  -->
               </div><!-- collapse./  -->
