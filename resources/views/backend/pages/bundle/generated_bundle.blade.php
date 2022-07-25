@@ -71,7 +71,7 @@
                                             </td>
                                             <td>
 
-                                                <a href="{{ route('pdf',$b->filename) }}" class="btn btn-outline-primary"><i
+                                                <a href="{{ route('pdf',$b->id) }}" class="btn btn-outline-primary"><i
                                                         class="fa fa-download"></i> DOWNLOAD</a>
                                                 <div class="social-links">
                                                     {!! Share::page(asset($b->filename))->facebook()->twitter()->linkedin()->whatsapp() !!}

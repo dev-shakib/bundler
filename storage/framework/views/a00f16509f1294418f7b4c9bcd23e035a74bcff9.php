@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('template_title'); ?>
     <?php echo e(Auth::user()->name); ?>'s' Settings
 <?php $__env->stopSection(); ?>
@@ -91,7 +89,7 @@
             if(values == "TEXT"){
 
                 $('#datas').show();
-                $('#text').append('<input type="text" name="values" value="<?php echo e($setting->value); ?>" class="form-control" id="" required>');
+                $('#text').append('<input type="text" name="values" <?php if(!is_null($setting)): ?> value="<?php echo e($setting->value); ?>" <?php endif; ?> class="form-control" id="" required>');
                 $('#img').empty();
             }else{
                 $('#datas').show();

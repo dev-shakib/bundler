@@ -91,7 +91,7 @@
             if(values == "TEXT"){
 
                 $('#datas').show();
-                $('#text').append('<input type="text" name="values" value="{{ $setting->value }}" class="form-control" id="" required>');
+                $('#text').append('<input type="text" name="values" @if(!is_null($setting)) value="{{ $setting->value }}" @endif class="form-control" id="" required>');
                 $('#img').empty();
             }else{
                 $('#datas').show();

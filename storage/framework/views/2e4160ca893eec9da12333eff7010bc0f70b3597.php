@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('template_title'); ?>
     <?php echo e(Auth::user()->name); ?>'s' Bundle
 <?php $__env->stopSection(); ?>
@@ -72,7 +70,7 @@
                                             </td>
                                             <td>
 
-                                                <a href="<?php echo e(route('pdf',$b->filename)); ?>" class="btn btn-outline-primary"><i
+                                                <a href="<?php echo e(route('pdf',$b->id)); ?>" class="btn btn-outline-primary"><i
                                                         class="fa fa-download"></i> DOWNLOAD</a>
                                                 <div class="social-links">
                                                     <?php echo Share::page(asset($b->filename))->facebook()->twitter()->linkedin()->whatsapp(); ?>

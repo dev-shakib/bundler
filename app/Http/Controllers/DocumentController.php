@@ -285,10 +285,11 @@ class DocumentController extends Controller
 
     //setWaterMark
 
-    public function watermark($path){
+    public function watermark($id){
         // Source file and watermark config
         $settings = Setting::where(['user_id'=>auth()->user()->id,'name'=>"watermark"])->first();
-        $file = public_path('generated_pdf/'.$path);
+        $generated_pdf = generatedTable::where("id",$id)->first();
+        $file = public_path('generated_pdf/'.$generated_pdf->filename);
         $text = $settings->value;
 
         // dd($file);
@@ -366,7 +367,7 @@ class DocumentController extends Controller
             }
 
         }
-        @unlink($name.'.png');
+        unlink(public_path($name.'.png'));
 
         // Output PDF with watermark
         $pdf->Output('D', 'my-document.pdf');
