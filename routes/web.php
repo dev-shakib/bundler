@@ -166,6 +166,3 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
 Route::redirect('/php', '/phpinfo', 301);
 
 // GUEST
-
-Route::get('/document/convert-word-to-pdf', '\App\Http\Controllers\DocumentController@convertWordToPDF')->name('document.wordtopdf');
-Route::get('/document/convert-img-to-pdf', '\App\Http\Controllers\DocumentController@convertImageToPDF')->name('document.imgtopdf');

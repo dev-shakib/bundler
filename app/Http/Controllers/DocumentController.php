@@ -12,6 +12,7 @@ use App\Models\Setting;
 use App\Models\Bundle;
 use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
 
+use ZipArchive;
 
 use NPDF;
 use Auth;
@@ -22,70 +23,14 @@ use MPDF;
 use setasign\Fpdi\Fpdi;
 class DocumentController extends Controller
 {
-    public function convertWordToPDF(Request $request)
-    {
-            /* Set the PDF Engine Renderer Path */
-        $domPdfPath = base_path('vendor/mpdf/mpdf');
-        \PhpOffice\PhpWord\Settings::setPdfRendererPath($domPdfPath);
-        \PhpOffice\PhpWord\Settings::setPdfRendererName('MPDF');
 
-        //Load word file
-        $Content = \PhpOffice\PhpWord\IOFactory::load(public_path('demo.docx'));
-
-        //Save it into PDF
-        $PDFWriter = \PhpOffice\PhpWord\IOFactory::createWriter($Content,'HTML');
-        $PDFWriter->save(public_path('../resources/views/pdf/encoded.blade.php'));
-        $watermark = true;
-        $watermark_type = "TEXT";
-            if($watermark_type == "TEXT")
-            {
-            $watermark_content = "HRIDOY BUNDLE";
-
-            }else{
-            $watermark_content = public_path('logo.png');
-            }
-        $view['view'] = view('pdf.encoded')->render();
-        $pdf = MPDF::loadView('newDocsPdf', $view);
-        if($watermark_type == "TEXT")
-        {
-            $pdf->mpdf->SetWatermarkText('DRAFT');
-            $pdf->mpdf->showWatermarkText = true;
-
-
-        }else{
-
-            $pdf->SetWatermarkImage();
-        }
-        return $pdf->download('mnp.pdf');
-
-    }
-    public function convertImageToPDF(Request $request)
-    {
-            $data['image'] = ['img1.jpg','img2.jpg'];
-
-            $pdf = PDF::loadView('imgPdf', $data);
-            $pdf->setPaper('L');
-            $pdf->output();
-            $canvas = $pdf->getDomPDF()->getCanvas();
-
-            $height = $canvas->get_height();
-            $width = $canvas->get_width();
-
-            $canvas->set_opacity(.2,"Multiply");
-
-            $canvas->set_opacity(.2);
-
-            $canvas->page_text($width/5, $height/2, 'Nicesnippets.com', null,
-            55, array(0,0,0),2,2,-30);
-            return $pdf->download('mnp.pdf');
-    }
     public function delete($id)
     {
         $file = File::where('id',$id);
         if($file->count() > 0)
         {
             $file = $file->first();
-            unlink(public_path($file->filename));
+            unlink(public_path('pdf/'.$file->filename));
             $file->delete();
             return redirect()->back();
         }
@@ -113,7 +58,7 @@ class DocumentController extends Controller
     public function update(Request $request)
     {
         if (!file_exists(storage_path('app/public/files'))) {
-            mkdir(public_path('app/public/files'), 0777, true);
+            mkdir(storage_path('app/public/files'), 0777, true);
         }
         $filename = $request->file('file')->store('public/files');
         $bundle_id= $request->bundle_id;
@@ -133,7 +78,7 @@ class DocumentController extends Controller
                 \PhpOffice\PhpWord\Settings::setPdfRendererName('DomPDF');
 
                 //Load word file
-                $Content = \PhpOffice\PhpWord\IOFactory::load(storage_path("app/public/files".'\\'.$filename[2]));
+                $Content = \PhpOffice\PhpWord\IOFactory::load(storage_path("app/public/files/".$filename[2]));
 
                 //Save it into PDF
                  $PDFWriter = \PhpOffice\PhpWord\IOFactory::createWriter($Content,'HTML');
@@ -148,7 +93,7 @@ class DocumentController extends Controller
 
             $pdf = MPDF::loadView('newDocsPdf', $view);
             $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
-            unlink(public_path("../resources/views/pdf/".'\\'.$splitName[0].'.blade.php'));
+            unlink(public_path("../resources/views/pdf/".$splitName[0].'.blade.php'));
 
             }else if($splitName[1] == "jpe" || $splitName[1] == "jpeg" || $splitName[1] == "gif"  || $splitName[1] == "png"  || $splitName[1] == "JPG" || $splitName[1] == "jpg"  || $splitName[1] == "JPEG"  || $splitName[1] == "PNG" || $splitName[1] == "GIF")
             {
@@ -159,7 +104,7 @@ class DocumentController extends Controller
                 $pdf->setPaper('L');
                 // return $pdf->download('mnp.pdf');
                 $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
-                   unlink(storage_path("app/public/files".'\\'.$filename[2]));
+                   unlink(storage_path("app/public/files/".$filename[2]));
             }else{
             $sourcePath=storage_path("app/public/files/".$filename[2]);
             $destinationPath=public_path('pdf/'.$filename[2]);
@@ -178,7 +123,7 @@ class DocumentController extends Controller
     public function uploadDocuments(Request $request)
     {
         if (!file_exists(storage_path('app/public/files'))) {
-            mkdir(public_path('app/public/files'), 0777, true);
+            mkdir(storage_path('app/public/files'), 0777, true);
         }
         $filename = $request->file('file')->store('public/files');
         $bundle_id= $request->bundle_id;
@@ -193,7 +138,7 @@ class DocumentController extends Controller
             \PhpOffice\PhpWord\Settings::setPdfRendererName('DomPDF');
 
             //Load word file
-            $Content = \PhpOffice\PhpWord\IOFactory::load(storage_path("app/public/files".'\\'.$filename[2]));
+            $Content = \PhpOffice\PhpWord\IOFactory::load(storage_path("app/public/files/".$filename[2]));
 
 
             //Save it into PDF
@@ -209,7 +154,7 @@ class DocumentController extends Controller
 
             $pdf = MPDF::loadView('newDocsPdf', $view);
             $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
-            unlink(public_path("../resources/views/pdf/".'\\'.$splitName[0].'.blade.php'));
+            unlink(public_path("../resources/views/pdf/".$splitName[0].'.blade.php'));
 
         }else if($splitName[1] == "jpe" || $splitName[1] == "jpeg" || $splitName[1] == "gif"  || $splitName[1] == "png"  || $splitName[1] == "JPG" || $splitName[1] == "jpg"  || $splitName[1] == "JPEG"  || $splitName[1] == "PNG" || $splitName[1] == "GIF")
         {
@@ -220,7 +165,7 @@ class DocumentController extends Controller
             // return view('imgPdf', compact('image'));
             $pdf->setPaper('L');
             $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
-            unlink(storage_path("app/public/files".'\\'.$filename[2]));
+            unlink(storage_path("app/public/files/".$filename[2]));
         }else{
             $sourcePath=storage_path("app/public/files/".$filename[2]);
             $destinationPath=public_path('pdf/'.$filename[2]);
@@ -375,7 +320,31 @@ class DocumentController extends Controller
 
         // Output PDF with watermark
         $bundle = Bundle::where("id",$generated_pdf->bundle_id)->first();
-        $pdf->Output('D', $bundle->name.'.pdf');
+        if (!file_exists(public_path('bundle_pdf'))) {
+                mkdir(public_path('bundle_pdf'), 0777, true);
+            }
+        if (!file_exists(public_path('bundle_pdf/'.$bundle->name))) {
+                mkdir(public_path('bundle_pdf/'.$bundle->name), 0777, true);
+            }
+        if (!file_exists(public_path('bundle_zip'))) {
+                mkdir(public_path('bundle_zip'), 0777, true);
+            }
+        $pdf->Output('F', public_path('bundle_pdf/'.$bundle->name.'.pdf'));
+        $zip = new ZipArchive;
+        $fileName = $bundle->name.'.zip';
+        if ($zip->open(public_path('bundle_zip/'.$fileName), ZipArchive::CREATE) === TRUE)
+        {
+            $files = Files::file(public_path('bundle_pdf/'.$bundle->name));
+            dd($files);
+            foreach ($files as $key => $value) {
+                $relativeNameInZipFile = basename($value);
+                $zip->addFile($value, $relativeNameInZipFile);
+            }
+
+            $zip->close();
+        }
+
+        return response()->download(public_path($fileName));
     }
 
 }
