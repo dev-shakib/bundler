@@ -9,6 +9,7 @@ use App\Models\File;
 use App\Models\Section;
 use App\Models\generatedTable;
 use App\Models\Setting;
+use App\Models\Bundle;
 use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
 
 
@@ -265,7 +266,8 @@ class DocumentController extends Controller
                 $pdf->addPDF(public_path("pdf/".$f->filename), 'all');
             }
         }
-        $fileName = time().'.pdf';
+        $bundle = Bundle::where("id",$bundle_id)->first();
+        $fileName = $bundle->name.'.pdf';
         $pdf->merge();
          if (!file_exists(public_path('generated_pdf'))) {
                 mkdir(public_path('generated_pdf'), 0777, true);
@@ -274,7 +276,9 @@ class DocumentController extends Controller
         Session::flash('message', 'Bundle Generated Successfully');
         // foreach($sections as $sece)
         // {
-        //     unlink(public_path('pdf/section'.$sece->id.'.pdf'));
+        //     foreach($sec->files as $f){
+        //         unlink(public_path('pdf/'.$f->filename));
+        //     }
         // }
         generatedTable::create(['bundle_id'=>$bundle_id,'filename'=>$fileName]);
         return redirect()->back();
@@ -370,7 +374,8 @@ class DocumentController extends Controller
         unlink(public_path($name.'.png'));
 
         // Output PDF with watermark
-        $pdf->Output('D', 'my-document.pdf');
+        $bundle = Bundle::where("id",$generated_pdf->bundle_id)->first();
+        $pdf->Output('D', $bundle->name.'.pdf');
     }
 
 }
