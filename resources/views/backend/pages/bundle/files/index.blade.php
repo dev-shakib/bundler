@@ -18,11 +18,11 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item ">Bundle</li>
-                        <li class="breadcrumb-item ">Section</li>
-                        <li class="breadcrumb-item ">File</li>
-                        <li class="breadcrumb-item active">Index</li>
+                        <li class="breadcrumb-item"><a href="{{ route('public.home') }}">Home</a></li>
+                        <li class="breadcrumb-item "><a href="{{ route('bundle.index') }}">Bundle</a></li>
+                        <li class="breadcrumb-item "><a href="{{ route('bundle.show_single', [$section->bundle->slug, $section->bundle->id]) }}">{{ $section->bundle->name }}</a></li>
+                        <li class="breadcrumb-item ">{{ $section->name }}</a></li>
+                        <li class="breadcrumb-item active">File List</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->

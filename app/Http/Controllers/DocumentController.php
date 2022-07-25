@@ -37,7 +37,7 @@ class DocumentController extends Controller
     }
     public function show($bundle_id,$section_id,$id)
     {
-        $file = File::where('id',$id);
+        $file = File::with(['section','bundle'])->where('id',$id);
         if($file->count() > 0)
         {
             $file = $file->first();
@@ -86,7 +86,6 @@ class DocumentController extends Controller
                 mkdir(public_path('../resources/views/pdf'), 0777, true);
             }
             $PDFWriter->save(public_path('../resources/views/pdf/'. $splitName[0].'.blade.php'));
-            // $pdf = NPDF::loadFile(public_path('pdf/'. $splitName[0].'.pdf')); $pdf->save(public_path('file.pdf'));
 
             $view['view'] = view('pdf.'.$splitName[0])->render();
 
@@ -98,11 +97,9 @@ class DocumentController extends Controller
             }else if($splitName[1] == "jpe" || $splitName[1] == "jpeg" || $splitName[1] == "gif"  || $splitName[1] == "png"  || $splitName[1] == "JPG" || $splitName[1] == "jpg"  || $splitName[1] == "JPEG"  || $splitName[1] == "PNG" || $splitName[1] == "GIF")
             {
                 $data['image'] = [$filename[2]];
-                // $data['image'] = ['img1.jpg','img2.jpg'];
 
                 $pdf = PDF::loadView('imgPdf', $data);
                 $pdf->setPaper('L');
-                // return $pdf->download('mnp.pdf');
                 $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
                    unlink(storage_path("app/public/files/".$filename[2]));
             }else{
@@ -147,7 +144,6 @@ class DocumentController extends Controller
                 mkdir(public_path('../resources/views/pdf'), 0777, true);
             }
             $PDFWriter->save(public_path('../resources/views/pdf/'. $splitName[0].'.blade.php'));
-            // $pdf = NPDF::loadFile(public_path('pdf/'. $splitName[0].'.pdf')); $pdf->save(public_path('file.pdf'));
 
             $view['view'] = view('pdf.'.$splitName[0])->render();
 
@@ -159,10 +155,8 @@ class DocumentController extends Controller
         }else if($splitName[1] == "jpe" || $splitName[1] == "jpeg" || $splitName[1] == "gif"  || $splitName[1] == "png"  || $splitName[1] == "JPG" || $splitName[1] == "jpg"  || $splitName[1] == "JPEG"  || $splitName[1] == "PNG" || $splitName[1] == "GIF")
         {
             $image = [$filename[2]];
-            // $image = ['img1.jpg','img2.jpg'];
 
             $pdf = Pdf::loadView('imgPdf', compact('image'));
-            // return view('imgPdf', compact('image'));
             $pdf->setPaper('L');
             $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
             unlink(storage_path("app/public/files/".$filename[2]));
@@ -175,18 +169,15 @@ class DocumentController extends Controller
 
         }
         File::create(['filename'=>$splitName[0].'.pdf', 'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
-
-        // return "<script>window.location.href='".route('section.show',)."'</scrip>";
         return response()->json(['success'=>$splitName[0].'.pdf']);
     }
     public function create($bundle_id,$section_id)
     {
         $user = Auth::user();
-        $file = File::where('user_id',auth()->user()->id)->get();
+        $file = File::with(['section','bundle'])->where('user_id',auth()->user()->id)->first();
         if ($user->isAdmin()) {
             return view('backend.pages.dashboard');
         }
-
         return view('backend.pages.bundle.files.create',['file'=>$file,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
     }
     public function generate($bundle_id)
@@ -219,12 +210,6 @@ class DocumentController extends Controller
             }
         $pdf->save(public_path('generated_pdf/'.$fileName));
         Session::flash('message', 'Bundle Generated Successfully');
-        // foreach($sections as $sece)
-        // {
-        //     foreach($sec->files as $f){
-        //         unlink(public_path('pdf/'.$f->filename));
-        //     }
-        // }
         generatedTable::create(['bundle_id'=>$bundle_id,'filename'=>$fileName]);
         return redirect()->back();
     }
@@ -239,9 +224,11 @@ class DocumentController extends Controller
         $settings = Setting::where(['user_id'=>auth()->user()->id,'name'=>"watermark"])->first();
         $generated_pdf = generatedTable::where("id",$id)->first();
         $file = public_path('generated_pdf/'.$generated_pdf->filename);
-        $text = $settings->value;
-
-        // dd($file);
+        if(!is_null($settings)){
+            $text = $settings->value;
+        }else{
+            $text =env('APP_NAME');
+        }
         // Text font settings
         $name = uniqid();
         $font_size = 5;
@@ -257,11 +244,9 @@ class DocumentController extends Controller
         $em = imagefontwidth($font_size);
         $img = imagecreatetruecolor($width, $height);
 
-        // Background color
         $bg = imagecolorallocate($img, 255, 255, 255);
         imagefilledrectangle($img, 0, 0, $width, $height, $bg);
 
-        // Font color settings
         $color = imagecolorallocate($img, 0, 0, 0);
         foreach($ts as $k=>$string){
             $len = strlen($string);
@@ -283,11 +268,9 @@ class DocumentController extends Controller
             $op = 100;
         }
 
-        // Create watermark image
         imagecopymerge($blank, $img, 0, 0, 0, 0, $width, $height, $op);
         imagepng($blank, $name.".png");
 
-        // Set source PDF file
         $pdf = new Fpdi();
         if(file_exists($file)){
             $pagecount = $pdf->setSourceFile($file);
@@ -295,30 +278,31 @@ class DocumentController extends Controller
             die('Source PDF not found!');
         }
 
-        // Add watermark to PDF pages
         for($i=1;$i<=$pagecount;$i++){
             $tpl = $pdf->importPage($i);
             $size = $pdf->getTemplateSize($tpl);
             $pdf->addPage();
             $pdf->useTemplate($tpl, 1, 1, $size['width'], $size['height'], TRUE);
 
-            //Put the watermark
             $xxx_final = ($size['width']-50);
             $yyy_final = ($size['height']-25);
-            if($settings->type == "TEXT"){
-                $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
+            if(!is_null($settings)){
+                if($settings->type == "TEXT"){
+                    $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
+                }else{
+                    $xxx_final = ($size['width']-75);
+                    $yyy_final = ($size['height']-35);
+                    $image = public_path('watermark/'.$settings->value);
+                    $pdf->Image($image, $xxx_final, $yyy_final, 0, 0, 'png');
+                }
             }else{
-                $xxx_final = ($size['width']-75);
-                $yyy_final = ($size['height']-35);
-                $image = public_path('watermark/'.$settings->value);
-                $pdf->Image($image, $xxx_final, $yyy_final, 0, 0, 'png');
+                $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
 
             }
 
         }
         unlink(public_path($name.'.png'));
 
-        // Output PDF with watermark
         $bundle = Bundle::where("id",$generated_pdf->bundle_id)->first();
         if (!file_exists(public_path('bundle_pdf'))) {
                 mkdir(public_path('bundle_pdf'), 0777, true);
@@ -329,22 +313,25 @@ class DocumentController extends Controller
         if (!file_exists(public_path('bundle_zip'))) {
                 mkdir(public_path('bundle_zip'), 0777, true);
             }
-        $pdf->Output('D', $bundle->name.'.pdf');
-        // $zip = new ZipArchive;
-        // $fileName = $bundle->name.'.zip';
-        // if ($zip->open(public_path('bundle_zip/'.$fileName), ZipArchive::CREATE) === TRUE)
-        // {
-        //     $files = Files::file(public_path('bundle_pdf/'.$bundle->name));
-        //     dd($files);
-        //     foreach ($files as $key => $value) {
-        //         $relativeNameInZipFile = basename($value);
-        //         $zip->addFile($value, $relativeNameInZipFile);
-        //     }
+        $pdf->Output('F', public_path('bundle_pdf/'.$bundle->name.'/'.$bundle->name.'.pdf'));
+        if (!file_exists(public_path('bundle_zip/'.$bundle->name.'.zip'))) {
+            touch(public_path('bundle_zip/'.$bundle->name.'.zip'), strtotime('-1 days'));
+        }
+        $fileName = 'bundle_zip/'.$bundle->name.'.zip';
+            $zip = new ZipArchive;
+        if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
 
-        //     $zip->close();
-        // }
+            $files = Files::files(public_path('bundle_pdf/'.$bundle->name));
+            foreach ($files as $key => $value) {
+                $relativeNameInZipFile = basename($value);
+                $zip->addFile($value, $relativeNameInZipFile);
+            }
 
-        // return response()->download(public_path($fileName));
+            $zip->close();
+        }
+
+
+        return response()->download(public_path($fileName));
     }
 
 }

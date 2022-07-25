@@ -20,7 +20,9 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item ">Bundle</li>
+                        <li class="breadcrumb-item "><a href="{{ route("bundle.index") }}">Bundle</a></li>
+                        <li class="breadcrumb-item "><a href="{{ route('bundle.show_single', [$file->bundle->slug, $file->bundle->id]) }}">{{ $file->bundle->name }}</a></li>
+                        <li class="breadcrumb-item "><a href="{{ route('public.bundle.section.edit', [$file->bundle->id, $file->section->id]) }}">{{ $file->section->name }}</a></li>
                         <li class="breadcrumb-item active">Add</li>
                     </ol>
                 </div><!-- /.col -->

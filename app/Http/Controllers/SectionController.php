@@ -66,7 +66,7 @@ class SectionController extends Controller
             return view('backend.pages.dashboard');
         }
 
-        $section = Section::with('files')->where(['user_id'=>$user->id,"id"=>$id])->first();
+        $section = Section::with(['files','bundle'])->where(['user_id'=>$user->id,"id"=>$id])->first();
         return view('backend.pages.bundle.files.index',['section'=>$section]);
     }
 

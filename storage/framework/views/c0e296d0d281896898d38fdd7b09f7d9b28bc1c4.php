@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('template_title'); ?>
     <?php echo e(Auth::user()->name); ?>'s' Bundle
 <?php $__env->stopSection(); ?>
@@ -18,11 +16,11 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item ">Bundle</li>
-                        <li class="breadcrumb-item ">Section</li>
-                        <li class="breadcrumb-item ">File</li>
-                        <li class="breadcrumb-item active">Index</li>
+                        <li class="breadcrumb-item"><a href="<?php echo e(route('public.home')); ?>">Home</a></li>
+                        <li class="breadcrumb-item "><a href="<?php echo e(route('bundle.index')); ?>">Bundle</a></li>
+                        <li class="breadcrumb-item "><a href="<?php echo e(route('bundle.show_single', [$section->bundle->slug, $section->bundle->id])); ?>"><?php echo e($section->bundle->name); ?></a></li>
+                        <li class="breadcrumb-item "><?php echo e($section->name); ?></a></li>
+                        <li class="breadcrumb-item active">File List</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
