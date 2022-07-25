@@ -329,22 +329,22 @@ class DocumentController extends Controller
         if (!file_exists(public_path('bundle_zip'))) {
                 mkdir(public_path('bundle_zip'), 0777, true);
             }
-        $pdf->Output('F', public_path('bundle_pdf/'.$bundle->name.'.pdf'));
-        $zip = new ZipArchive;
-        $fileName = $bundle->name.'.zip';
-        if ($zip->open(public_path('bundle_zip/'.$fileName), ZipArchive::CREATE) === TRUE)
-        {
-            $files = Files::file(public_path('bundle_pdf/'.$bundle->name));
-            dd($files);
-            foreach ($files as $key => $value) {
-                $relativeNameInZipFile = basename($value);
-                $zip->addFile($value, $relativeNameInZipFile);
-            }
+        $pdf->Output('D', $bundle->name.'.pdf');
+        // $zip = new ZipArchive;
+        // $fileName = $bundle->name.'.zip';
+        // if ($zip->open(public_path('bundle_zip/'.$fileName), ZipArchive::CREATE) === TRUE)
+        // {
+        //     $files = Files::file(public_path('bundle_pdf/'.$bundle->name));
+        //     dd($files);
+        //     foreach ($files as $key => $value) {
+        //         $relativeNameInZipFile = basename($value);
+        //         $zip->addFile($value, $relativeNameInZipFile);
+        //     }
 
-            $zip->close();
-        }
+        //     $zip->close();
+        // }
 
-        return response()->download(public_path($fileName));
+        // return response()->download(public_path($fileName));
     }
 
 }
