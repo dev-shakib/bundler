@@ -12,7 +12,6 @@ class File extends Model
     protected $fillable = ['user_id','filename','mime_types','bundle_id','section_id'];
      public function bundle()
     {
-        dd("found");
        return $this->belongsTo(Bundle::class,'bundle_id','id');
     }
      public function section()
