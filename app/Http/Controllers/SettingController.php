@@ -14,8 +14,10 @@ class SettingController extends Controller
     public function index()
     {
         $user_id = auth()->user()->id;
-        $set = Setting::where(['user_id'=>$user_id,"name"=>"watermark"])->first();
-        return view("backend.pages.settings.index",['setting'=>$set]);
+        $set = Setting::where(['user_id'=>$user_id])->get();
+        $watermark = Setting::where(['user_id'=>$user_id,'name'=>"watermark"])->first();
+        $watermark_setting = Setting::where(['user_id'=>$user_id,'name'=>"watermark_setting"])->first();
+        return view("backend.pages.settings.index",['setting'=>$set,'watermark'=>$watermark,'watermark_setting'=>$watermark_setting]);
     }
 
     /**
@@ -39,11 +41,14 @@ class SettingController extends Controller
         $type = $request->type;
         $value = $request->values;
         $user_id = auth()->user()->id;
-        $co = Setting::where('user_id',$user_id);
         if($type == "TEXT")
         {
+            $setting_name ="watermark";
+            $co = Setting::where(['user_id'=>$user_id,'name'=>$setting_name]);
             $value = $value;
-        }else{
+        }else if($type == "IMG"){
+            $setting_name ="watermark";
+            $co = Setting::where(['user_id'=>$user_id,'name'=>$setting_name]);
             if($co->count() > 0)
             {
                 $setting = $co->first();
@@ -59,13 +64,18 @@ class SettingController extends Controller
                 $file-> move(public_path('watermark'), $filename);
                 $value = $filename;
             }
+        }else{
+            $type = "";
+            $setting_name = "watermark_setting";
+            $co = Setting::where(['user_id'=>$user_id,'name'=>$setting_name]);
+            $value = $value;
         }
 
         if($co->count() > 0){
-             Setting::where(["user_id"=>$user_id])->update(['type'=>$type,"name"=>"watermark",'value'=>$value,"type"=>$type]);
+             Setting::where(["user_id"=>$user_id,'name'=>$setting_name])->update(['type'=>$type,"name"=>$setting_name,'value'=>$value,"type"=>$type]);
         }else{
 
-            Setting::create(['type'=>$type,"name"=>"watermark","type"=>$type,'value'=>$value,"user_id"=>$user_id]);
+            Setting::create(['type'=>$type,"name"=>$setting_name,"type"=>$type,'value'=>$value,"user_id"=>$user_id]);
         }
         return redirect()->back();
     }
