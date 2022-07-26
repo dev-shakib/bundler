@@ -56,14 +56,6 @@
                           </p>
                       </a>
                   </li>
-                  <li class="nav-item {{ Request::is('setting*') ? 'menu-open' : null }}">
-                      <a href="{{ route('setting.index') }}" class="nav-link">
-                          <i class="nav-icon fas fa-cogs"></i>
-                          <p>
-                              SETTINGS
-                          </p>
-                      </a>
-                  </li>
                   @endrole
                   @role('admin')
                       <li class="nav-item">
@@ -87,13 +79,14 @@
                               <p> {!! trans('titles.adminNewUser') !!} </p>
                           </a>
                       </li>
-                      {{-- <li class="nav-item">
-                          <a class="nav-link {{ Request::is('activity') ? 'menu-open' : null }}"
-                              href="{{ url('/activity') }}">
-                              <i class="nav-icon fas fa-history"></i>
-                              <p> {!! trans('titles.adminActivity') !!}</p>
-                          </a>
-                      </li> --}}
+                      <li class="nav-item {{ Request::is('setting*') ? 'menu-open' : null }}">
+                        <a href="{{ route('setting.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-cogs"></i>
+                            <p>
+                                SETTINGS
+                            </p>
+                        </a>
+                    </li>
                   @endrole
               </ul>
           </nav>

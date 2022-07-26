@@ -46,14 +46,6 @@
                           </p>
                       </a>
                   </li>
-                  <li class="nav-item <?php echo e(Request::is('setting*') ? 'menu-open' : null); ?>">
-                      <a href="<?php echo e(route('setting.index')); ?>" class="nav-link">
-                          <i class="nav-icon fas fa-cogs"></i>
-                          <p>
-                              SETTINGS
-                          </p>
-                      </a>
-                  </li>
                   <?php endif; ?>
                   <?php if (Auth::check() && Auth::user()->hasRole('admin')): ?>
                       <li class="nav-item">
@@ -77,7 +69,14 @@
                               <p> <?php echo trans('titles.adminNewUser'); ?> </p>
                           </a>
                       </li>
-                      
+                      <li class="nav-item <?php echo e(Request::is('setting*') ? 'menu-open' : null); ?>">
+                        <a href="<?php echo e(route('setting.index')); ?>" class="nav-link">
+                            <i class="nav-icon fas fa-cogs"></i>
+                            <p>
+                                SETTINGS
+                            </p>
+                        </a>
+                    </li>
                   <?php endif; ?>
               </ul>
           </nav>

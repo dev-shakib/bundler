@@ -37,6 +37,57 @@
                 <section class="col-lg-12 connectedSortable">
                     <div class="card">
                         <div class="card-body">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Setting Name</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if(count($setting)>0): ?>
+                                        <?php $__currentLoopData = $setting; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
+                                        <?php if($item->name == "watermark_setting"): ?>
+                                        <tr>
+                                            <td>Watermark Setting</td>
+                                            <?php if($item->value == 1): ?>
+                                                <td>Enable</td>
+                                            <?php else: ?>
+                                                <td>Disabled</td>
+                                            <?php endif; ?>
+                                        </tr>
+                                        <?php endif; ?>
+                                        <?php if($watermark_setting->value == 1): ?>
+                                            <?php if($item->name == "watermark"): ?>
+                                            <tr>
+                                                <td><?php echo e($item->name); ?></td>
+                                                <?php if($item->type == "IMG"): ?>
+                                                <td><img src="<?php echo e(asset('watermark/'.$item->value)); ?>" class="img-responsive" alt="" ></td>
+                                                <?php else: ?>
+
+                                                <td><?php echo e($item->value); ?></td>
+                                                <?php endif; ?>
+
+                                            </tr>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td>Watermark</td>
+                                            <td>Disabled</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            Settings
+                        </div>
+                        <div class="card-body">
                             <?php if($errors->any()): ?>
                                 <div class="alert alert-danger">
                                     <ul>
@@ -50,24 +101,45 @@
                                 <?php echo csrf_field(); ?>
                                 <div class="row">
                                     <div class="col-sm-4">
-                                        <select class="form-control" name="type" id="type" required>
-                                            <option value="">SELECT A TYPE</option>
-                                            <option value="TEXT">TEXT</option>
-                                            <option value="IMG">IMAGE</option>
+                                        <select class="form-control" name="values"required>
+                                            <option value="">Watermark Option</option>
+                                            <option value="1"  <?php if(!is_null($watermark_setting)): ?> <?php if($watermark_setting->value == 1): ?> selected <?php endif; ?> <?php endif; ?>>Enable</option>
+                                            <option value="0"  <?php if(!is_null($watermark_setting)): ?> <?php if($watermark_setting->value == 2): ?> selected <?php endif; ?> <?php else: ?> selected <?php endif; ?>>Disabled</option>
                                         </select>
                                     </div>
-                                    <div class="col-sm-4" id="datas">
-                                        <div id="text">
-
-                                        </div>
-                                        <div id="img">
-
-                                        </div>
+                                    <div class="col-sm-4"><input type="submit" class="btn btn-success" value="Submit" />
                                     </div>
-                                    <div class="col-sm-4"><input type="submit" class="btn btn-success" value="Create" />
+                                    <div class="col-sm-12">
+                                        <br>
                                     </div>
                                 </div>
                             </form>
+                            <?php if(!is_null($watermark_setting)): ?>
+                             <?php if($watermark_setting->value == 1): ?>
+                                <form action="<?php echo e(route('setting.store')); ?>" method="post" enctype="multipart/form-data">
+                                    <?php echo csrf_field(); ?>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <select class="form-control" name="type" id="type" required>
+                                                <option value="">SELECT A TYPE</option>
+                                                <option value="TEXT">TEXT</option>
+                                                <option value="IMG">IMAGE</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4" id="datas">
+                                            <div id="text">
+
+                                            </div>
+                                            <div id="img">
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4"><input type="submit" class="btn btn-success" value="Submit" />
+                                        </div>
+                                    </div>
+                                </form>
+                            <?php endif; ?>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </section>
@@ -91,7 +163,7 @@
             if(values == "TEXT"){
 
                 $('#datas').show();
-                $('#text').append('<input type="text" name="values" <?php if(!is_null($setting)): ?> value="<?php echo e($setting->value); ?>" <?php endif; ?> class="form-control" id="" required>');
+                $('#text').append('<input type="text" name="values" <?php if(!is_null($watermark)): ?>  value="<?php echo e($watermark->value); ?>" <?php endif; ?> class="form-control" id="" required>');
                 $('#img').empty();
             }else{
                 $('#datas').show();
