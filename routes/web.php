@@ -58,22 +58,22 @@ Route::group(['middleware' => ['auth', 'activated', 'activity', 'twostep', 'chec
 
     //  Homepage Route - Redirect based on user role is in controller.
     Route::get('/home', ['as' => 'public.home',   'uses' => 'App\Http\Controllers\UserController@index']);
-    Route::get('/bundle/files/create/{bundle_id}/{section_id}', ['as' => 'public.bundle.files.create',   'uses' => 'App\Http\Controllers\DocumentController@create']);
+    Route::get('/bundle/files/create/number={bundle_id}/section={section_id}', ['as' => 'public.bundle.files.create',   'uses' => 'App\Http\Controllers\DocumentController@create']);
     Route::post('/bundle/files/store', ['as' => 'public.bundle.files.store',   'uses' => 'App\Http\Controllers\DocumentController@uploadDocuments']);
-    Route::get('/bundle/files/{bundle_id}/{section_id}/{id}', ['as' => 'public.bundle.files.show',   'uses' => 'App\Http\Controllers\DocumentController@show']);
+    Route::get('/bundle/files/number={bundle_id}/section={section_id}/file={id}', ['as' => 'public.bundle.files.show',   'uses' => 'App\Http\Controllers\DocumentController@show']);
     Route::post('/bundle/files/update', ['as' => 'public.bundle.files.update',   'uses' => 'App\Http\Controllers\DocumentController@update']);
 
     Route::post('/bundle/files/update-order',['as' => 'public.bundle.files.updateOrder',   'uses' => 'App\Http\Controllers\DocumentController@updateOrder']);
-    Route::get('/bundle/files/delete/{id}', ['as' => 'public.bundle.files.delete',   'uses' => 'App\Http\Controllers\DocumentController@delete']);
-    Route::get('/bundle/generate/{bundle_id}', ['as' => 'public.bundle.generate',   'uses' => 'App\Http\Controllers\DocumentController@generate']);
+    Route::get('/bundle/files/delete/file={id}', ['as' => 'public.bundle.files.delete',   'uses' => 'App\Http\Controllers\DocumentController@delete']);
+    Route::get('/bundle/generate/number={bundle_id}', ['as' => 'public.bundle.generate',   'uses' => 'App\Http\Controllers\DocumentController@generate']);
     Route::resource(
         'bundle',
         \App\Http\Controllers\BundleController::class,
 
     );
-    Route::get('/bundle/{bundle_name}/{bundle_id}', ['as' => 'bundle.show_single',   'uses' => 'App\Http\Controllers\BundleController@show']);
-    Route::get('/bundle/generated-bundle/bundle-list/{bundle_id}', ['as' => 'public.bundle.generated_bundle',   'uses' => 'App\Http\Controllers\BundleController@generated_bundle']);
-    Route::delete('/bundle/generated_bundle/{bundle_id}', ['as' => 'bundle.generated.destroy',   'uses' => 'App\Http\Controllers\BundleController@generated_destroy']);
+    Route::get('/bundle/{bundle_name}/number={bundle_id}', ['as' => 'bundle.show_single',   'uses' => 'App\Http\Controllers\BundleController@show']);
+    Route::get('/bundle/generated-bundle/bundle-list/number={bundle_id}', ['as' => 'public.bundle.generated_bundle',   'uses' => 'App\Http\Controllers\BundleController@generated_bundle']);
+    Route::delete('/bundle/generated_bundle/number={bundle_id}', ['as' => 'bundle.generated.destroy',   'uses' => 'App\Http\Controllers\BundleController@generated_destroy']);
     Route::resource(
         'setting',
         \App\Http\Controllers\SettingController::class,
@@ -84,8 +84,8 @@ Route::group(['middleware' => ['auth', 'activated', 'activity', 'twostep', 'chec
         \App\Http\Controllers\SectionController::class,
 
     );
-    Route::get('/bundle/section/edit/{bundle_id}/{section_id}', ['as' => 'public.bundle.section.edit',   'uses' => 'App\Http\Controllers\SectionController@edit']);
-    Route::get('/bundle/section/delete/{section_id}', ['as' => 'public.bundle.section.destroy',   'uses' => 'App\Http\Controllers\SectionController@destroy']);
+    Route::get('/bundle/section/edit/number={bundle_id}/section={section_id}', ['as' => 'public.bundle.section.edit',   'uses' => 'App\Http\Controllers\SectionController@edit']);
+    Route::get('/bundle/section/delete/section={section_id}', ['as' => 'public.bundle.section.destroy',   'uses' => 'App\Http\Controllers\SectionController@destroy']);
     Route::post('/bundle/section/update-order',['as' => 'public.bundle.section.updateOrder',   'uses' => 'App\Http\Controllers\SectionController@updateOrder']);
     // Show users profile - viewable by other users.
     Route::get('profile/{username}', [
