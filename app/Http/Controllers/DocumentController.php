@@ -174,11 +174,12 @@ class DocumentController extends Controller
     public function create($bundle_id,$section_id)
     {
         $user = Auth::user();
-        $file = File::with(['section','bundle'])->where('user_id',auth()->user()->id)->first();
+        $section = Section::with(['bundle'])->where('user_id',auth()->user()->id)->where('bundle_id',$bundle_id)->first();
+
         if ($user->isAdmin()) {
             return view('backend.pages.dashboard');
         }
-        return view('backend.pages.bundle.files.create',['file'=>$file,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
+        return view('backend.pages.bundle.files.create',['section'=>$section,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
     }
     public function generate($bundle_id)
     {
