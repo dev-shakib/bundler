@@ -125,7 +125,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(\App\Models\Profile::class)->withTimestamps();
     }
-
+    public function enrolledPackage()
+    {
+        return $this->hasOne(Enrol::class,"user_id",'id')->orderBy('id','desc');
+    }
     /**
      * Check if a user has a profile.
      *

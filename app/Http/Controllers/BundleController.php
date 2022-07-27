@@ -14,6 +14,7 @@ class BundleController extends Controller
     public function index()
     {
         $user = Auth::user();
+
         if ($user->isAdmin()) {
             return view('backend.pages.dashboard');
         }
@@ -104,11 +105,11 @@ class BundleController extends Controller
     }
     public function generated_destroy($id)
     {
-        $bundle = generatedTable::where('id',$id);
+        $bundle = generatedTable::with('bundle')->where('id',$id);
         if($bundle->count() > 0)
         {
             $file = $bundle->first();
-                unlink(public_path("generated_pdf/".$file->filename));
+                unlink(public_path("bundle_pdf/".$file->bundle->name.'/'.$file->filename));
                 generatedTable::where('id',$file->id)->delete();
             return redirect()->back();
         }else{

@@ -9,4 +9,8 @@ class Package extends Model
 {
     use HasFactory;
     protected $fillable = ['name','price'];
+    public function plan()
+    {
+        return $this->hasMany(Plan::class, 'package_id', 'id');
+    }
 }

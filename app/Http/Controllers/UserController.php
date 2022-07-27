@@ -28,7 +28,13 @@ class UserController extends Controller
         if ($user->isAdmin()) {
             return view('backend.pages.dashboard');
         }
-
+        $enrolled_package = auth()
+                          ->user()
+                          ->load('enrolledPackage')->enrolledPackage;
+        if(is_null($enrolled_package))
+        {
+            return redirect()->route('public.choosePlan');
+        }
         return view('backend.pages.dashboard');
     }
 

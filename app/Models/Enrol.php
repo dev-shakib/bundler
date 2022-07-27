@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Enrol extends Model
 {
     use HasFactory;
+    protected $fillable = ['package_id',"user_id"];
 }

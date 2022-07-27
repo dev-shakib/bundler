@@ -18,7 +18,7 @@ class ActivateController extends Controller
 {
     use ActivationTrait;
 
-    private static $userHomeRoute = 'public.home';
+    private static $userHomeRoute = 'public.choosePlan';
     private static $adminHomeRoute = 'public.home';
     private static $activationView = 'auth.activation';
     private static $activationRoute = 'activation-required';

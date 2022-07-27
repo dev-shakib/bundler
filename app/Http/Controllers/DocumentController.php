@@ -11,7 +11,7 @@ use App\Models\generatedTable;
 use App\Models\Setting;
 use App\Models\Bundle;
 use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
-
+use Carbon\Carbon;
 use ZipArchive;
 
 use NPDF;
@@ -112,7 +112,20 @@ class DocumentController extends Controller
         }
             $path = public_path('pdf/'.$splitName[0].'.pdf');
             $totalPage = $this->countPages($path);
-            File::where('id',$file_id)->update(['filename'=>$splitName[0].'.pdf', 'totalPage'=>$totalPage,'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
+            $enrolled_package = auth()
+                          ->user()
+                          ->load('enrolledPackage')->enrolledPackage;
+            if($enrolled_package->package_id == 1)
+            {
+                $days_after_file_delete = 100;
+            }elseif($enrolled_package->package_id == 2)
+            {
+                $days_after_file_delete = 730;
+            }else{
+                $days_after_file_delete = 1095;
+            }
+            $auto_delete_date = Carbon::now()->addDays($days_after_file_delete)->format('Y-m-d');
+            File::where('id',$file_id)->update(['filename'=>$splitName[0].'.pdf','auto_deleted_at'=>$auto_delete_date, 'totalPage'=>$totalPage,'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
 
             return response()->json(['success'=>$splitName[0].'.pdf']);
 
@@ -171,7 +184,20 @@ class DocumentController extends Controller
         }
         $path = public_path('pdf/'.$splitName[0].'.pdf');
         $totalPage = $this->countPages($path);
-        File::create(['filename'=>$splitName[0].'.pdf', 'totalPage'=>$totalPage,'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
+        $enrolled_package = auth()
+                          ->user()
+                          ->load('enrolledPackage')->enrolledPackage;
+        if($enrolled_package->package_id == 1)
+        {
+            $days_after_file_delete = 100;
+        }elseif($enrolled_package->package_id == 2)
+        {
+            $days_after_file_delete = 730;
+        }else{
+            $days_after_file_delete = 1095;
+        }
+         $auto_delete_date = Carbon::now()->addDays($days_after_file_delete)->format('Y-m-d');
+        File::create(['filename'=>$splitName[0].'.pdf','auto_deleted_at'=>$auto_delete_date,'totalPage'=>$totalPage,'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
         return response()->json(['success'=>$splitName[0].'.pdf']);
     }
     public function create($bundle_id,$section_id)
@@ -215,7 +241,20 @@ class DocumentController extends Controller
             }
         $pdf->save(public_path('generated_pdf/'.$fileName));
         Session::flash('message', 'Bundle Generated Successfully');
-        generatedTable::create(['bundle_id'=>$bundle_id,'filename'=>$fileName]);
+        $enrolled_package = auth()
+                          ->user()
+                          ->load('enrolledPackage')->enrolledPackage;
+        if($enrolled_package->package_id == 1)
+            {
+                $days_after_file_delete = 100;
+            }elseif($enrolled_package->package_id == 2)
+            {
+                $days_after_file_delete = 730;
+            }else{
+                $days_after_file_delete = 1095;
+            }
+            $auto_delete_date = Carbon::now()->addDays($days_after_file_delete)->format('Y-m-d');
+        generatedTable::create(['bundle_id'=>$bundle_id,'auto_deleted_at'=>$auto_delete_date,'filename'=>$fileName]);
         return redirect()->back();
     }
 
@@ -230,165 +269,303 @@ class DocumentController extends Controller
 
     public function watermark($id){
         // Source file and watermark config
-        $settings_watermark = Setting::where(['user_id'=>auth()->user()->id,'name'=>"watermark_setting"]);
-        if($settings_watermark->count() > 0)
-        {
-            $settings_watermark = $settings_watermark->first();
-        }else{
-            $settings_watermark->value = 0;
-        }
-        if($settings_watermark->value == 1)
-        {
-            $settings = Setting::where(['user_id'=>auth()->user()->id,'name'=>"watermark"])->first();
-            $generated_pdf = generatedTable::where("id",$id)->first();
-            $file = public_path('generated_pdf/'.$generated_pdf->filename);
-            if(!is_null($settings)){
-                $text = $settings->value;
-            }else{
+
+        $enrolled_package = auth()
+        ->user()
+        ->load('enrolledPackage')->enrolledPackage;
+        $generated_pdf = generatedTable::where("id",$id)->first();
+                $file = public_path('generated_pdf/'.$generated_pdf->filename);
+        if($enrolled_package->package_id == 1){
+
                 $text =env('APP_NAME');
-            }
-            // Text font settings
-            $name = uniqid();
-            $font_size = 5;
-            $opacity = 100;
-            $ts = explode("\n", $text);
-            $width = 0;
-            foreach($ts as $k=>$string){
-                $width = max($width, strlen($string));
-            }
-            $width  = imagefontwidth($font_size)*$width;
-            $height = imagefontheight($font_size)*count($ts);
-            $el = imagefontheight($font_size);
-            $em = imagefontwidth($font_size);
-            $img = imagecreatetruecolor($width, $height);
-
-            $bg = imagecolorallocate($img, 255, 255, 255);
-            imagefilledrectangle($img, 0, 0, $width, $height, $bg);
-
-            $color = imagecolorallocate($img, 0, 0, 0);
-            foreach($ts as $k=>$string){
-                $len = strlen($string);
-                $ypos = 0;
-                for($i=0;$i<$len;$i++){
-                    $xpos = $i * $em;
-                    $ypos = $k * $el;
-                    imagechar($img, $font_size, $xpos, $ypos, $string, $color);
-                    $string = substr($string, 1);
+                // Text font settings
+                $name = uniqid();
+                $font_size = 5;
+                $opacity = 100;
+                $ts = explode("\n", $text);
+                $width = 0;
+                foreach($ts as $k=>$string){
+                    $width = max($width, strlen($string));
                 }
-            }
-            imagecolortransparent($img, $bg);
-            $blank = imagecreatetruecolor($width, $height);
-            $tbg = imagecolorallocate($blank, 255, 255, 255);
-            imagefilledrectangle($blank, 0, 0, $width, $height, $tbg);
-            imagecolortransparent($blank, $tbg);
-            $op = !empty($opacity)?$opacity:100;
-            if ( ($op < 0) OR ($op >100) ){
-                $op = 100;
-            }
+                $width  = imagefontwidth($font_size)*$width;
+                $height = imagefontheight($font_size)*count($ts);
+                $el = imagefontheight($font_size);
+                $em = imagefontwidth($font_size);
+                $img = imagecreatetruecolor($width, $height);
 
-            imagecopymerge($blank, $img, 0, 0, 0, 0, $width, $height, $op);
-            imagepng($blank, $name.".png");
+                $bg = imagecolorallocate($img, 255, 255, 255);
+                imagefilledrectangle($img, 0, 0, $width, $height, $bg);
 
-            $pdf = new Fpdi();
-            if(file_exists($file)){
-                $pagecount = $pdf->setSourceFile($file);
-            }else{
-                die('Source PDF not found!');
-            }
-
-            for($i=1;$i<=$pagecount;$i++){
-                $tpl = $pdf->importPage($i);
-                $size = $pdf->getTemplateSize($tpl);
-                $pdf->addPage();
-                $pdf->useTemplate($tpl, 1, 1, $size['width'], $size['height'], TRUE);
-
-                $xxx_final = ($size['width']-50);
-                $yyy_final = ($size['height']-25);
-                if(!is_null($settings)){
-                    if($settings->type == "TEXT"){
-                        $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
-                    }else{
-                        $xxx_final = ($size['width']-75);
-                        $yyy_final = ($size['height']-35);
-                        $image = public_path('watermark/'.$settings->value);
-                        $pdf->Image($image, $xxx_final, $yyy_final, 0, 0, 'png');
+                $color = imagecolorallocate($img, 0, 0, 0);
+                foreach($ts as $k=>$string){
+                    $len = strlen($string);
+                    $ypos = 0;
+                    for($i=0;$i<$len;$i++){
+                        $xpos = $i * $em;
+                        $ypos = $k * $el;
+                        imagechar($img, $font_size, $xpos, $ypos, $string, $color);
+                        $string = substr($string, 1);
                     }
+                }
+                imagecolortransparent($img, $bg);
+                $blank = imagecreatetruecolor($width, $height);
+                $tbg = imagecolorallocate($blank, 255, 255, 255);
+                imagefilledrectangle($blank, 0, 0, $width, $height, $tbg);
+                imagecolortransparent($blank, $tbg);
+                $op = !empty($opacity)?$opacity:100;
+                if ( ($op < 0) OR ($op >100) ){
+                    $op = 100;
+                }
+
+                imagecopymerge($blank, $img, 0, 0, 0, 0, $width, $height, $op);
+                imagepng($blank, $name.".png");
+
+                $pdf = new Fpdi();
+                if(file_exists($file)){
+                    $pagecount = $pdf->setSourceFile($file);
                 }else{
+                    die('Source PDF not found!');
+                }
+
+                for($i=1;$i<=$pagecount;$i++){
+                    $tpl = $pdf->importPage($i);
+                    $size = $pdf->getTemplateSize($tpl);
+                    $pdf->addPage();
+                    $pdf->useTemplate($tpl, 1, 1, $size['width'], $size['height'], TRUE);
+
+                    $xxx_final = ($size['width']-50);
+                    $yyy_final = ($size['height']-25);
                     $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
 
+
+                }
+                unlink(public_path($name.'.png'));
+
+                $bundle = Bundle::where("id",$generated_pdf->bundle_id)->first();
+                if (!file_exists(public_path('bundle_pdf'))) {
+                        mkdir(public_path('bundle_pdf'), 0777, true);
+                    }
+                if (!file_exists(public_path('bundle_pdf/'.$bundle->name))) {
+                        mkdir(public_path('bundle_pdf/'.$bundle->name), 0777, true);
+                    }
+                if (!file_exists(public_path('bundle_zip'))) {
+                        mkdir(public_path('bundle_zip'), 0777, true);
+                    }
+                $pdf->Output('F', public_path('bundle_pdf/'.$bundle->name.'/'.$bundle->name.'.pdf'));
+
+                if (!file_exists(public_path('bundle_zip/'.$bundle->name.'.zip'))) {
+                    touch(public_path('bundle_zip/'.$bundle->name.'.zip'), strtotime('-1 days'));
+                }
+                $fileName = 'bundle_zip/'.$bundle->name.'.zip';
+                    $zip = new ZipArchive;
+                if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
+
+                    $files = Files::files(public_path('bundle_pdf/'.$bundle->name));
+                    foreach ($files as $key => $value) {
+                        $relativeNameInZipFile = basename($value);
+                        $zip->addFile($value, $relativeNameInZipFile);
+                    }
+
+                    $zip->close();
                 }
 
-            }
-            unlink(public_path($name.'.png'));
 
-            $bundle = Bundle::where("id",$generated_pdf->bundle_id)->first();
-            if (!file_exists(public_path('bundle_pdf'))) {
+                return response()->download(public_path($fileName));
+
+        }elseif($enrolled_package->package_id == 3){
+            $settings_watermark = Setting::where(['user_id'=>auth()->user()->id,'name'=>"watermark_setting"]);
+
+            if($settings_watermark->count() > 0)
+            {
+                $settings_watermark = $settings_watermark->first();
+            }else{
+                $settings_watermark->value = 0;
+            }
+            if($settings_watermark->value == 1)
+            {
+                $settings = Setting::where(['user_id'=>auth()->user()->id,'name'=>"watermark"])->first();
+                if(!is_null($settings)){
+                    $text = $settings->value;
+                }else{
+                    $text =env('APP_NAME');
+                }
+                // Text font settings
+                $name = uniqid();
+                $font_size = 5;
+                $opacity = 100;
+                $ts = explode("\n", $text);
+                $width = 0;
+                foreach($ts as $k=>$string){
+                    $width = max($width, strlen($string));
+                }
+                $width  = imagefontwidth($font_size)*$width;
+                $height = imagefontheight($font_size)*count($ts);
+                $el = imagefontheight($font_size);
+                $em = imagefontwidth($font_size);
+                $img = imagecreatetruecolor($width, $height);
+
+                $bg = imagecolorallocate($img, 255, 255, 255);
+                imagefilledrectangle($img, 0, 0, $width, $height, $bg);
+
+                $color = imagecolorallocate($img, 0, 0, 0);
+                foreach($ts as $k=>$string){
+                    $len = strlen($string);
+                    $ypos = 0;
+                    for($i=0;$i<$len;$i++){
+                        $xpos = $i * $em;
+                        $ypos = $k * $el;
+                        imagechar($img, $font_size, $xpos, $ypos, $string, $color);
+                        $string = substr($string, 1);
+                    }
+                }
+                imagecolortransparent($img, $bg);
+                $blank = imagecreatetruecolor($width, $height);
+                $tbg = imagecolorallocate($blank, 255, 255, 255);
+                imagefilledrectangle($blank, 0, 0, $width, $height, $tbg);
+                imagecolortransparent($blank, $tbg);
+                $op = !empty($opacity)?$opacity:100;
+                if ( ($op < 0) OR ($op >100) ){
+                    $op = 100;
+                }
+
+                imagecopymerge($blank, $img, 0, 0, 0, 0, $width, $height, $op);
+                imagepng($blank, $name.".png");
+
+                $pdf = new Fpdi();
+                if(file_exists($file)){
+                    $pagecount = $pdf->setSourceFile($file);
+                }else{
+                    die('Source PDF not found!');
+                }
+
+                for($i=1;$i<=$pagecount;$i++){
+                    $tpl = $pdf->importPage($i);
+                    $size = $pdf->getTemplateSize($tpl);
+                    $pdf->addPage();
+                    $pdf->useTemplate($tpl, 1, 1, $size['width'], $size['height'], TRUE);
+
+                    $xxx_final = ($size['width']-50);
+                    $yyy_final = ($size['height']-25);
+                    if(!is_null($settings)){
+                        if($settings->type == "TEXT"){
+                            $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
+                        }else{
+                            $xxx_final = ($size['width']-75);
+                            $yyy_final = ($size['height']-35);
+                            $image = public_path('watermark/'.$settings->value);
+                            $pdf->Image($image, $xxx_final, $yyy_final, 0, 0, 'png');
+                        }
+                    }else{
+                        $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
+
+                    }
+
+                }
+                unlink(public_path($name.'.png'));
+
+                $bundle = Bundle::where("id",$generated_pdf->bundle_id)->first();
+                if (!file_exists(public_path('bundle_pdf'))) {
+                        mkdir(public_path('bundle_pdf'), 0777, true);
+                    }
+                if (!file_exists(public_path('bundle_pdf/'.$bundle->name))) {
+                        mkdir(public_path('bundle_pdf/'.$bundle->name), 0777, true);
+                    }
+                if (!file_exists(public_path('bundle_zip'))) {
+                        mkdir(public_path('bundle_zip'), 0777, true);
+                    }
+                $pdf->Output('F', public_path('bundle_pdf/'.$bundle->name.'/'.$bundle->name.'.pdf'));
+
+                if (!file_exists(public_path('bundle_zip/'.$bundle->name.'.zip'))) {
+                    touch(public_path('bundle_zip/'.$bundle->name.'.zip'), strtotime('-1 days'));
+                }
+                $fileName = 'bundle_zip/'.$bundle->name.'.zip';
+                    $zip = new ZipArchive;
+                if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
+
+                    $files = Files::files(public_path('bundle_pdf/'.$bundle->name));
+                    foreach ($files as $key => $value) {
+                        $relativeNameInZipFile = basename($value);
+                        $zip->addFile($value, $relativeNameInZipFile);
+                    }
+
+                    $zip->close();
+                }
+
+
+                return response()->download(public_path($fileName));
+            }else{
+                $bundle = Bundle::where("id",$generated_pdf->bundle_id)->first();
+                if (!file_exists(public_path('bundle_pdf'))) {
                     mkdir(public_path('bundle_pdf'), 0777, true);
                 }
-            if (!file_exists(public_path('bundle_pdf/'.$bundle->name))) {
+                if (!file_exists(public_path('bundle_pdf/'.$bundle->name))) {
                     mkdir(public_path('bundle_pdf/'.$bundle->name), 0777, true);
                 }
-            if (!file_exists(public_path('bundle_zip'))) {
-                    mkdir(public_path('bundle_zip'), 0777, true);
+                $sourcePath= public_path('generated_pdf/'.$generated_pdf->filename);
+                $destinationPath=public_path('bundle_pdf/'.$bundle->name.'/'.$generated_pdf->filename);
+                if(Files::exists($sourcePath)){
+                    Files::move($sourcePath,$destinationPath);
                 }
-            $pdf->Output('F', public_path('bundle_pdf/'.$bundle->name.'/'.$bundle->name.'.pdf'));
+                if (!file_exists(public_path('bundle_zip'))) {
+                        mkdir(public_path('bundle_zip'), 0777, true);
+                    }
 
-            if (!file_exists(public_path('bundle_zip/'.$bundle->name.'.zip'))) {
-                touch(public_path('bundle_zip/'.$bundle->name.'.zip'), strtotime('-1 days'));
-            }
-            $fileName = 'bundle_zip/'.$bundle->name.'.zip';
-                $zip = new ZipArchive;
-            if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
-
-                $files = Files::files(public_path('bundle_pdf/'.$bundle->name));
-                foreach ($files as $key => $value) {
-                    $relativeNameInZipFile = basename($value);
-                    $zip->addFile($value, $relativeNameInZipFile);
+                if (!file_exists(public_path('bundle_zip/'.$bundle->name.'.zip'))) {
+                    touch(public_path('bundle_zip/'.$bundle->name.'.zip'), strtotime('-1 days'));
                 }
+                $fileName = 'bundle_zip/'.$bundle->name.'.zip';
+                    $zip = new ZipArchive;
+                if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
 
-                $zip->close();
-            }
+                    $files = Files::files(public_path('bundle_pdf/'.$bundle->name));
+                    foreach ($files as $key => $value) {
+                        $relativeNameInZipFile = basename($value);
+                        $zip->addFile($value, $relativeNameInZipFile);
+                    }
 
-
-            return response()->download(public_path($fileName));
-        }else{
-            $generated_pdf = generatedTable::where("id",$id)->first();
-            $file = public_path('generated_pdf/'.$generated_pdf->filename);
-            $bundle = Bundle::where("id",$generated_pdf->bundle_id)->first();
-            if (!file_exists(public_path('bundle_pdf'))) {
-                mkdir(public_path('bundle_pdf'), 0777, true);
-            }
-            if (!file_exists(public_path('bundle_pdf/'.$bundle->name))) {
-                mkdir(public_path('bundle_pdf/'.$bundle->name), 0777, true);
-            }
-            $sourcePath= public_path('generated_pdf/'.$generated_pdf->filename);
-            $destinationPath=public_path('bundle_pdf/'.$bundle->name.'/'.$generated_pdf->filename);
-            if(Files::exists($sourcePath)){
-                Files::move($sourcePath,$destinationPath);
-            }
-            if (!file_exists(public_path('bundle_zip'))) {
-                    mkdir(public_path('bundle_zip'), 0777, true);
+                    $zip->close();
                 }
 
-            if (!file_exists(public_path('bundle_zip/'.$bundle->name.'.zip'))) {
-                touch(public_path('bundle_zip/'.$bundle->name.'.zip'), strtotime('-1 days'));
+
+                return response()->download(public_path($fileName));
             }
-            $fileName = 'bundle_zip/'.$bundle->name.'.zip';
-                $zip = new ZipArchive;
-            if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
-
-                $files = Files::files(public_path('bundle_pdf/'.$bundle->name));
-                foreach ($files as $key => $value) {
-                    $relativeNameInZipFile = basename($value);
-                    $zip->addFile($value, $relativeNameInZipFile);
-                }
-
-                $zip->close();
-            }
-
-
-            return response()->download(public_path($fileName));
         }
+        else{
+                $bundle = Bundle::where("id",$generated_pdf->bundle_id)->first();
+                if (!file_exists(public_path('bundle_pdf'))) {
+                    mkdir(public_path('bundle_pdf'), 0777, true);
+                }
+                if (!file_exists(public_path('bundle_pdf/'.$bundle->name))) {
+                    mkdir(public_path('bundle_pdf/'.$bundle->name), 0777, true);
+                }
+                $sourcePath= public_path('generated_pdf/'.$generated_pdf->filename);
+                $destinationPath=public_path('bundle_pdf/'.$bundle->name.'/'.$generated_pdf->filename);
+                if(Files::exists($sourcePath)){
+                    Files::move($sourcePath,$destinationPath);
+                }
+                if (!file_exists(public_path('bundle_zip'))) {
+                        mkdir(public_path('bundle_zip'), 0777, true);
+                    }
+
+                if (!file_exists(public_path('bundle_zip/'.$bundle->name.'.zip'))) {
+                    touch(public_path('bundle_zip/'.$bundle->name.'.zip'), strtotime('-1 days'));
+                }
+                $fileName = 'bundle_zip/'.$bundle->name.'.zip';
+                    $zip = new ZipArchive;
+                if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
+
+                    $files = Files::files(public_path('bundle_pdf/'.$bundle->name));
+                    foreach ($files as $key => $value) {
+                        $relativeNameInZipFile = basename($value);
+                        $zip->addFile($value, $relativeNameInZipFile);
+                    }
+
+                    $zip->close();
+                }
+
+
+                return response()->download(public_path($fileName));
+            }
     }
 
 }

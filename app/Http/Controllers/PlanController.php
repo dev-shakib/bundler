@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Plan;
 use App\Models\Package;
+use App\Models\Enrol;
 use Illuminate\Http\Request;
 
 class PlanController extends Controller
@@ -90,9 +91,22 @@ class PlanController extends Controller
      * @param  \App\Models\Plan  $plan
      * @return \Illuminate\Http\Response
      */
+    public function choosePlan()
+    {
+        $package = Package::with('plan')->get();
+        return view('backend.pages.plan.choosePlan',['package'=>$package]);
+    }
+    public function enrolPackage($id)
+    {
+        $user = auth()->user()->id;
+        $package_id = $id;
+        Enrol::create(['user_id'=>$user,"package_id"=>$package_id]);
+        return redirect()->route('public.home');
+    }
     public function destroy($id)
     {
         $plan = Plan::where('id',$id)->delete();
+
         return redirect()->back();
     }
 }

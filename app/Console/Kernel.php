@@ -13,7 +13,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\FileDelete::class,
         Commands\DeleteExpiredActivations::class,
+
     ];
 
     /**
@@ -26,7 +28,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
 
+        $schedule->command('file:delete')->everyMinute();
         $schedule->command('activations:clean')->daily();
+
     }
 
     /**

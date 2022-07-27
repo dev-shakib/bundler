@@ -58,6 +58,8 @@ Route::group(['middleware' => ['auth', 'activated', 'activity', 'twostep', 'chec
 
     //  Homepage Route - Redirect based on user role is in controller.
     Route::get('/home', ['as' => 'public.home',   'uses' => 'App\Http\Controllers\UserController@index']);
+    Route::get('/choosePlan', ['as' => 'public.choosePlan',   'uses' => 'App\Http\Controllers\PlanController@choosePlan']);
+    Route::get('/choosePackage/{id}', ['as' => 'choosePackage',   'uses' => 'App\Http\Controllers\PlanController@enrolPackage']);
     Route::get('/bundle/files/create/number={bundle_id}/section={section_id}', ['as' => 'public.bundle.files.create',   'uses' => 'App\Http\Controllers\DocumentController@create']);
     Route::post('/bundle/files/store', ['as' => 'public.bundle.files.store',   'uses' => 'App\Http\Controllers\DocumentController@uploadDocuments']);
     Route::get('/bundle/files/number={bundle_id}/section={section_id}/file={id}', ['as' => 'public.bundle.files.show',   'uses' => 'App\Http\Controllers\DocumentController@show']);
