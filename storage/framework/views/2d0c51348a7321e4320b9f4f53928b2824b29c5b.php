@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('template_title'); ?>
     <?php echo e(Auth::user()->name); ?>'s' Bundle
 <?php $__env->stopSection(); ?>
@@ -46,6 +44,8 @@
                                     </ul>
                                 </div>
                             <?php endif; ?>
+
+                            <?php if(count($bundle) == 0): ?>
                             <form action="<?php echo e(route('bundle.store')); ?>" method="post">
                                 <?php echo csrf_field(); ?>
                                 <div class="row">
@@ -56,10 +56,12 @@
                                     </div>
                                 </div>
                             </form>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-body">
+
                             <?php if(Session::has('message')): ?>
                                 <div class="alert alert-success">
                                     <h4><?php echo e(Session::get('message')); ?></h4>
@@ -69,6 +71,7 @@
                                 <thead>
                                     <tr>
                                         <th>Bundle Name</th>
+                                        <th>Total Page</th>
                                         <th>Action</th>
 
                                     </tr>
@@ -81,14 +84,23 @@
 
                                             </td>
                                             <td>
+                                                <?php echo e($b->totalPages()); ?>
 
+                                            </td>
+                                            <td>
+                                                 <?php if($b->totalPages() > 60): ?>
+                                    <span class="text-danger">You do not have permission to generate bundle more then 60 pages</span><br>
+                            <?php endif; ?>
                                                 <a href="<?php echo e(route('bundle.show_single', [$b->slug, $b->id])); ?>"
                                                     class="btn btn-outline-primary"><i class="fa fa-eye"></i> VIEW</a>
                                                 <a href="<?php echo e(route('bundle.edit', $b->id)); ?>"
                                                     class="btn btn-outline-primary"><i class="fa fa-pencil"></i> RENAME</a>
-                                                <a href="<?php echo e(route('public.bundle.generate', [$b->id])); ?>"
+
+
+                                                <a href="<?php if($b->totalPages() < 60): ?><?php echo e(route('public.bundle.generate', [$b->id])); ?><?php else: ?> # <?php endif; ?>"
                                                     class="btn btn-outline-info">Generate Bundle</a>
-                                                <a href="<?php echo e(route('public.bundle.generated_bundle', [$b->id])); ?>"
+
+                                                <a href="<?php if($b->totalPages() < 60): ?><?php echo e(route('public.bundle.generated_bundle', [$b->id])); ?><?php else: ?> # <?php endif; ?>"
                                                     class="btn btn-outline-info">View Generated Bundle</a>
                                                 <form action="<?php echo e(route('bundle.destroy', [$b->id])); ?>" method="post">
                                                     <?php echo csrf_field(); ?>

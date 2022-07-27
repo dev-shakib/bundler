@@ -13,6 +13,10 @@ class Bundle extends Model
     {
        return $this->hasMany(Section::class,'bundle_id','id')->orderBy('sort_id','asc');
     }
+    public function totalPages()
+    {
+        return File::where('bundle_id',$this->id)->sum('totalPage');
+    }
     public function generated()
     {
        return $this->hasMany(generatedTable::class,'bundle_id','id');

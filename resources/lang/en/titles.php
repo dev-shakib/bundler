@@ -24,6 +24,11 @@ return [
     'adminEditUsers'    => 'Edit Users',
     'adminNewUser'      => 'Create New User',
 
+    'adminPackage'      =>  "Package",
+    'adminPackageCreate'      =>  "Package Create",
+    'adminPackageEdit'      =>  "Package Edit",
+    'adminPackageIndex'      =>  "Package List",
+
     'adminThemesList'   => 'Themes',
     'adminThemesAdd'    => 'Add New Theme',
 

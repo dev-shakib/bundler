@@ -65,7 +65,15 @@
     <script type="text/javascript">
         Dropzone.options.imageUpload = {
             maxFilesize: 1,
-            acceptedFiles: ".jpeg,.jpg,.png,.gif,.doc,.docx,.pdf"
+            acceptedFiles: ".jpeg,.jpg,.png,.gif,.doc,.docx,.pdf",
+            init: function() {
+                var home = "<?php echo e(route('section.show', [$section_id])); ?>";
+                //now we will submit the form when the button is clicked
+                this.on("success", function(files, response) {
+                    location.href = home; // this will redirect you when the file is added to dropzone
+                    //location.reload();
+                });
+            }
         };
     </script>
 <?php $__env->stopPush(); ?>

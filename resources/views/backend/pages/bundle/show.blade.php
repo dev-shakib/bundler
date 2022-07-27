@@ -51,6 +51,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Section Name</th>
+                                                <th>Total Page</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -59,6 +60,9 @@
                                                 <tr data-id="{{ $s->id }}">
                                                     <td>
                                                         {{ $s->name }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $s->files->sum('totalPage') }}
                                                     </td>
                                                     <td>
                                                         <a href="{{ route('public.bundle.section.edit', [$bundle->id, $s->id]) }}"

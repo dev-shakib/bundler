@@ -17,7 +17,7 @@ class BundleController extends Controller
         if ($user->isAdmin()) {
             return view('backend.pages.dashboard');
         }
-         $bundle = Bundle::where('user_id',$user->id)->get();
+         $bundle = Bundle::with('section')->where('user_id',$user->id)->get();
         return view('backend.pages.bundle.index',['bundle'=>$bundle]);
     }
     public function store(Request $request)

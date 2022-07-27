@@ -79,6 +79,13 @@
                               <p> {!! trans('titles.adminNewUser') !!} </p>
                           </a>
                       </li>
+                      <li class="nav-item">
+                          <a class="nav-link {{ Request::is('package*') ? 'menu-open' : null }}"
+                              href="{{ route('package.index') }}">
+                              <i class="nav-icon fas fa-plus"></i>
+                              <p> {!! trans('titles.adminPackage') !!} </p>
+                          </a>
+                      </li>
                       <li class="nav-item {{ Request::is('setting*') ? 'menu-open' : null }}">
                         <a href="{{ route('setting.index') }}" class="nav-link">
                             <i class="nav-icon fas fa-cogs"></i>

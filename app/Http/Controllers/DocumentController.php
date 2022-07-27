@@ -37,6 +37,7 @@ class DocumentController extends Controller
     }
     public function show($bundle_id,$section_id,$id)
     {
+
         $file = File::with(['section','bundle'])->where('id',$id);
         if($file->count() > 0)
         {
@@ -109,8 +110,9 @@ class DocumentController extends Controller
             }
 
         }
-
-            File::where('id',$file_id)->update(['filename'=>$splitName[0].'.pdf', 'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
+            $path = public_path('pdf/'.$splitName[0].'.pdf');
+            $totalPage = $this->countPages($path);
+            File::where('id',$file_id)->update(['filename'=>$splitName[0].'.pdf', 'totalPage'=>$totalPage,'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
 
             return response()->json(['success'=>$splitName[0].'.pdf']);
 
@@ -118,6 +120,7 @@ class DocumentController extends Controller
     }
     public function uploadDocuments(Request $request)
     {
+
         if (!file_exists(storage_path('app/public/files'))) {
             mkdir(storage_path('app/public/files'), 0777, true);
         }
@@ -166,11 +169,15 @@ class DocumentController extends Controller
             }
 
         }
-        File::create(['filename'=>$splitName[0].'.pdf', 'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
+        $path = public_path('pdf/'.$splitName[0].'.pdf');
+        $totalPage = $this->countPages($path);
+        File::create(['filename'=>$splitName[0].'.pdf', 'totalPage'=>$totalPage,'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
         return response()->json(['success'=>$splitName[0].'.pdf']);
     }
     public function create($bundle_id,$section_id)
     {
+
+
         $user = Auth::user();
         $section = Section::with(['bundle'])->where('user_id',auth()->user()->id)->where('bundle_id',$bundle_id)->first();
 
@@ -214,7 +221,11 @@ class DocumentController extends Controller
 
 
 
-
+    public function countPages($path) {
+        $pdftext = file_get_contents($path);
+        $num = preg_match_all("/\/Page\W/", $pdftext, $dummy);
+        return $num;
+    }
     //setWaterMark
 
     public function watermark($id){

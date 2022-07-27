@@ -46,6 +46,8 @@
                                     </ul>
                                 </div>
                             @endif
+
+                            @if(count($bundle) == 0)
                             <form action="{{ route('bundle.store') }}" method="post">
                                 @csrf
                                 <div class="row">
@@ -56,10 +58,12 @@
                                     </div>
                                 </div>
                             </form>
+                            @endif
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-body">
+
                             @if (Session::has('message'))
                                 <div class="alert alert-success">
                                     <h4>{{ Session::get('message') }}</h4>
@@ -69,6 +73,7 @@
                                 <thead>
                                     <tr>
                                         <th>Bundle Name</th>
+                                        <th>Total Page</th>
                                         <th>Action</th>
 
                                     </tr>
@@ -80,14 +85,22 @@
                                                 {{ $b->name }}
                                             </td>
                                             <td>
-
+                                                {{ $b->totalPages() }}
+                                            </td>
+                                            <td>
+                                                 @if($b->totalPages() > 60)
+                                    <span class="text-danger">You do not have permission to generate bundle more then 60 pages</span><br>
+                            @endif
                                                 <a href="{{ route('bundle.show_single', [$b->slug, $b->id]) }}"
                                                     class="btn btn-outline-primary"><i class="fa fa-eye"></i> VIEW</a>
                                                 <a href="{{ route('bundle.edit', $b->id) }}"
                                                     class="btn btn-outline-primary"><i class="fa fa-pencil"></i> RENAME</a>
-                                                <a href="{{ route('public.bundle.generate', [$b->id]) }}"
+
+
+                                                <a href="@if($b->totalPages() < 60){{ route('public.bundle.generate', [$b->id]) }}@else # @endif"
                                                     class="btn btn-outline-info">Generate Bundle</a>
-                                                <a href="{{ route('public.bundle.generated_bundle', [$b->id]) }}"
+
+                                                <a href="@if($b->totalPages() < 60){{ route('public.bundle.generated_bundle', [$b->id]) }}@else # @endif"
                                                     class="btn btn-outline-info">View Generated Bundle</a>
                                                 <form action="{{ route('bundle.destroy', [$b->id]) }}" method="post">
                                                     @csrf

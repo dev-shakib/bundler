@@ -134,6 +134,11 @@ Route::group(['middleware' => ['auth', 'activated', 'currentUser', 'activity', '
 
 // Registered, activated, and is admin routes.
 Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 'twostep', 'checkblocked']], function () {
+    Route::resource('package', \App\Http\Controllers\PackageController::class);
+    Route::resource('plan', \App\Http\Controllers\PlanController::class);
+    Route::post('plan/store/{id}', ['as'=> "plan.storeById" ,'uses'=> '\App\Http\Controllers\PlanController@store']);
+    Route::get('plan/delete/{id}', ['as'=> "plan.destroy" ,'uses'=> '\App\Http\Controllers\PlanController@destroy']);
+
     Route::resource('/users/deleted', \App\Http\Controllers\SoftDeletesController::class, [
         'only' => [
             'index', 'show', 'update', 'destroy',
