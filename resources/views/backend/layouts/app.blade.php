@@ -93,12 +93,12 @@
     <script src="{{ asset('admin/') }}/js/demo.js"></script>
     <!-- Custom js for a perticular page -->
     @stack('custom-script')
-    @if (config('settings.googleMapsAPIStatus'))
+    {{-- @if (config('settings.googleMapsAPIStatus'))
         {!! HTML::script(
             '//maps.googleapis.com/maps/api/js?key=' . config('settings.googleMapsAPIKey') . '&libraries=places&dummy=.js',
             ['type' => 'text/javascript'],
         ) !!}
-    @endif
+    @endif --}}
     @yield('footer_scripts')
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('admin/') }}/js/pages/dashboard.js"></script>
