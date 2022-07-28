@@ -63,7 +63,9 @@ return [
         'updated'   => 'Updated',
         'actions'   => 'Actions',
         'updated'   => 'Updated',
+        'plan' =>"Plan",
     ],
+
 
     'buttons' => [
         'create-new'    => 'New User',

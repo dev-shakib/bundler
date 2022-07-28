@@ -33,9 +33,9 @@ class UsersManagementController extends Controller
     {
         $paginationEnabled = config('usersmanagement.enablePagination');
         if ($paginationEnabled) {
-            $users = User::paginate(config('usersmanagement.paginateListSize'));
+            $users = User::with('enrolledPackage')->paginate(config('usersmanagement.paginateListSize'));
         } else {
-            $users = User::all();
+            $users = User::with('enrolledPackage')->get();
         }
         $roles = Role::all();
 

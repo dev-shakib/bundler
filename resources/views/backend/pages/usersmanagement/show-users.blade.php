@@ -82,6 +82,7 @@
                                         <th class="hidden-xs">{!! trans('usersmanagement.users-table.fname') !!}</th>
                                         <th class="hidden-xs">{!! trans('usersmanagement.users-table.lname') !!}</th>
                                         <th>{!! trans('usersmanagement.users-table.role') !!}</th>
+                                        <th>{!! trans('usersmanagement.users-table.plan') !!}</th>
                                         <th class="hidden-sm hidden-xs hidden-md">{!! trans('usersmanagement.users-table.created') !!}</th>
                                         <th class="hidden-sm hidden-xs hidden-md">{!! trans('usersmanagement.users-table.updated') !!}</th>
                                         <th>{!! trans('usersmanagement.users-table.actions') !!}</th>
@@ -112,6 +113,11 @@
                                                     <span
                                                         class="badge badge-{{ $badgeClass }}">{{ $user_role->name }}</span>
                                                 @endforeach
+                                            </td>
+                                            <td>
+                                                @if (!is_null($user->enrolledPackage))
+                                                    {{ $user->enrolledPackage->package->name }}
+                                                @endif
                                             </td>
                                             <td class="hidden-sm hidden-xs hidden-md">{{ $user->created_at }}</td>
                                             <td class="hidden-sm hidden-xs hidden-md">{{ $user->updated_at }}</td>

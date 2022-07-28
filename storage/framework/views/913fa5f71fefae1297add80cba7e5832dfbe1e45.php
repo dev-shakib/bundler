@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('template_title'); ?>
     <?php echo trans('usersmanagement.showing-all-users'); ?>
 
@@ -88,6 +86,7 @@
                                         <th class="hidden-xs"><?php echo trans('usersmanagement.users-table.fname'); ?></th>
                                         <th class="hidden-xs"><?php echo trans('usersmanagement.users-table.lname'); ?></th>
                                         <th><?php echo trans('usersmanagement.users-table.role'); ?></th>
+                                        <th><?php echo trans('usersmanagement.users-table.plan'); ?></th>
                                         <th class="hidden-sm hidden-xs hidden-md"><?php echo trans('usersmanagement.users-table.created'); ?></th>
                                         <th class="hidden-sm hidden-xs hidden-md"><?php echo trans('usersmanagement.users-table.updated'); ?></th>
                                         <th><?php echo trans('usersmanagement.users-table.actions'); ?></th>
@@ -118,6 +117,12 @@
                                                     <span
                                                         class="badge badge-<?php echo e($badgeClass); ?>"><?php echo e($user_role->name); ?></span>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            </td>
+                                            <td>
+                                                <?php if(!is_null($user->enrolledPackage)): ?>
+                                                    <?php echo e($user->enrolledPackage->package->name); ?>
+
+                                                <?php endif; ?>
                                             </td>
                                             <td class="hidden-sm hidden-xs hidden-md"><?php echo e($user->created_at); ?></td>
                                             <td class="hidden-sm hidden-xs hidden-md"><?php echo e($user->updated_at); ?></td>
