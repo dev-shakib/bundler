@@ -51,6 +51,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Section Name</th>
+                                                <th>Total Page</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -59,6 +60,10 @@
                                                 <tr data-id="<?php echo e($s->id); ?>">
                                                     <td>
                                                         <?php echo e($s->name); ?>
+
+                                                    </td>
+                                                    <td>
+                                                        <?php echo e($s->files->sum('totalPage')); ?>
 
                                                     </td>
                                                     <td>

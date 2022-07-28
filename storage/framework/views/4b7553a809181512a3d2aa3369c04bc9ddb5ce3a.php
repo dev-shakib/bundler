@@ -50,6 +50,7 @@
                                 <thead>
                                     <tr>
                                         <th>File Name</th>
+                                        <th>Page</th>
                                         <th width="10%"></th>
                                     </tr>
                                 </thead>
@@ -61,6 +62,7 @@
                                         <tr data-id="<?php echo e($f->id); ?>">
 
                                             <td><span class="handle"></span><?php echo e($filename[0] . '.' . $f->mime_types); ?></td>
+                                            <td><?php echo e($f->totalPage); ?></td>
                                             <td>
                                                 <a href="<?php echo e(route('public.bundle.files.show', [$section->bundle_id, $section->id, $f->id])); ?>"
                                                     class="btn btn-outline-info"><i class="fa fa-eye"></i> EDIT</a>
