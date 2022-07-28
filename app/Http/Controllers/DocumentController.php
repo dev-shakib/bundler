@@ -369,6 +369,7 @@ class DocumentController extends Controller
 
 
                 }
+                // dd(unlink(public_path($name.'.png')));
                 unlink(public_path($name.'.png'));
 
                 $bundle = Bundle::where("id",$generated_pdf->bundle_id)->first();

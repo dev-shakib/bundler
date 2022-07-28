@@ -14,9 +14,9 @@ class PackageSeeder extends Seeder
      */
     public function run()
     {
-        $p1 = Package::create(['name'=>'FREE']);
-        $p2 = Package::create(['name'=>'PAYG']);
-        $p3 = Package::create(['name'=>'UNLIMITED']);
+        $p1 = Package::create(['name'=>'FREE','price'=>0]);
+        $p2 = Package::create(['name'=>'PAYG','price'=>10]);
+        $p3 = Package::create(['name'=>'UNLIMITED','price'=>50]);
 
         Plan::create(['name'=>'Limit bundle to 60 pages','package_id'=>$p1->id]);
         Plan::create(['name'=>'Watermark at every page','package_id'=>$p1->id]);

@@ -60,6 +60,14 @@ Route::group(['middleware' => ['auth', 'activated', 'activity', 'twostep', 'chec
     Route::get('/home', ['as' => 'public.home',   'uses' => 'App\Http\Controllers\UserController@index']);
     Route::get('/choosePlan', ['as' => 'public.choosePlan',   'uses' => 'App\Http\Controllers\PlanController@choosePlan']);
     Route::get('/choosePackage/{id}', ['as' => 'choosePackage',   'uses' => 'App\Http\Controllers\PlanController@enrolPackage']);
+    Route::get('/paymentPage/{id}/{price}', ['as' => 'payment.index',   'uses' => 'App\Http\Controllers\PaymentController@index']);
+    Route::post('/payment/paypal', ['as' => 'payment.paypal',   'uses' => 'App\Http\Controllers\PaypalController@payment']);
+    Route::get('/payment/paypal/success/{package_id}', ['as' => 'payment.success',   'uses' => 'App\Http\Controllers\PaypalController@success']);
+    Route::post('/payment/paypal/cancel', ['as' => 'payment.cancel',   'uses' => 'App\Http\Controllers\PaypalController@paymentCancel']);
+    Route::get('/payment/strippe/index', ['as' => 'payment.strippe.index',   'uses' => 'App\Http\Controllers\StripeController@index']);
+    Route::post('/payment/strippe', ['as' => 'payment.strippe',   'uses' => 'App\Http\Controllers\StripeController@charge']);
+    Route::post('/payment/stripe/success', ['as' => 'payment.strippe.success',   'uses' => 'App\Http\Controllers\StripeController@confirm']);
+    Route::post('/payment/stripe/cancel', ['as' => 'payment.strippe.cancel',   'uses' => 'App\Http\Controllers\StripeController@paymentCancel']);
     Route::get('/bundle/files/create/number={bundle_id}/section={section_id}', ['as' => 'public.bundle.files.create',   'uses' => 'App\Http\Controllers\DocumentController@create']);
     Route::post('/bundle/files/store', ['as' => 'public.bundle.files.store',   'uses' => 'App\Http\Controllers\DocumentController@uploadDocuments']);
     Route::get('/bundle/files/number={bundle_id}/section={section_id}/file={id}', ['as' => 'public.bundle.files.show',   'uses' => 'App\Http\Controllers\DocumentController@show']);

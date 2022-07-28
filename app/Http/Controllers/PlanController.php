@@ -6,7 +6,7 @@ use App\Models\Plan;
 use App\Models\Package;
 use App\Models\Enrol;
 use Illuminate\Http\Request;
-
+use Srmklive\PayPal\Services\PayPal as PayPalClient;
 class PlanController extends Controller
 {
     /**
@@ -96,6 +96,7 @@ class PlanController extends Controller
         $package = Package::with('plan')->get();
         return view('backend.pages.plan.choosePlan',['package'=>$package]);
     }
+
     public function enrolPackage($id)
     {
         $user = auth()->user()->id;

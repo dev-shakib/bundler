@@ -97,6 +97,7 @@ class BundleController extends Controller
             {
                 $generated_pdf = generatedTable::where('bundle_id',$b->id)->first();
                 unlink(public_path("generated_pdf/".$generated_pdf->filename));
+                unlink(public_path("bundle_pdf/".$b->name."/".$b->name.'.zip'));
                 unlink(public_path("bundle_zip/".$b->name.'.zip'));
                generatedTable::where('bundle_id',$b->id)->delete();
             }
