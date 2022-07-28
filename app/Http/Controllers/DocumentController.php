@@ -281,8 +281,17 @@ class DocumentController extends Controller
         $generated_pdf = generatedTable::where("id",$id)->first();
                 $file = public_path('generated_pdf/'.$generated_pdf->filename);
         if($enrolled_package->package_id == 1){
-
-                $text =env('APP_NAME');
+                $admin_setting = Setting::where(['type'=>"admin",'name'=>"watermark_setting"])->first();
+                if(!is_null($admin_setting) && $admin_setting->value == 1){
+                    $settings = Setting::where(['name'=>"watermark"])->first();
+                    if(!is_null($settings)){
+                        $text = $settings->value;
+                    }else{
+                        $text =env('APP_NAME');
+                    }
+                }else{
+                    $text =env('APP_NAME');
+                }
                 // Text font settings
                 $name = uniqid();
                 $font_size = 5;
@@ -340,7 +349,23 @@ class DocumentController extends Controller
 
                     $xxx_final = ($size['width']-50);
                     $yyy_final = ($size['height']-25);
+                    if(!is_null($admin_setting) && $admin_setting->value == 1){
+                   if(!is_null($settings)){
+                        if($settings->type == "TEXT"){
+                            $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
+                        }else{
+                            $xxx_final = ($size['width']-75);
+                            $yyy_final = ($size['height']-25);
+                            $image = public_path('watermark/'.$settings->value);
+                            $pdf->Image($image, $xxx_final, $yyy_final, 0, 0, 'png');
+                        }
+                    }else{
+                        $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
+
+                    }
+                }else{
                     $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
+                }
 
 
                 }

@@ -72,7 +72,12 @@ class SettingController extends Controller
                 $value = $input['imagename'];
             }
         }else{
+
             $type = "";
+            foreach(auth()->user()->roles as $role)
+            {
+                $type = $role->slug;
+            }
             $setting_name = "watermark_setting";
             $co = Setting::where(['user_id'=>$user_id,'name'=>$setting_name]);
             $value = $value;
