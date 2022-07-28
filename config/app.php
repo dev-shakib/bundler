@@ -181,6 +181,7 @@ return [
         Webklex\PDFMerger\Providers\PDFMergerServiceProvider::class,
         Jorenvh\Share\Providers\ShareServiceProvider::class,
         Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
     ],
 
     /*
@@ -241,6 +242,7 @@ return [
         'MPDF' => Meneses\LaravelMpdf\Facades\LaravelMpdf::class,
         'PDFMerger' => Webklex\PDFMerger\Facades\PDFMergerFacade::class,
         'Share' => Jorenvh\Share\ShareFacade::class,
+        'Image' => Intervention\Image\Facades\Image::class,
     ],
 
 ];

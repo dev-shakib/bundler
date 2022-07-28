@@ -57,6 +57,21 @@
                               </li>
                           </ul>
                       </li>
+                      <?php
+                      $enrolled_package = auth()
+                          ->user()
+                          ->load('enrolledPackage')->enrolledPackage;
+                  ?>
+                  <?php if($enrolled_package->package_id == 3): ?>
+                      <li class="nav-item <?php echo e(Request::is('setting*') ? 'menu-open' : null); ?>">
+                          <a href="<?php echo e(route('setting.index')); ?>" class="nav-link">
+                              <i class="nav-icon fas fa-cogs"></i>
+                              <p>
+                                  SETTINGS
+                              </p>
+                          </a>
+                      </li>
+                  <?php endif; ?>
                   <?php endif; ?>
                   <?php if (Auth::check() && Auth::user()->hasRole('admin')): ?>
                       <li class="nav-item">
@@ -126,21 +141,6 @@
 
                       </ul>
                   </li>
-                  <?php
-                      $enrolled_package = auth()
-                          ->user()
-                          ->load('enrolledPackage')->enrolledPackage;
-                  ?>
-                  <?php if($enrolled_package->package_id == 3): ?>
-                      <li class="nav-item <?php echo e(Request::is('setting*') ? 'menu-open' : null); ?>">
-                          <a href="<?php echo e(route('setting.index')); ?>" class="nav-link">
-                              <i class="nav-icon fas fa-cogs"></i>
-                              <p>
-                                  SETTINGS
-                              </p>
-                          </a>
-                      </li>
-                  <?php endif; ?>
                   <li class="nav-item">
                       <a href="<?php echo e(route('logout')); ?>" class="nav-link"
                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

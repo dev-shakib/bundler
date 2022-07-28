@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Setting;
+use Intervention\Image\ImageManagerStatic as Image;
 class SettingController extends Controller
 {
     /**
@@ -38,6 +39,7 @@ class SettingController extends Controller
      */
     public function store(Request $request)
     {
+
         $type = $request->type;
         $value = $request->values;
         $user_id = auth()->user()->id;
@@ -58,11 +60,16 @@ class SettingController extends Controller
                 }
             }
             if($request->file('values')){
+                if (!file_exists(public_path('watermark'))) {
+                    mkdir(public_path('watermark'), 0777, true);
+                }
                 $file= $request->file('values');
-                $extension = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
-                $filename= date('YmdHi').'.'.$extension;
-                $file-> move(public_path('watermark'), $filename);
-                $value = $filename;
+                $input['imagename'] = time().'.'.$file->getClientOriginalExtension();
+
+                $destinationPath = public_path('watermark');
+                Image::configure(array('driver' => 'gd'));
+                $img = Image::make($file->getRealPath())->resize(267, 104)->save($destinationPath.'/'.$input['imagename']);
+                $value = $input['imagename'];
             }
         }else{
             $type = "";

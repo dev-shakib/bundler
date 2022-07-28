@@ -81,7 +81,7 @@
                                     </form>
                                 <?php endif; ?>
                             <?php elseif($enrolled_package->package_id == 2): ?>
-                                <?php if(count($bundle) <= 5): ?>
+                                <?php if(intval(count($bundle)) < 5): ?>
                                     <form action="<?php echo e(route('bundle.store')); ?>" method="post">
                                         <?php echo csrf_field(); ?>
                                         <div class="row">

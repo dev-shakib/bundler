@@ -48,6 +48,8 @@ class FileDelete extends Command
         $generated_pdf = DB::table('generated_bundle')->whereDate('auto_deleted_at', Carbon::now()->format('Y-m-d'))->get();
         foreach($generated_pdf as $generated)
         {
+            $bundle = DB::table('bundles')->where('id',$generated->bundle_id)->first();
+            unlink(public_path('bundle_zip/'.$bundle->name.'.zip'));
             unlink(public_path('generated_pdf/'.$generated->filename));
             DB::table('generated_bundle')->where('id',$generated->id)->delete();
         }

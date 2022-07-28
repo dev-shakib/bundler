@@ -83,7 +83,7 @@
                                     </form>
                                 @endif
                             @elseif($enrolled_package->package_id == 2)
-                                @if (count($bundle) <= 5)
+                                @if (intval(count($bundle)) < 5)
                                     <form action="{{ route('bundle.store') }}" method="post">
                                         @csrf
                                         <div class="row">

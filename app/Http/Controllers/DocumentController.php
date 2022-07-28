@@ -13,6 +13,7 @@ use App\Models\Bundle;
 use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
 use Carbon\Carbon;
 use ZipArchive;
+use Image;
 
 use NPDF;
 use Auth;
@@ -137,6 +138,9 @@ class DocumentController extends Controller
         if (!file_exists(storage_path('app/public/files'))) {
             mkdir(storage_path('app/public/files'), 0777, true);
         }
+        if (!file_exists(public_path('pdf'))) {
+            mkdir(public_path('pdf'), 0777, true);
+        }
         $filename = $request->file('file')->store('public/files');
         $bundle_id= $request->bundle_id;
         $section_id= $request->section_id;
@@ -161,7 +165,7 @@ class DocumentController extends Controller
             $PDFWriter->save(public_path('../resources/views/pdf/'. $splitName[0].'.blade.php'));
 
             $view['view'] = view('pdf.'.$splitName[0])->render();
-
+            $vew['view'] = str_replace("PHPWord","",$view['view']);
 
             $pdf = MPDF::loadView('newDocsPdf', $view);
             $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
@@ -205,7 +209,7 @@ class DocumentController extends Controller
 
 
         $user = Auth::user();
-        $section = Section::with(['bundle'])->where('user_id',auth()->user()->id)->where('bundle_id',$bundle_id)->first();
+        $section = Section::with(['bundle'])->where('user_id',auth()->user()->id)->where(['bundle_id'=>$bundle_id,'id'=>$section_id])->first();
 
         if ($user->isAdmin()) {
             return view('backend.pages.dashboard');
@@ -255,6 +259,7 @@ class DocumentController extends Controller
             }
             $auto_delete_date = Carbon::now()->addDays($days_after_file_delete)->format('Y-m-d');
         generatedTable::create(['bundle_id'=>$bundle_id,'auto_deleted_at'=>$auto_delete_date,'filename'=>$fileName]);
+
         return redirect()->back();
     }
 
@@ -445,13 +450,13 @@ class DocumentController extends Controller
                     $pdf->useTemplate($tpl, 1, 1, $size['width'], $size['height'], TRUE);
 
                     $xxx_final = ($size['width']-50);
-                    $yyy_final = ($size['height']-25);
+                    $yyy_final = ($size['height']-5);
                     if(!is_null($settings)){
                         if($settings->type == "TEXT"){
                             $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
                         }else{
                             $xxx_final = ($size['width']-75);
-                            $yyy_final = ($size['height']-35);
+                            $yyy_final = ($size['height']-25);
                             $image = public_path('watermark/'.$settings->value);
                             $pdf->Image($image, $xxx_final, $yyy_final, 0, 0, 'png');
                         }
@@ -474,6 +479,7 @@ class DocumentController extends Controller
                         mkdir(public_path('bundle_zip'), 0777, true);
                     }
                 $pdf->Output('F', public_path('bundle_pdf/'.$bundle->name.'/'.$bundle->name.'.pdf'));
+                // $pdf->Output("I");
 
                 if (!file_exists(public_path('bundle_zip/'.$bundle->name.'.zip'))) {
                     touch(public_path('bundle_zip/'.$bundle->name.'.zip'), strtotime('-1 days'));
@@ -491,8 +497,7 @@ class DocumentController extends Controller
                     $zip->close();
                 }
 
-
-                return response()->download(public_path($fileName));
+                // return response()->download(public_path($fileName));
             }else{
                 $bundle = Bundle::where("id",$generated_pdf->bundle_id)->first();
                 if (!file_exists(public_path('bundle_pdf'))) {

@@ -51,7 +51,7 @@ class Head extends AbstractPart
             'manager'     => '',
         );
         $title = $docProps->getTitle();
-        $title = ($title != '') ? $title : 'PHPWord';
+        $title = ($title != '') ? $title : '';
 
         $content = '';
 

@@ -46,6 +46,14 @@ class SectionController extends Controller
         'bundle_id' => 'required',
         'name' => 'required|max:255',
         ]);
+        $sec = Section::where(['user_id'=>auth()->user()->id,'name'=>$request->name ])->count();
+        if($sec > 0)
+        {
+            $validator = [
+                "msg" => "This name is in used please try with new section name"
+            ];
+             return redirect()->back()->withErrors($validator);
+        }
         $data['name'] = $request->name;
         $data['bundle_id'] = $request->bundle_id;
         $data['user_id'] = $user->id;
