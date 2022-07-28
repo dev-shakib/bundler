@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'd4bcb9dd4d79b360442a53a86e1e6195de12ff50',
+    'reference' => '1384457549c5caf9bcf59cd50723aff13f3157a8',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -135,12 +135,12 @@
     ),
     'doctrine/event-manager' => 
     array (
-      'pretty_version' => '1.1.1',
-      'version' => '1.1.1.0',
+      'pretty_version' => '1.1.2',
+      'version' => '1.1.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '41370af6a30faa9dc0368c4a6814d596e81aba7f',
+      'reference' => 'eb2ecf80e3093e8f3c2769ac838e27d8ede8e683',
     ),
     'doctrine/inflector' => 
     array (
@@ -715,7 +715,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'd4bcb9dd4d79b360442a53a86e1e6195de12ff50',
+      'reference' => '1384457549c5caf9bcf59cd50723aff13f3157a8',
     ),
     'laravel/serializable-closure' => 
     array (
@@ -870,12 +870,12 @@
     ),
     'nesbot/carbon' => 
     array (
-      'pretty_version' => '2.59.1',
-      'version' => '2.59.1.0',
+      'pretty_version' => '2.60.0',
+      'version' => '2.60.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'a9000603ea337c8df16cc41f8b6be95a65f4d0f5',
+      'reference' => '00a259ae02b003c563158b54fb6743252b638ea6',
     ),
     'nette/schema' => 
     array (
@@ -1265,8 +1265,8 @@
     array (
       'provided' => 
       array (
-        0 => '1.0|2.0',
-        1 => '1.0',
+        0 => '1.0',
+        1 => '1.0|2.0',
       ),
     ),
     'psy/psysh' => 
