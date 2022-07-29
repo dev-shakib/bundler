@@ -29,6 +29,7 @@ Homestead.json
 
 ### Master Configs ###
 .env
+.ftpquota
 composer.lock
 package-lock.json
 yarn.lock
