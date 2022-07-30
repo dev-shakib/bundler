@@ -65,8 +65,8 @@ Route::group(['middleware' => ['auth', 'activated', 'activity', 'twostep', 'chec
     Route::get('/payment/paypal/success/{package_id}', ['as' => 'payment.success',   'uses' => 'App\Http\Controllers\PaypalController@success']);
     Route::post('/payment/paypal/cancel', ['as' => 'payment.cancel',   'uses' => 'App\Http\Controllers\PaypalController@paymentCancel']);
     Route::get('/payment/strippe/index', ['as' => 'payment.strippe.index',   'uses' => 'App\Http\Controllers\StripeController@index']);
-    Route::post('/payment/strippe', ['as' => 'payment.strippe',   'uses' => 'App\Http\Controllers\StripeController@charge']);
-    Route::post('/payment/stripe/success', ['as' => 'payment.strippe.success',   'uses' => 'App\Http\Controllers\StripeController@confirm']);
+    Route::post('/payment/strippe/{package_id}', ['as' => 'payment.strippe',   'uses' => 'App\Http\Controllers\StripeController@charge']);
+    Route::post('/payment/stripe/success/{package_id}', ['as' => 'payment.strippe.success',   'uses' => 'App\Http\Controllers\StripeController@confirm']);
     Route::post('/payment/stripe/cancel', ['as' => 'payment.strippe.cancel',   'uses' => 'App\Http\Controllers\StripeController@paymentCancel']);
     Route::get('/bundle/files/create/number={bundle_id}/section={section_id}', ['as' => 'public.bundle.files.create',   'uses' => 'App\Http\Controllers\DocumentController@create']);
     Route::post('/bundle/files/store', ['as' => 'public.bundle.files.store',   'uses' => 'App\Http\Controllers\DocumentController@uploadDocuments']);
