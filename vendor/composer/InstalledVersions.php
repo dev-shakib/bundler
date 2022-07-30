@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'c9fa0f6c28872b8c9ebba5dc4fc42a8e89d79512',
+    'reference' => '65d8e9c1d381573daee8c5d81c7108159165cbb8',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -88,6 +88,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '8cc36dc1c8275f7a08b0f59dc1395d273c922e7d',
+    ),
+    'clue/stream-filter' => 
+    array (
+      'pretty_version' => 'v1.6.0',
+      'version' => '1.6.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'd6169430c7731d8509da7aecd0af756a5747b78e',
     ),
     'cordoval/hamcrest-php' => 
     array (
@@ -698,12 +707,12 @@ private static $installed = array (
     ),
     'laminas/laminas-code' => 
     array (
-      'pretty_version' => '4.5.2',
-      'version' => '4.5.2.0',
+      'pretty_version' => '4.6.0',
+      'version' => '4.6.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'da01fb74c08f37e20e7ae49f1e3ee09aa401ebad',
+      'reference' => '16ec7577ff315d53ac2e1b1f03a344d8fe680a6e',
     ),
     'laminas/laminas-escaper' => 
     array (
@@ -739,7 +748,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'c9fa0f6c28872b8c9ebba5dc4fc42a8e89d79512',
+      'reference' => '65d8e9c1d381573daee8c5d81c7108159165cbb8',
     ),
     'laravel/serializable-closure' => 
     array (
@@ -831,6 +840,15 @@ private static $installed = array (
       ),
       'reference' => 'd6365b901b5c287dd41f143033315e2f777e1167',
     ),
+    'league/omnipay' => 
+    array (
+      'pretty_version' => 'v3.2.1',
+      'version' => '3.2.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '38f66a0cc043ed51d6edf7956d6439a2f263501f',
+    ),
     'masterminds/html5' => 
     array (
       'pretty_version' => '2.7.5',
@@ -857,6 +875,15 @@ private static $installed = array (
       array (
       ),
       'reference' => 'c10a5f6e06fc2470ab1822fa13fa2a7380f8fbac',
+    ),
+    'moneyphp/money' => 
+    array (
+      'pretty_version' => 'v3.3.1',
+      'version' => '3.3.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '122664c2621a95180a13c1ac81fea1d2ef20781e',
     ),
     'monolog/monolog' => 
     array (
@@ -953,6 +980,33 @@ private static $installed = array (
         0 => '^2.1',
       ),
     ),
+    'omnipay/common' => 
+    array (
+      'pretty_version' => 'v3.2.0',
+      'version' => '3.2.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e278ff00676c05cd0f4aaaf6189a226f26ae056e',
+    ),
+    'omnipay/paypal' => 
+    array (
+      'pretty_version' => 'v3.0.2',
+      'version' => '3.0.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '519db61b32ff0c1e56cbec94762b970ee9674f65',
+    ),
+    'omnipay/stripe' => 
+    array (
+      'pretty_version' => 'v3.2.0',
+      'version' => '3.2.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '20812498efedc1079baae5fea96567fefd669105',
+    ),
     'opis/closure' => 
     array (
       'pretty_version' => '3.6.3',
@@ -1020,15 +1074,53 @@ private static $installed = array (
     array (
       'provided' => 
       array (
-        0 => '*',
+        0 => '1.0',
+        1 => '*',
       ),
     ),
     'php-http/client-implementation' => 
     array (
       'provided' => 
       array (
-        0 => '*',
+        0 => '1.0',
+        1 => '*',
       ),
+    ),
+    'php-http/discovery' => 
+    array (
+      'pretty_version' => '1.14.3',
+      'version' => '1.14.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '31d8ee46d0215108df16a8527c7438e96a4d7735',
+    ),
+    'php-http/guzzle7-adapter' => 
+    array (
+      'pretty_version' => '1.0.0',
+      'version' => '1.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'fb075a71dbfa4847cf0c2938c4e5a9c478ef8b01',
+    ),
+    'php-http/httplug' => 
+    array (
+      'pretty_version' => '2.3.0',
+      'version' => '2.3.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'f640739f80dfa1152533976e3c112477f69274eb',
+    ),
+    'php-http/message' => 
+    array (
+      'pretty_version' => '1.13.0',
+      'version' => '1.13.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '7886e647a30a966a1a8d1dad1845b71ca8678361',
     ),
     'php-http/message-factory' => 
     array (
@@ -1038,6 +1130,22 @@ private static $installed = array (
       array (
       ),
       'reference' => 'a478cb11f66a6ac48d8954216cfed9aa06a501a1',
+    ),
+    'php-http/message-factory-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '1.0',
+      ),
+    ),
+    'php-http/promise' => 
+    array (
+      'pretty_version' => '1.1.0',
+      'version' => '1.1.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '4c4c1f9b7289a2ec57cde7f1e9762a5789506f88',
     ),
     'phpdocumentor/reflection-common' => 
     array (
@@ -1289,18 +1397,18 @@ private static $installed = array (
     array (
       'provided' => 
       array (
-        0 => '1.0|2.0',
-        1 => '1.0',
+        0 => '1.0',
+        1 => '1.0|2.0',
       ),
     ),
     'psy/psysh' => 
     array (
-      'pretty_version' => 'v0.11.7',
-      'version' => '0.11.7.0',
+      'pretty_version' => 'v0.11.8',
+      'version' => '0.11.8.0',
       'aliases' => 
       array (
       ),
-      'reference' => '77fc7270031fbc28f9a7bea31385da5c4855cb7a',
+      'reference' => 'f455acf3645262ae389b10e9beba0c358aa6994e',
     ),
     'pusher/pusher-php-server' => 
     array (
