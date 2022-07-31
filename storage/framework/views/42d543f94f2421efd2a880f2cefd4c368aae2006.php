@@ -1,6 +1,33 @@
-<link rel="stylesheet" href="<?php echo e(asset('/css/style.css')); ?>" />
 <script src="https://js.stripe.com/v3/"></script>
+<style>
+    .StripeElement {
+        box-sizing: border-box;
 
+        height: 40px;
+
+        padding: 10px 12px;
+
+        border: 1px solid transparent;
+        border-radius: 4px;
+        background-color: white;
+
+        box-shadow: 0 1px 3px 0 #e6ebf1;
+        -webkit-transition: box-shadow 150ms ease;
+        transition: box-shadow 150ms ease;
+    }
+
+    .StripeElement--focus {
+        box-shadow: 0 1px 3px 0 #cfd7df;
+    }
+
+    .StripeElement--invalid {
+        border-color: #fa755a;
+    }
+
+    .StripeElement--webkit-autofill {
+        background-color: #fefde5 !important;
+    }
+</style>
 <?php if($message = Session::get('success')): ?>
     <div class="success">
         <strong><?php echo e($message); ?></strong>
@@ -14,10 +41,10 @@
     </div>
 <?php endif; ?>
 
-<form action="<?php echo e(url('charge')); ?>" method="post" id="payment-form">
+<form action="<?php echo e(route('payment.strippe', [$package_id])); ?>" method="post" id="payment-form">
     <div class="form-row">
-        <p><input type="text" name="amount" placeholder="Enter Amount" /></p>
-        <p><input type="email" name="email" placeholder="Enter Email" /></p>
+        <p><input type="hidden" value="<?php echo e($amount); ?>" name="amount" /></p>
+        <p><input type="hidden" name="email" value="<?php echo e(auth()->user()->email); ?>" /></p>
         <label for="card-element">
             Credit or debit card
         </label>

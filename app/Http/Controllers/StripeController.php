@@ -15,15 +15,17 @@ class StripeController extends Controller
     {
         $this->gateway = Omnipay::create('Stripe\PaymentIntents');
         $this->gateway->setApiKey(env('STRIPE_SECRET_KEY'));
-        $this->completePaymentUrl = route("payment.strippe.success");
+        $this->completePaymentUrl = url("payment/stripe/success/");
     }
 
     public function index()
     {
-        return view('backend.pages.plan.stripe');
+        $amount =request('amount');
+        $package_id =request('package_id');
+        return view('backend.pages.plan.stripe',['amount'=>$amount,'package_id'=>$package_id]);
     }
 
-    public function charge(Request $request)
+    public function charge(Request $request,$package_id)
     {
         if($request->input('stripeToken'))
         {
@@ -47,16 +49,16 @@ class StripeController extends Controller
                 ])->send();
 
                 $arr_payment_data = $response->getData();
-
                 $this->store_payment([
                     'payment_id' => $arr_payment_data['id'],
+                    'payer_id' => $arr_payment_data['id'],
                     'payer_email' => $request->input('email'),
                     'amount' => $arr_payment_data['amount']/100,
                     'currency' => env('STRIPE_CURRENCY'),
                     'payment_status' => $arr_payment_data['status'],
                 ]);
 
-                return redirect("payment")->with("success", "Payment is successful. Your payment id is: ". $arr_payment_data['id']);
+                return redirect()->route("choosePackage",[$package_id]);
             }
             elseif($response->isRedirect())
             {
@@ -65,12 +67,12 @@ class StripeController extends Controller
             }
             else
             {
-                return redirect("payment")->with("error", $response->getMessage());
+                return redirect()->back()->withError( $response->getMessage());
             }
         }
     }
 
-    public function confirm(Request $request)
+    public function confirm(Request $request,$package_id)
     {
         $response = $this->gateway->confirm([
             'paymentIntentReference' => $request->input('payment_intent'),
@@ -91,15 +93,16 @@ class StripeController extends Controller
                 'payment_id' => $arr_payment_data['id'],
                 'payer_email' => session('payer_email'),
                 'amount' => $arr_payment_data['amount']/100,
+                'payer_id' => $arr_payment_data['id'],
                 'currency' => env('STRIPE_CURRENCY'),
                 'payment_status' => $arr_payment_data['status'],
             ]);
 
-            return redirect("payment")->with("success", "Payment is successful. Your payment id is: ". $arr_payment_data['id']);
+            return redirect()->route("choosePackage",[$package_id]);
         }
         else
         {
-            return redirect("payment")->with("error", $response->getMessage());
+            return redirect()->back()->withError( $response->getMessage());
         }
     }
 
@@ -112,6 +115,7 @@ class StripeController extends Controller
             $payment = new Payment;
             $payment->payment_id = $arr_data['payment_id'];
             $payment->payer_email = $arr_data['payer_email'];
+            $payment->payer_id = $arr_data['payer_id'];
             $payment->amount = $arr_data['amount'];
             $payment->currency = env('STRIPE_CURRENCY');
             $payment->payment_status = $arr_data['payment_status'];
