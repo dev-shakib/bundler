@@ -125,6 +125,7 @@
                                 <thead>
                                     <tr>
                                         <th>Bundle Name</th>
+                                        <th>Created</th>
                                         <th>Total Page</th>
                                         <th>Action</th>
 
@@ -136,6 +137,7 @@
                                             <td>
                                                 {{ $b->name }}
                                             </td>
+                                            <td>{{ $b->created_at }}</td>
                                             <td>
                                                 {{ $b->totalPages() }}
                                             </td>
@@ -203,4 +205,9 @@
 @endsection
 
 @push('custom-script')
+    <script>
+        $(document).ready(function() {
+            $('table').DataTable();
+        });
+    </script>
 @endpush

@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="<?php echo e(asset('admin/')); ?>/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="<?php echo e(asset('admin/')); ?>/plugins/summernote/summernote-bs4.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <link href="<?php echo e(mix('/css/app.css')); ?>" rel="stylesheet">
     <?php echo $__env->yieldPushContent('custom-css'); ?>
 </head>
@@ -47,7 +48,7 @@
         <div class="content-wrapper">
             <?php echo $__env->yieldContent('content'); ?>
         </div>
-        
+
 
         <?php echo $__env->make('backend.partials.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
@@ -92,6 +93,7 @@
     <!-- AdminLTE for demo purposes -->
     <script src="<?php echo e(asset('admin/')); ?>/js/demo.js"></script>
     <!-- Custom js for a perticular page -->
+    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <?php echo $__env->yieldPushContent('custom-script'); ?>
     
     <?php echo $__env->yieldContent('footer_scripts'); ?>

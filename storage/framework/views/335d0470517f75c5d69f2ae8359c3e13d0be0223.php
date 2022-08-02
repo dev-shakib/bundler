@@ -28,16 +28,20 @@
                   data-accordion="false">
                   <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
-                  <li class="nav-item">
-                      <a href="<?php echo e(route('public.home')); ?>" class="nav-link <?php echo e(Request::is('home') ? 'active' : null); ?>">
-                          <i class="nav-icon fas fa-tachometer-alt"></i>
-                          <p>
-                              Dashboard
-                          </p>
-                      </a>
-                  </li>
+
+                  <?php if (Auth::check() && Auth::user()->hasRole('admin')): ?>
+                      <li class="nav-item">
+                          <a href="<?php echo e(route('public.home')); ?>" class="nav-link <?php echo e(Request::is('home') ? 'active' : null); ?>">
+                              <i class="nav-icon fas fa-tachometer-alt"></i>
+                              <p>
+                                  Dashboard
+                              </p>
+                          </a>
+                      </li>
+                  <?php endif; ?>
                   <?php if (Auth::check() && Auth::user()->hasRole('user')): ?>
-                      <li class="nav-item <?php echo e(Request::is('bundle*') ? 'menu-open' : null); ?>">
+                      <li
+                          class="nav-item <?php echo e(Request::is('bundle*') ? 'menu-open' : null); ?> <?php echo e(Request::is('home') ? 'menu-open' : null); ?>">
                           <a class="nav-link <?php echo e(Request::is('bundle*') ? 'active' : null); ?>">
                               <i class="nav-icon fas fa-th"></i>
                               <p>
@@ -58,20 +62,20 @@
                           </ul>
                       </li>
                       <?php
-                      $enrolled_package = auth()
-                          ->user()
-                          ->load('enrolledPackage')->enrolledPackage;
-                  ?>
-                  <?php if($enrolled_package->package_id == 3): ?>
-                      <li class="nav-item <?php echo e(Request::is('setting*') ? 'menu-open' : null); ?>">
-                          <a href="<?php echo e(route('setting.index')); ?>" class="nav-link">
-                              <i class="nav-icon fas fa-cogs"></i>
-                              <p>
-                                  SETTINGS
-                              </p>
-                          </a>
-                      </li>
-                  <?php endif; ?>
+                          $enrolled_package = auth()
+                              ->user()
+                              ->load('enrolledPackage')->enrolledPackage;
+                      ?>
+                      <?php if($enrolled_package->package_id == 3): ?>
+                          <li class="nav-item <?php echo e(Request::is('setting*') ? 'menu-open' : null); ?>">
+                              <a href="<?php echo e(route('setting.index')); ?>" class="nav-link">
+                                  <i class="nav-icon fas fa-cogs"></i>
+                                  <p>
+                                      SETTINGS
+                                  </p>
+                              </a>
+                          </li>
+                      <?php endif; ?>
                   <?php endif; ?>
                   <?php if (Auth::check() && Auth::user()->hasRole('admin')): ?>
                       <li class="nav-item">

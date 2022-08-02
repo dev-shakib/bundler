@@ -57,7 +57,7 @@ Route::group(['middleware' => ['auth', 'activated', 'activity', 'checkblocked']]
 Route::group(['middleware' => ['auth', 'activated', 'activity', 'twostep', 'checkblocked']], function () {
 
     //  Homepage Route - Redirect based on user role is in controller.
-    Route::get('/home', ['as' => 'public.home',   'uses' => 'App\Http\Controllers\UserController@index']);
+    Route::get('/home', ['as' => 'public.home',   'uses' => 'App\Http\Controllers\BundleController@index']);
     Route::get('/choosePlan', ['as' => 'public.choosePlan',   'uses' => 'App\Http\Controllers\PlanController@choosePlan']);
     Route::get('/choosePackage/{id}', ['as' => 'choosePackage',   'uses' => 'App\Http\Controllers\PlanController@enrolPackage']);
     Route::get('/paymentPage/{id}/{price}', ['as' => 'payment.index',   'uses' => 'App\Http\Controllers\PaymentController@index']);

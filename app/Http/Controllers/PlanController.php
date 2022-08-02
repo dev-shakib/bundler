@@ -102,7 +102,7 @@ class PlanController extends Controller
         $user = auth()->user()->id;
         $package_id = $id;
         Enrol::create(['user_id'=>$user,"package_id"=>$package_id]);
-        return redirect()->route('public.home');
+        return redirect()->route('bundle.index');
     }
     public function destroy($id)
     {

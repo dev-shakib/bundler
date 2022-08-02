@@ -228,10 +228,21 @@ class DocumentController extends Controller
                 mkdir(public_path('pdf'), 0777, true);
             }
             if($sec->isDefault == 0){
-                $cpdf = MPDF::loadView('sectionPdf', compact('sec'));
-                $output=$cpdf->output();
-                file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
-                $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
+
+                if($sec->name == "Index")
+                {
+
+                    $cpdf = MPDF::loadView('sectionPdf', compact('sec'));
+                    $output=$cpdf->output();
+                    file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
+                    $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
+                }else{
+                    $allsections = Section::with('files')->where('bundle_id',$bundle_id)->orderBy('sort_id','ASC')->get();
+                    $cpdf = MPDF::loadView('indexAllPdf', compact('allsections'));
+                     $output=$cpdf->output();
+                    file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
+                    $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
+                }
             }
             foreach($sec->files as $f){
                 $pdf->addPDF(public_path("pdf/".$f->filename), 'all');
@@ -258,7 +269,7 @@ class DocumentController extends Controller
                 $days_after_file_delete = 1095;
             }
             $auto_delete_date = Carbon::now()->addDays($days_after_file_delete)->format('Y-m-d');
-        generatedTable::create(['bundle_id'=>$bundle_id,'auto_deleted_at'=>$auto_delete_date,'filename'=>$fileName]);
+        generatedTable::create(['bundle_id'=>$bundle_id,'auto_deleted_at'=>$auto_delete_date,'filename'=>$fileName,'paid'=>1]);
 
         return redirect()->back();
     }

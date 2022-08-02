@@ -34,7 +34,7 @@ class BundleController extends Controller
         $data['slug'] = preg_replace('/\s+/', '-', $request->name);
         $data['user_id'] = $user->id;
         $bundle = Bundle::create($data);
-        $cover['name'] = "Cover Page";
+        $cover['name'] = "Default Bundle Section";
         $cover['bundle_id'] = $bundle->id;
         $cover['user_id'] = $user->id;
         $cover['isDefault'] = 1;

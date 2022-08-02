@@ -123,6 +123,7 @@
                                 <thead>
                                     <tr>
                                         <th>Bundle Name</th>
+                                        <th>Created</th>
                                         <th>Total Page</th>
                                         <th>Action</th>
 
@@ -135,6 +136,7 @@
                                                 <?php echo e($b->name); ?>
 
                                             </td>
+                                            <td><?php echo e($b->created_at); ?></td>
                                             <td>
                                                 <?php echo e($b->totalPages()); ?>
 
@@ -203,6 +205,11 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('custom-script'); ?>
+    <script>
+        $(document).ready(function() {
+            $('table').DataTable();
+        });
+    </script>
 <?php $__env->stopPush(); ?>
 
 <?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\LSKIT\bundler\resources\views/backend/pages/bundle/index.blade.php ENDPATH**/ ?>
