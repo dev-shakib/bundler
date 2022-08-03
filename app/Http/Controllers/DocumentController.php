@@ -227,21 +227,29 @@ class DocumentController extends Controller
             if (!file_exists(public_path('pdf'))) {
                 mkdir(public_path('pdf'), 0777, true);
             }
-            if($sec->isDefault == 0){
-
-                if($sec->name == "Index")
+            if($sec->isDefault == 1){
+                if($sec->isMainSection == 1)
                 {
-
-                    $cpdf = MPDF::loadView('sectionPdf', compact('sec'));
+                    $cpdf = MPDF::loadView('MainindexPdf', compact('sec'));
                     $output=$cpdf->output();
                     file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
                     $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
                 }else{
-                    $allsections = Section::with('files')->where('bundle_id',$bundle_id)->orderBy('sort_id','ASC')->get();
-                    $cpdf = MPDF::loadView('indexAllPdf', compact('allsections'));
-                     $output=$cpdf->output();
-                    file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
-                    $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
+                    if($sec->name == "Index")
+                    {
+
+                        $cpdf = MPDF::loadView('sectionPdf', compact('sec'));
+                        $output=$cpdf->output();
+                        file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
+                        $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
+                    }else{
+                        $allsections = Section::with('files')->where('bundle_id',$bundle_id)->orderBy('sort_id','ASC')->get();
+                        $cpdf = MPDF::loadView('indexAllPdf', compact('allsections'));
+                        $output=$cpdf->output();
+                        file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
+                        $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
+                    }
+
                 }
             }
             foreach($sec->files as $f){
