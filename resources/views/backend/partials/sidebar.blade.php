@@ -50,7 +50,7 @@
                       </li>
                   @endrole
                   @role('user')
-                      <li
+                      {{-- <li
                           class="nav-item {{ Request::is('bundle*') ? 'menu-open' : null }} {{ Request::is('home') ? 'menu-open' : null }}">
                           <a class="nav-link {{ Request::is('bundle*') ? 'active' : null }}">
                               <i class="nav-icon fas fa-th"></i>
@@ -70,7 +70,14 @@
                                   </a>
                               </li>
                           </ul>
-                      </li>
+                      </li> --}}
+                      <li class="nav-item {{ Request::is('bundle*') ? 'menu-open' : null }} {{ Request::is('home') ? 'menu-open' : null }}">
+                        <a class="nav-link  {{ Request::is('bundle*') ? 'active' : null }}"
+                            href="{{ route('bundle.index') }}">
+                            <i class="nav-icon fas fa-list"></i>
+                            <p>BUNDLE</p>
+                        </a>
+                    </li>
                       @php
                           $enrolled_package = auth()
                               ->user()

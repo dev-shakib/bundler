@@ -45,5 +45,4 @@ npm-debug.log
 yarn-error.log
 
 /storage/logs/laravel.log
-/storage/logs/laravel.log
 *.log
