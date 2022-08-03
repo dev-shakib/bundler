@@ -1,4 +1,4 @@
-<h1 style="text-align:center">INDEX</h1>
+<h1 style="text-align:center"><?php echo $heading; ?></h1>
 <table style="width:100%;text-align:left">
     <thead>
         <tr>
@@ -13,7 +13,7 @@
         $start = 1;
     ?>
     <?php $__currentLoopData = $allsections; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sec): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <?php if($sec->isDefault == 1): ?>
+        <?php if($sec->isDefault == 1 && $sec->isHiddenInList == 1): ?>
         <?php else: ?>
             <?php $__currentLoopData = $sec->files; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <?php
@@ -25,16 +25,35 @@
                 <th><?php echo e($start); ?>-<?php echo e($j); ?></th>
             </tr>
             <?php $__currentLoopData = $sec->files; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php
+                    $filePageEnd = $filePageEnd + $item->totalPage;
+                ?>
                 <tr>
-                    <td><?php echo e($sec->name); ?></td>
-                    <td><?php echo e($filePageStart); ?>-<?php echo e($filePageEnd = $filePageEnd + $item->totalPage); ?></td>
+                    <td><?php echo e($item->filename); ?></td>
+                    <td><?php echo e($filePageStart); ?>-<?php echo e($filePageEnd); ?></td>
                 </tr>
                 <?php
                     $filePageStart += $item->totalPage;
                 ?>
+                
+                <?php
+                    if ($heading == 'INDEX'):
+                        DB::table('files')
+                            ->where('id', $item->id)
+                            ->update(['pages' => $filePageStart . '-' . $filePageEnd]);
+                    endif;
+                ?>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             <?php
                 $start += $sec->files->sum('totalPage');
+            ?>
+            
+            <?php
+                if ($heading == 'INDEX'):
+                    DB::table('sections')
+                        ->where('id', $sec->id)
+                        ->update(['pages' => $start . '-' . $j]);
+                endif;
             ?>
         <?php endif; ?>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
