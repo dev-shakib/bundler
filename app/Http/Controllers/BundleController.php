@@ -18,6 +18,13 @@ class BundleController extends Controller
         if ($user->isAdmin()) {
             return view('backend.pages.dashboard');
         }
+        $enrolled_package = auth()
+                          ->user()
+                          ->load('enrolledPackage')->enrolledPackage;
+        if(is_null($enrolled_package))
+        {
+            return redirect()->route('public.choosePlan');
+        }
          $bundle = Bundle::with('section')->where('user_id',$user->id)->get();
         return view('backend.pages.bundle.index',['bundle'=>$bundle]);
     }
