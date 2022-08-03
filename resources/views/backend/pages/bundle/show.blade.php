@@ -6,7 +6,11 @@
 
 @push('custom-css')
 @endpush
-
+@php
+$enrolled_package = auth()
+    ->user()
+    ->load('enrolledPackage')->enrolledPackage;
+@endphp
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <!-- Content Header (Page header) -->
@@ -39,7 +43,42 @@
                         <div class="col-sm-12 ">
                             <div class="card">
                                 <div class="card-body">
-                                    <h2><u>Bundle Name:</u> {{ $bundle->name }}</h2>
+                                    <div class="row">
+                                        <div class="col-sm-8">
+
+                                            <h2><u>Bundle Name:</u> {{ $bundle->name }}</h2>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            @if ($enrolled_package->package_id == 1)
+                                                @if ($bundle->totalPages() < 60)
+                                                    @if ($bundle->generated->count() == 0)
+                                                        <a href="{{ route('public.bundle.generate', [$bundle->id]) }}"
+                                                            class="btn btn-outline-info">Generate Bundle</a>
+                                                    @endif
+                                                @else
+                                                    <a href="#" class="btn btn-outline-info">Generate
+                                                        Bundle</a>
+                                                @endif
+                                            @else
+                                                @if ($bundle->generated->count() == 0)
+                                                    <a href="{{ route('public.bundle.generate', [$bundle->id]) }}"
+                                                        class="btn btn-outline-info">Generate Bundle</a>
+                                                @endif
+                                            @endif
+                                            @if ($enrolled_package->package_id == 1)
+                                                @if ($bundle->totalPages() < 60)
+                                                    <a href="{{ route('public.bundle.generated_bundle', [$bundle->id]) }}"
+                                                        class="btn btn-outline-info">View Generated Bundle</a>
+                                                @else
+                                                    <a href="#" class="btn btn-outline-info">View Generated
+                                                        Bundle</a>
+                                                @endif
+                                            @else
+                                                <a href="{{ route('public.bundle.generated_bundle', [$bundle->id]) }}"
+                                                    class="btn btn-outline-info">View Generated Bundle</a>
+                                            @endif
+                                        </div>
+                                    </div>
 
                                 </div>
                             </div>
@@ -62,7 +101,7 @@
                                         </thead>
                                         <tbody class="sort_section">
                                             @foreach ($bundle->section as $s)
-                                                @if ($s->name == 'Index')
+                                                @if ($s->isHiddenInList == 1)
                                                 @else
                                                     <tr data-id="{{ $s->id }}">
                                                         <td>
@@ -150,7 +189,7 @@
                         <label>SECTION</label>
                         <select class="form-control" id="sectionId" name="section_id" required>
                             @foreach ($bundle->section as $item)
-                                @if ($item->name == 'Index')
+                                @if ($item->isHiddenInList == 1)
                                 @else
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endif

@@ -4,7 +4,11 @@
 
 <?php $__env->startPush('custom-css'); ?>
 <?php $__env->stopPush(); ?>
-
+<?php
+$enrolled_package = auth()
+    ->user()
+    ->load('enrolledPackage')->enrolledPackage;
+?>
 <?php $__env->startSection('content'); ?>
     <!-- Content Wrapper. Contains page content -->
     <!-- Content Header (Page header) -->
@@ -37,7 +41,42 @@
                         <div class="col-sm-12 ">
                             <div class="card">
                                 <div class="card-body">
-                                    <h2><u>Bundle Name:</u> <?php echo e($bundle->name); ?></h2>
+                                    <div class="row">
+                                        <div class="col-sm-8">
+
+                                            <h2><u>Bundle Name:</u> <?php echo e($bundle->name); ?></h2>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <?php if($enrolled_package->package_id == 1): ?>
+                                                <?php if($bundle->totalPages() < 60): ?>
+                                                    <?php if($bundle->generated->count() == 0): ?>
+                                                        <a href="<?php echo e(route('public.bundle.generate', [$bundle->id])); ?>"
+                                                            class="btn btn-outline-info">Generate Bundle</a>
+                                                    <?php endif; ?>
+                                                <?php else: ?>
+                                                    <a href="#" class="btn btn-outline-info">Generate
+                                                        Bundle</a>
+                                                <?php endif; ?>
+                                            <?php else: ?>
+                                                <?php if($bundle->generated->count() == 0): ?>
+                                                    <a href="<?php echo e(route('public.bundle.generate', [$bundle->id])); ?>"
+                                                        class="btn btn-outline-info">Generate Bundle</a>
+                                                <?php endif; ?>
+                                            <?php endif; ?>
+                                            <?php if($enrolled_package->package_id == 1): ?>
+                                                <?php if($bundle->totalPages() < 60): ?>
+                                                    <a href="<?php echo e(route('public.bundle.generated_bundle', [$bundle->id])); ?>"
+                                                        class="btn btn-outline-info">View Generated Bundle</a>
+                                                <?php else: ?>
+                                                    <a href="#" class="btn btn-outline-info">View Generated
+                                                        Bundle</a>
+                                                <?php endif; ?>
+                                            <?php else: ?>
+                                                <a href="<?php echo e(route('public.bundle.generated_bundle', [$bundle->id])); ?>"
+                                                    class="btn btn-outline-info">View Generated Bundle</a>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
 
                                 </div>
                             </div>
@@ -60,7 +99,7 @@
                                         </thead>
                                         <tbody class="sort_section">
                                             <?php $__currentLoopData = $bundle->section; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <?php if($s->name == 'Index'): ?>
+                                                <?php if($s->isHiddenInList == 1): ?>
                                                 <?php else: ?>
                                                     <tr data-id="<?php echo e($s->id); ?>">
                                                         <td>
@@ -150,7 +189,7 @@
                         <label>SECTION</label>
                         <select class="form-control" id="sectionId" name="section_id" required>
                             <?php $__currentLoopData = $bundle->section; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <?php if($item->name == 'Index'): ?>
+                                <?php if($item->isHiddenInList == 1): ?>
                                 <?php else: ?>
                                     <option value="<?php echo e($item->id); ?>"><?php echo e($item->name); ?></option>
                                 <?php endif; ?>
