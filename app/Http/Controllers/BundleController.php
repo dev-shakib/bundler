@@ -49,14 +49,7 @@ class BundleController extends Controller
         $bu['isHiddenInGenerateIndexList'] = 1;
         $bu['isMainSection'] = 1;
         Section::create($bu);
-        $cover['name'] = "Default Bundle Section";
-        $cover['bundle_id'] = $bundle->id;
-        $cover['user_id'] = $user->id;
-        $cover['isDefault'] = 1;
-        $cover['isHiddenInList'] = 0;
-        $cover['isHiddenInGenerateIndexList'] = 1;
-        $cover['isMainSection'] = 0;
-        Section::create($cover);
+
         $Index['name'] = "Index";
         $Index['bundle_id'] = $bundle->id;
         $Index['user_id'] = $user->id;
@@ -65,6 +58,14 @@ class BundleController extends Controller
         $Index['isHiddenInGenerateIndexList'] = 0;
         $Index['isMainSection'] = 0;
         Section::create($Index);
+        $cover['name'] = "Default Bundle Section";
+        $cover['bundle_id'] = $bundle->id;
+        $cover['user_id'] = $user->id;
+        $cover['isDefault'] = 1;
+        $cover['isHiddenInList'] = 0;
+        $cover['isHiddenInGenerateIndexList'] = 1;
+        $cover['isMainSection'] = 0;
+        Section::create($cover);
         return redirect()->route('bundle.show_single', [$bundle->slug,$bundle->id]);
     }
     public function show($slug,$id)

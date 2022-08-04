@@ -62,7 +62,9 @@ class DocumentController extends Controller
         if (!file_exists(storage_path('app/public/files'))) {
             mkdir(storage_path('app/public/files'), 0777, true);
         }
-        $filename = $request->file('file')->store('public/files');
+        $file = $request->file('file');
+        $filename = $file->getClientOriginalName();
+       $filename =$file->storeAs('public/files', $filename);
         $bundle_id= $request->bundle_id;
         $section_id= $request->section_id;
         $file_id= $request->file_id;
@@ -141,7 +143,9 @@ class DocumentController extends Controller
         if (!file_exists(public_path('pdf'))) {
             mkdir(public_path('pdf'), 0777, true);
         }
-        $filename = $request->file('file')->store('public/files');
+        $file = $request->file('file');
+        $filename = $file->getClientOriginalName();
+       $filename =$file->storeAs('public/files', $filename);
         $bundle_id= $request->bundle_id;
         $section_id= $request->section_id;
         $filename = explode('/',$filename);
@@ -237,20 +241,28 @@ class DocumentController extends Controller
                 }else{
                     if($sec->name == "Index")
                     {
-
-                        $cpdf = MPDF::loadView('sectionPdf', compact('sec'));
+                        $allsections = Section::with('files')->where('bundle_id',$bundle_id)->orderBy('sort_id','ASC')->get();
+                        $heading = "INDEX";
+                        $cpdf = MPDF::loadView('indexAllPdf', compact('allsections','heading'));
                         $output=$cpdf->output();
                         file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
                         $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
                     }else{
-                        $allsections = Section::with('files')->where('bundle_id',$bundle_id)->orderBy('sort_id','ASC')->get();
-                        $cpdf = MPDF::loadView('indexAllPdf', compact('allsections'));
+                        $allsections = Section::with('files')->where('id',$sec->id)->orderBy('sort_id','ASC')->get();
+                        $heading = $sec->name ."<br> INDEX";
+                        $cpdf = MPDF::loadView('indexAllPdf', compact('allsections','heading'));
                         $output=$cpdf->output();
                         file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
                         $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
                     }
-
                 }
+            }else{
+                        $allsections = Section::with('files')->where('id',$sec->id)->orderBy('sort_id','ASC')->get();
+                        $heading = $sec->name ."<br> INDEX";
+                        $cpdf = MPDF::loadView('indexAllPdf', compact('allsections','heading'));
+                        $output=$cpdf->output();
+                        file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
+                        $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
             }
             foreach($sec->files as $f){
                 $pdf->addPDF(public_path("pdf/".$f->filename), 'all');
