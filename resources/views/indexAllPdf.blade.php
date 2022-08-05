@@ -2,8 +2,9 @@
 <table style="width:100%;text-align:left">
     <thead>
         <tr>
-            <th></th>
-            <th>Pages</th>
+            <th style="width: 15%;"></th>
+            <th style="width: 80%;"></th>
+            <th style="width: 10%;text-align:right">Pages</th>
         </tr>
     </thead>
     @php
@@ -11,6 +12,7 @@
         $filePageEnd = 0;
         $j = 0;
         $start = 1;
+        $i = 1;
     @endphp
     @foreach ($allsections as $sec)
         @if ($sec->isDefault == 1 && $sec->isHiddenInList == 1)
@@ -21,16 +23,18 @@
                 @endphp
             @endforeach
             <tr>
-                <th>{{ $sec->name }}</th>
-                <th>{{ $start }}-{{ $j }}</th>
+                <th>Section {{ $i++ }} : </th>
+                <th style="text-align:left">{{ $sec->name }}</th>
+                <th style="text-align:right">{{ $start }}-{{ $j }}</th>
             </tr>
             @foreach ($sec->files as $item)
                 @php
                     $filePageEnd = $filePageEnd + $item->totalPage;
                 @endphp
                 <tr>
-                    <td>{{ $item->filename }}</td>
-                    <td>{{ $filePageStart }}-{{ $filePageEnd }}</td>
+                    <td></td>
+                    <td style="text-align:left">{{ $item->filename }}</td>
+                    <td style="text-align:right">{{ $filePageStart }}-{{ $filePageEnd }}</td>
                 </tr>
                 @php
                     $filePageStart += $item->totalPage;

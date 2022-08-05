@@ -325,17 +325,17 @@ class DocumentController extends Controller
                 }
                 // Text font settings
                 $name = uniqid();
-                $font_size = 5;
+                $font_size = 95;
                 $opacity = 100;
                 $ts = explode("\n", $text);
-                $width = 0;
+                $width = 80;
                 foreach($ts as $k=>$string){
                     $width = max($width, strlen($string));
                 }
-                $width  = imagefontwidth($font_size)*$width;
-                $height = imagefontheight($font_size)*count($ts);
-                $el = imagefontheight($font_size);
-                $em = imagefontwidth($font_size);
+                $width  = imagefontwidth(75)*100;
+                $height = imagefontheight(75)*count($ts);
+                $el = imagefontheight(75);
+                $em = imagefontwidth(75);
                 $img = imagecreatetruecolor($width, $height);
 
                 $bg = imagecolorallocate($img, 255, 255, 255);
@@ -362,7 +362,7 @@ class DocumentController extends Controller
                     $op = 100;
                 }
 
-                imagecopymerge($blank, $img, 0, 0, 0, 0, $width, $height, $op);
+                imagecopymerge($blank, $img, 0, 0, 0, 0, $width, $height, 5);
                 imagepng($blank, $name.".png");
 
                 $pdf = new Fpdi();
@@ -378,24 +378,24 @@ class DocumentController extends Controller
                     $pdf->addPage();
                     $pdf->useTemplate($tpl, 1, 1, $size['width'], $size['height'], TRUE);
 
-                    $xxx_final = ($size['width']-50);
-                    $yyy_final = ($size['height']-25);
+                    $xxx_final = ($size['width']-150);
+                    $yyy_final = ($size['height']-150);
                     if(!is_null($admin_setting) && $admin_setting->value == 1){
                    if(!is_null($settings)){
                         if($settings->type == "TEXT"){
-                            $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
+                            $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 20, 'png', '', false, false);
                         }else{
                             $xxx_final = ($size['width']-75);
                             $yyy_final = ($size['height']-25);
                             $image = public_path('watermark/'.$settings->value);
-                            $pdf->Image($image, $xxx_final, $yyy_final, 0, 0, 'png');
+                            $pdf->Image($image, $xxx_final, $yyy_final, 0, 0, 'png', '', true, false);
                         }
                     }else{
-                        $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
+                        $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png', '', true, false);
 
                     }
                 }else{
-                    $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
+                    $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png', '', true, false);
                 }
 
 
@@ -490,7 +490,7 @@ class DocumentController extends Controller
                     $op = 100;
                 }
 
-                imagecopymerge($blank, $img, 0, 0, 0, 0, $width, $height, $op);
+                imagecopymerge($blank, $img, 0, 0, 0, 0, $width, $height, 5);
                 imagepng($blank, $name.".png");
 
                 $pdf = new Fpdi();
@@ -506,19 +506,19 @@ class DocumentController extends Controller
                     $pdf->addPage();
                     $pdf->useTemplate($tpl, 1, 1, $size['width'], $size['height'], TRUE);
 
-                    $xxx_final = ($size['width']-50);
-                    $yyy_final = ($size['height']-5);
+                    $xxx_final = ($size['width']-150);
+                    $yyy_final = ($size['height']-150);
                     if(!is_null($settings)){
                         if($settings->type == "TEXT"){
-                            $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
+                            $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 20, 'png', '', true, false);
                         }else{
                             $xxx_final = ($size['width']-75);
                             $yyy_final = ($size['height']-25);
                             $image = public_path('watermark/'.$settings->value);
-                            $pdf->Image($image, $xxx_final, $yyy_final, 0, 0, 'png');
+                            $pdf->Image($image, $xxx_final, $yyy_final, 0, 20, 'png', '', true, false);
                         }
                     }else{
-                        $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
+                        $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 20, 'png', '', true, false);
 
                     }
 

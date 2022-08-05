@@ -99,7 +99,7 @@ function __construct($orientation='P', $unit='mm', $size='A4')
 	$this->FillColor = '0 g';
 	$this->TextColor = '0 g';
 	$this->ColorFlag = false;
-	$this->WithAlpha = false;
+	$this->WithAlpha = true;
 	$this->ws = 0;
 	// Font path
 	if(defined('FPDF_FONTPATH'))

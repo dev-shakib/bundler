@@ -22,9 +22,9 @@ return [
     'show_watermark_image'     => true,
     'watermark_font'           => 'sans-serif',
     'display_mode'             => 'fullpage',
-    'watermark_text_alpha'     => 0.1,
+    'watermark_text_alpha'     => 0.5,
     'watermark_image_path'     => '',
-    'watermark_image_alpha'    => 0.2,
+    'watermark_image_alpha'    => 0.5,
     'watermark_image_size'     => 'D',
     'watermark_image_position' => 'P',
     'custom_font_dir'  => base_path('resources/fonts/'), // don't forget the trailing slash!
