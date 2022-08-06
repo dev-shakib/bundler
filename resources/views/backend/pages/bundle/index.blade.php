@@ -58,61 +58,87 @@
                 <section class="col-lg-12 connectedSortable">
                     <div class="card">
                         <div class="card-body">
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
-                            @if ($enrolled_package->package_id == 1)
-                                @if (count($bundle) == 0)
-                                    <form action="{{ route('bundle.store') }}" method="post">
-                                        @csrf
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <input type="text" placeholder="Bundle Name" class="form-control"
-                                                    name="name">
-                                            </div>
-                                            <div class="col-sm-4"><input type="submit" class="btn btn-success"
-                                                    value="Create" />
-                                            </div>
-                                        </div>
-                                    </form>
-                                @endif
-                            @elseif($enrolled_package->package_id == 2)
-                                @if (intval(count($bundle)) < 5)
-                                    <form action="{{ route('bundle.store') }}" method="post">
-                                        @csrf
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <input type="text" placeholder="Bundle Name" class="form-control"
-                                                    name="name">
-                                            </div>
-                                            <div class="col-sm-4"><input type="submit" class="btn btn-success"
-                                                    value="Create" />
-                                            </div>
-                                        </div>
-                                    </form>
-                                @endif
-                            @else
-                                <form action="{{ route('bundle.store') }}" method="post">
-                                    @csrf
-                                    <div class="row">
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="Bundle Name" class="form-control"
-                                                name="name">
-                                        </div>
-                                        <div class="col-sm-4"><input type="submit" class="btn btn-success"
-                                                value="Create" />
-                                        </div>
-                                    </div>
-                                </form>
-                            @endif
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">New Bundle</button>
                         </div>
                     </div>
+                    
+                    <div class="modal fade" id="modal-default">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">New Bundle</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                                @if ($enrolled_package->package_id == 1)
+                                    @if (count($bundle) == 0)
+                                        <form action="{{ route('bundle.store') }}" method="post">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <input type="text" placeholder="Bundle Name" class="form-control"
+                                                        name="name" required>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                <input type="submit" class="btn btn-primary"
+                                                    value="Create" />
+                                            </div>
+                                        </form>
+                                        @else
+                                            <div class="modal-body text-danger">
+                                                You are now free Plan Please Upgrad Your Plan
+                                            </div>
+                                            
+                                            <div class="modal-footer justify-content-start">
+                                                    <a href="{{ route('public.choosePlan') }}" class="btn btn-danger">UPGRADE</a>
+                                                </div>
+                                    @endif
+                                @elseif($enrolled_package->package_id == 2)
+                                    @if (intval(count($bundle)) < 5)
+                                        <form action="{{ route('bundle.store') }}" method="post">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <input type="text" placeholder="Bundle Name" class="form-control"
+                                                        name="name" required>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                <input type="submit" class="btn btn-primary"
+                                                    value="Create" />
+                                            </div>
+                                        </form>
+                                    @endif
+                                @else
+                                    <form action="{{ route('bundle.store') }}" method="post">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <input type="text" placeholder="Bundle Name" class="form-control"
+                                                    name="name" required>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                            <input type="submit" class="btn btn-primary"
+                                                value="Create" />
+                                        </div>
+                                    </form>
+                                @endif
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!-- /.modal -->
+
                     <div class="card">
                         <div class="card-body">
 
@@ -207,7 +233,11 @@
 @push('custom-script')
     <script>
         $(document).ready(function() {
-            $('table').DataTable();
+            $('table').DataTable({
+                select: false,
+                searching: false,
+                paging: false,
+            });
         });
     </script>
 @endpush
