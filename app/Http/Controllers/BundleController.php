@@ -41,16 +41,31 @@ class BundleController extends Controller
         $data['slug'] = preg_replace('/\s+/', '-', $request->name);
         $data['user_id'] = $user->id;
         $bundle = Bundle::create($data);
-        $cover['name'] = "Default Bundle Section";
-        $cover['bundle_id'] = $bundle->id;
-        $cover['user_id'] = $user->id;
-        $cover['isDefault'] = 1;
-        Section::create($cover);
+        $bu['name'] = $request->name;
+        $bu['bundle_id'] = $bundle->id;
+        $bu['user_id'] = $user->id;
+        $bu['isDefault'] = 1;
+        $bu['isHiddenInList'] = 1;
+        $bu['isHiddenInGenerateIndexList'] = 1;
+        $bu['isMainSection'] = 1;
+        Section::create($bu);
+
         $Index['name'] = "Index";
         $Index['bundle_id'] = $bundle->id;
         $Index['user_id'] = $user->id;
         $Index['isDefault'] = 1;
+        $Index['isHiddenInList'] = 1;
+        $Index['isHiddenInGenerateIndexList'] = 0;
+        $Index['isMainSection'] = 0;
         Section::create($Index);
+        $cover['name'] = "Default Bundle Section";
+        $cover['bundle_id'] = $bundle->id;
+        $cover['user_id'] = $user->id;
+        $cover['isDefault'] = 1;
+        $cover['isHiddenInList'] = 0;
+        $cover['isHiddenInGenerateIndexList'] = 1;
+        $cover['isMainSection'] = 0;
+        Section::create($cover);
         return redirect()->route('bundle.show_single', [$bundle->slug,$bundle->id]);
     }
     public function show($slug,$id)

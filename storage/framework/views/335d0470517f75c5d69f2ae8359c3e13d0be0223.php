@@ -40,27 +40,14 @@
                       </li>
                   <?php endif; ?>
                   <?php if (Auth::check() && Auth::user()->hasRole('user')): ?>
-                      <li
-                          class="nav-item <?php echo e(Request::is('bundle*') ? 'menu-open' : null); ?> <?php echo e(Request::is('home') ? 'menu-open' : null); ?>">
-                          <a class="nav-link <?php echo e(Request::is('bundle*') ? 'active' : null); ?>">
-                              <i class="nav-icon fas fa-th"></i>
-                              <p>
-                                  BUNDLE
-                                  <i class="right fas fa-angle-left"></i>
-                              </p>
-                          </a>
-                          <ul class="nav nav-treeview">
-                              <li class="nav-item">
-                                  <a href="<?php echo e(route('bundle.index')); ?>"
-                                      class="nav-link <?php echo e(Request::is('bundle') ? 'active' : null); ?>">
-                                      <i class="nav-icon fas fa-list"></i>
-                                      <p>
-                                          BUNDLE List
-                                      </p>
-                                  </a>
-                              </li>
-                          </ul>
-                      </li>
+                      
+                      <li class="nav-item <?php echo e(Request::is('bundle*') ? 'menu-open' : null); ?> <?php echo e(Request::is('home') ? 'menu-open' : null); ?>">
+                        <a class="nav-link  <?php echo e(Request::is('bundle*') ? 'active' : null); ?>"
+                            href="<?php echo e(route('bundle.index')); ?>">
+                            <i class="nav-icon fas fa-list"></i>
+                            <p>BUNDLE</p>
+                        </a>
+                    </li>
                       <?php
                           $enrolled_package = auth()
                               ->user()

@@ -62,7 +62,9 @@ class DocumentController extends Controller
         if (!file_exists(storage_path('app/public/files'))) {
             mkdir(storage_path('app/public/files'), 0777, true);
         }
-        $filename = $request->file('file')->store('public/files');
+        $file = $request->file('file');
+        $filename = $file->getClientOriginalName();
+       $filename =$file->storeAs('public/files', $filename);
         $bundle_id= $request->bundle_id;
         $section_id= $request->section_id;
         $file_id= $request->file_id;
@@ -141,7 +143,9 @@ class DocumentController extends Controller
         if (!file_exists(public_path('pdf'))) {
             mkdir(public_path('pdf'), 0777, true);
         }
-        $filename = $request->file('file')->store('public/files');
+        $file = $request->file('file');
+        $filename = $file->getClientOriginalName();
+       $filename =$file->storeAs('public/files', $filename);
         $bundle_id= $request->bundle_id;
         $section_id= $request->section_id;
         $filename = explode('/',$filename);
@@ -227,22 +231,38 @@ class DocumentController extends Controller
             if (!file_exists(public_path('pdf'))) {
                 mkdir(public_path('pdf'), 0777, true);
             }
-            if($sec->isDefault == 0){
-
-                if($sec->name == "Index")
+            if($sec->isDefault == 1){
+                if($sec->isMainSection == 1)
                 {
-
-                    $cpdf = MPDF::loadView('sectionPdf', compact('sec'));
+                    $cpdf = MPDF::loadView('MainindexPdf', compact('sec'));
                     $output=$cpdf->output();
                     file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
                     $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
                 }else{
-                    $allsections = Section::with('files')->where('bundle_id',$bundle_id)->orderBy('sort_id','ASC')->get();
-                    $cpdf = MPDF::loadView('indexAllPdf', compact('allsections'));
-                     $output=$cpdf->output();
-                    file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
-                    $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
+                    if($sec->name == "Index")
+                    {
+                        $allsections = Section::with('files')->where('bundle_id',$bundle_id)->orderBy('sort_id','ASC')->get();
+                        $heading = "INDEX";
+                        $cpdf = MPDF::loadView('indexAllPdf', compact('allsections','heading'));
+                        $output=$cpdf->output();
+                        file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
+                        $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
+                    }else{
+                        $allsections = Section::with('files')->where('id',$sec->id)->orderBy('sort_id','ASC')->get();
+                        $heading = $sec->name ."<br> INDEX";
+                        $cpdf = MPDF::loadView('indexAllPdf', compact('allsections','heading'));
+                        $output=$cpdf->output();
+                        file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
+                        $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
+                    }
                 }
+            }else{
+                        $allsections = Section::with('files')->where('id',$sec->id)->orderBy('sort_id','ASC')->get();
+                        $heading = $sec->name ."<br> INDEX";
+                        $cpdf = MPDF::loadView('indexAllPdf', compact('allsections','heading'));
+                        $output=$cpdf->output();
+                        file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
+                        $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
             }
             foreach($sec->files as $f){
                 $pdf->addPDF(public_path("pdf/".$f->filename), 'all');
@@ -305,17 +325,17 @@ class DocumentController extends Controller
                 }
                 // Text font settings
                 $name = uniqid();
-                $font_size = 5;
+                $font_size = 95;
                 $opacity = 100;
                 $ts = explode("\n", $text);
-                $width = 0;
+                $width = 80;
                 foreach($ts as $k=>$string){
                     $width = max($width, strlen($string));
                 }
-                $width  = imagefontwidth($font_size)*$width;
-                $height = imagefontheight($font_size)*count($ts);
-                $el = imagefontheight($font_size);
-                $em = imagefontwidth($font_size);
+                $width  = imagefontwidth(75)*100;
+                $height = imagefontheight(75)*count($ts);
+                $el = imagefontheight(75);
+                $em = imagefontwidth(75);
                 $img = imagecreatetruecolor($width, $height);
 
                 $bg = imagecolorallocate($img, 255, 255, 255);
@@ -342,7 +362,7 @@ class DocumentController extends Controller
                     $op = 100;
                 }
 
-                imagecopymerge($blank, $img, 0, 0, 0, 0, $width, $height, $op);
+                imagecopymerge($blank, $img, 0, 0, 0, 0, $width, $height, 5);
                 imagepng($blank, $name.".png");
 
                 $pdf = new Fpdi();
@@ -358,24 +378,24 @@ class DocumentController extends Controller
                     $pdf->addPage();
                     $pdf->useTemplate($tpl, 1, 1, $size['width'], $size['height'], TRUE);
 
-                    $xxx_final = ($size['width']-50);
-                    $yyy_final = ($size['height']-25);
+                    $xxx_final = ($size['width']-150);
+                    $yyy_final = ($size['height']-150);
                     if(!is_null($admin_setting) && $admin_setting->value == 1){
                    if(!is_null($settings)){
                         if($settings->type == "TEXT"){
-                            $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
+                            $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 20, 'png', '', false, false);
                         }else{
                             $xxx_final = ($size['width']-75);
                             $yyy_final = ($size['height']-25);
                             $image = public_path('watermark/'.$settings->value);
-                            $pdf->Image($image, $xxx_final, $yyy_final, 0, 0, 'png');
+                            $pdf->Image($image, $xxx_final, $yyy_final, 0, 0, 'png', '', true, false);
                         }
                     }else{
-                        $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
+                        $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png', '', true, false);
 
                     }
                 }else{
-                    $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
+                    $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png', '', true, false);
                 }
 
 
@@ -470,7 +490,7 @@ class DocumentController extends Controller
                     $op = 100;
                 }
 
-                imagecopymerge($blank, $img, 0, 0, 0, 0, $width, $height, $op);
+                imagecopymerge($blank, $img, 0, 0, 0, 0, $width, $height, 5);
                 imagepng($blank, $name.".png");
 
                 $pdf = new Fpdi();
@@ -486,19 +506,19 @@ class DocumentController extends Controller
                     $pdf->addPage();
                     $pdf->useTemplate($tpl, 1, 1, $size['width'], $size['height'], TRUE);
 
-                    $xxx_final = ($size['width']-50);
-                    $yyy_final = ($size['height']-5);
+                    $xxx_final = ($size['width']-150);
+                    $yyy_final = ($size['height']-150);
                     if(!is_null($settings)){
                         if($settings->type == "TEXT"){
-                            $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
+                            $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 20, 'png', '', true, false);
                         }else{
                             $xxx_final = ($size['width']-75);
                             $yyy_final = ($size['height']-25);
                             $image = public_path('watermark/'.$settings->value);
-                            $pdf->Image($image, $xxx_final, $yyy_final, 0, 0, 'png');
+                            $pdf->Image($image, $xxx_final, $yyy_final, 0, 20, 'png', '', true, false);
                         }
                     }else{
-                        $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png');
+                        $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 20, 'png', '', true, false);
 
                     }
 

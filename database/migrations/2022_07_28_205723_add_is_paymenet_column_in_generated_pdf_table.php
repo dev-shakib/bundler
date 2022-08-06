@@ -14,7 +14,7 @@ class AddIsPaymenetColumnInGeneratedPdfTable extends Migration
     public function up()
     {
         Schema::table('generated_bundle', function (Blueprint $table) {
-            $table->text('paid')->boolean(0);
+            $table->boolean('paid')->default(0);
         });
     }
 
