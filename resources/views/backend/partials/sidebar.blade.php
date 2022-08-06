@@ -1,5 +1,5 @@
   <!-- Main Sidebar Container -->
-  <div style="display: nonew">
+  <div style="display: none">
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="{{ route('home') }}" class="brand-link">

@@ -22,11 +22,6 @@
 
         <!-- Notifications Dropdown Menu -->
         
-        <li class="nav-item" title="Full Screen">
-            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                <i class="fas fa-expand-arrows-alt"></i>
-            </a>
-        </li>
         <?php if(auth()->guard()->guest()): ?>
             <li><a class="nav-link" href="<?php echo e(route('login')); ?>"><?php echo e(trans('titles.login')); ?></a></li>
             <?php if(Route::has('register')): ?>
@@ -63,12 +58,6 @@
                 </div>
             </li>
         <?php endif; ?>
-        <li class="nav-item" title="Customize Panel UI">
-            <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#"
-                role="button">
-                <i class="fas fa-th-large"></i>
-            </a>
-        </li>
 
     </ul>
 </nav>

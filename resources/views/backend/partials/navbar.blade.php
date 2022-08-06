@@ -128,11 +128,6 @@
                 <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
             </div>
         </li> --}}
-        <li class="nav-item" title="Full Screen">
-            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                <i class="fas fa-expand-arrows-alt"></i>
-            </a>
-        </li>
         @guest
             <li><a class="nav-link" href="{{ route('login') }}">{{ trans('titles.login') }}</a></li>
             @if (Route::has('register'))
@@ -167,12 +162,6 @@
                 </div>
             </li>
         @endguest
-        <li class="nav-item" title="Customize Panel UI">
-            <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#"
-                role="button">
-                <i class="fas fa-th-large"></i>
-            </a>
-        </li>
 
     </ul>
 </nav>
