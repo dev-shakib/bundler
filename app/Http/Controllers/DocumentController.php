@@ -57,6 +57,89 @@ class DocumentController extends Controller
             return ['success'=>true,'message'=>'Updated'];
         }
     }
+     public function packages()
+    {
+        $enrolled_package = auth()
+        ->user()
+        ->load('enrolledPackage')->enrolledPackage;
+          if($enrolled_package->package_id == 1){
+                 $admin_setting = Setting::where(['type'=>"admin",'name'=>"watermark_setting"])->first();
+                if(!is_null($admin_setting) && $admin_setting->value == 1){
+                    $settings = Setting::where(['name'=>"watermark",'user_id'=>"1"])->first();
+                    if(!is_null($settings)){
+                        if($settings->type == "IMG")
+                        {
+                            return $config = ['instanceConfigurator' => function($pdf) use ($settings) {
+                                $pdf->SetWatermarkImage(public_path('watermark/'.$settings->value));
+                                $pdf->showWatermarkImage  = true;
+                            }];
+                        }else{
+                            return $config = ['instanceConfigurator' => function($pdf) use ($settings) {
+                                $pdf->SetWatermarkText($settings->value);
+                                $pdf->showWatermarkText  = true;
+                            }];
+                        }
+
+                    }else{
+                        return $config = ['instanceConfigurator' => function($pdf) use ($settings) {
+                                $pdf->SetWatermarkText(env('APP_NAME'));
+                                $pdf->showWatermarkText  = true;
+                            }];
+                    }
+                }else{
+                    return $config = ['instanceConfigurator' => function($pdf) {
+                                $pdf->SetWatermarkText(env('APP_NAME'));
+                                $pdf->showWatermarkText  = true;
+                            }];
+                }
+            }elseif($enrolled_package->package_id == 3){
+                $settings_watermark = Setting::where(['user_id'=>auth()->user()->id,'name'=>"watermark_setting"]);
+                if($settings_watermark->count() > 0)
+                {
+                    $settings_watermark = $settings_watermark->first();
+                }else{
+                    $settings_watermark->value = 0;
+                }
+                if($settings_watermark->value == 1)
+                {
+                    $settings = Setting::where(['user_id'=>auth()->user()->id,'name'=>"watermark"])->first();
+                    if(!is_null($settings)){
+                        $text = $settings->value;
+                    }else{
+                        $text =env('APP_NAME');
+                    }
+                    if(!is_null($settings)){
+                        if($settings->type == "TEXT"){
+                            return $config = ['instanceConfigurator' => function($pdf) use ($settings) {
+                                $pdf->SetWatermarkText($settings->value);
+                                $pdf->showWatermarkText  = true;
+                            }];
+                        }else{
+                            return $config = ['instanceConfigurator' => function($pdf) use ($settings) {
+                                $pdf->SetWatermarkImage(public_path('watermark/'.$settings->value));
+                                $pdf->showWatermarkImage  = true;
+                            }];
+                        }
+                    }else{
+                       return $config = ['instanceConfigurator' => function($pdf) {
+                                $pdf->SetWatermarkText(env('APP_NAME'));
+                                $pdf->showWatermarkText  = false;
+                            }];
+
+                    }
+                }else{
+                    return $config = ['instanceConfigurator' => function($pdf) {
+                        $pdf->SetWatermarkText(env('APP_NAME'));
+                        $pdf->showWatermarkText  = false;
+                    }];
+                }
+            }else{
+                  return $config = ['instanceConfigurator' => function($pdf) {
+                        $pdf->SetWatermarkText(env('APP_NAME'));
+                        $pdf->showWatermarkText  = false;
+                    }];
+            }
+    }
     public function update(Request $request)
     {
         if (!file_exists(storage_path('app/public/files'))) {
@@ -94,7 +177,7 @@ class DocumentController extends Controller
             $view['view'] = view('pdf.'.$splitName[0])->render();
 
 
-            $pdf = MPDF::loadView('newDocsPdf', $view);
+            $pdf = MPDF::loadHtml(view('newDocsPdf', $view),$this->packages());
             $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
             unlink(public_path("../resources/views/pdf/".$splitName[0].'.blade.php'));
 
@@ -102,15 +185,95 @@ class DocumentController extends Controller
             {
                 $data['image'] = [$filename[2]];
 
-                $pdf = MPDF::loadView('imgPdf', $data);
+
                 $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
                    unlink(storage_path("app/public/files/".$filename[2]));
             }else{
+
+            $enrolled_package = auth()
+            ->user()
+            ->load('enrolledPackage')->enrolledPackage;
             $sourcePath=storage_path("app/public/files/".$filename[2]);
+            $mpdf = new \Mpdf\Mpdf();
+
+
+            // Specify a PDF template
+            $pagecount = $mpdf->SetSourceFile($sourcePath);
+
+            for($i=1;$i<=$pagecount;$i++){
+                    $mpdf->AddPage();
+                    $import_page = $mpdf->ImportPage($i);
+                    $mpdf->UseTemplate($import_page);
+
+
+                    if($enrolled_package->package_id == 1){
+                        $admin_setting = Setting::where(['type'=>"admin",'name'=>"watermark_setting"])->first();
+                        if(!is_null($admin_setting) && $admin_setting->value == 1){
+                            $settings = Setting::where(['name'=>"watermark",'user_id'=>"1"])->first();
+                            if(!is_null($settings)){
+                                if($settings->type == "IMG")
+                                {
+                                    $mpdf->SetWatermarkImage(public_path('watermark/'.$settings->value));
+                                    $mpdf->showWatermarkImage  = true;
+                                }else{
+                                    $mpdf->SetWatermarkText($settings->value);
+                                    $mpdf->showWatermarkText  = true;
+                                }
+
+                            }else{
+                                $mpdf->SetWatermarkText(env('APP_NAME'));
+                                $mpdf->showWatermarkText  = true;
+                            }
+                        }else{
+                            $mpdf->SetWatermarkText(env('APP_NAME'));
+                            $mpdf->showWatermarkText  = true;
+                        }
+                    }elseif($enrolled_package->package_id == 3){
+                        $settings_watermark = Setting::where(['user_id'=>auth()->user()->id,'name'=>"watermark_setting"]);
+                        if($settings_watermark->count() > 0)
+                        {
+                            $settings_watermark = $settings_watermark->first();
+                        }else{
+                            $settings_watermark->value = 0;
+                        }
+                        if($settings_watermark->value == 1)
+                        {
+                            $settings = Setting::where(['user_id'=>auth()->user()->id,'name'=>"watermark"])->first();
+                            if(!is_null($settings)){
+                                $text = $settings->value;
+                            }else{
+                                $text =env('APP_NAME');
+                            }
+                            if(!is_null($settings)){
+                                if($settings->type == "TEXT"){
+                                    $mpdf->SetWatermarkText($settings->value);
+                                    $mpdf->showWatermarkText  = true;
+                                }else{
+                                    $mpdf->SetWatermarkImage(public_path('watermark/'.$settings->value));
+                                    $mpdf->showWatermarkImage  = true;
+                                }
+                            }else{
+                                $mpdf->SetWatermarkText(env('APP_NAME'));
+                                $mpdf->showWatermarkText  = false;
+
+                            }
+                        }else{
+                            $mpdf->SetWatermarkText(env('APP_NAME'));
+                            $mpdf->showWatermarkText  = true;
+                        }
+                    }else{
+                        $mpdf->SetWatermarkText(env('APP_NAME'));
+                        $mpdf->showWatermarkText  = false;
+                    }
+
+            }
+            $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
             $destinationPath=public_path('pdf/'.$filename[2]);
             if(Files::exists($sourcePath)){
                 Files::move($sourcePath,$destinationPath);
             }
+
+
 
         }
             $path = public_path('pdf/'.$splitName[0].'.pdf');
@@ -134,6 +297,7 @@ class DocumentController extends Controller
 
         }
     }
+
     public function uploadDocuments(Request $request)
     {
 
@@ -169,11 +333,10 @@ class DocumentController extends Controller
             $PDFWriter->save(public_path('../resources/views/pdf/'. $splitName[0].'.blade.php'));
 
             $view['view'] = view('pdf.'.$splitName[0])->render();
-            $vew['view'] = str_replace("PHPWord","",$view['view']);
+            $view['view'] = str_replace("PHPWord","",$view['view']);
 
-            $pdf = MPDF::loadView('newDocsPdf', $view);
+            $pdf = MPDF::loadHtml(view('newDocsPdf', $view),$this->packages());
             $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
-
 
             unlink(public_path("../resources/views/pdf/".$splitName[0].'.blade.php'));
 
@@ -181,11 +344,88 @@ class DocumentController extends Controller
         {
             $image = [$filename[2]];
 
-            $pdf = MPDF::loadView('imgPdf', compact('image'));
+            $pdf = MPDF::loadHtml(view('imgPdf', compact('image')),$this->packages());
             $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
             unlink(storage_path("app/public/files/".$filename[2]));
         }else{
+            $enrolled_package = auth()
+            ->user()
+            ->load('enrolledPackage')->enrolledPackage;
             $sourcePath=storage_path("app/public/files/".$filename[2]);
+            $mpdf = new \Mpdf\Mpdf();
+
+
+            // Specify a PDF template
+            $pagecount = $mpdf->SetSourceFile($sourcePath);
+
+            for($i=1;$i<=$pagecount;$i++){
+                    $mpdf->AddPage();
+                    $import_page = $mpdf->ImportPage($i);
+                    $mpdf->UseTemplate($import_page);
+
+
+                    if($enrolled_package->package_id == 1){
+                        $admin_setting = Setting::where(['type'=>"admin",'name'=>"watermark_setting"])->first();
+                        if(!is_null($admin_setting) && $admin_setting->value == 1){
+                            $settings = Setting::where(['name'=>"watermark",'user_id'=>"1"])->first();
+                            if(!is_null($settings)){
+                                if($settings->type == "IMG")
+                                {
+                                    $mpdf->SetWatermarkImage(public_path('watermark/'.$settings->value));
+                                    $mpdf->showWatermarkImage  = true;
+                                }else{
+                                    $mpdf->SetWatermarkText($settings->value);
+                                    $mpdf->showWatermarkText  = true;
+                                }
+
+                            }else{
+                                $mpdf->SetWatermarkText(env('APP_NAME'));
+                                $mpdf->showWatermarkText  = true;
+                            }
+                        }else{
+                            $mpdf->SetWatermarkText(env('APP_NAME'));
+                            $mpdf->showWatermarkText  = true;
+                        }
+                    }elseif($enrolled_package->package_id == 3){
+                        $settings_watermark = Setting::where(['user_id'=>auth()->user()->id,'name'=>"watermark_setting"]);
+                        if($settings_watermark->count() > 0)
+                        {
+                            $settings_watermark = $settings_watermark->first();
+                        }else{
+                            $settings_watermark->value = 0;
+                        }
+                        if($settings_watermark->value == 1)
+                        {
+                            $settings = Setting::where(['user_id'=>auth()->user()->id,'name'=>"watermark"])->first();
+                            if(!is_null($settings)){
+                                $text = $settings->value;
+                            }else{
+                                $text =env('APP_NAME');
+                            }
+                            if(!is_null($settings)){
+                                if($settings->type == "TEXT"){
+                                    $mpdf->SetWatermarkText($settings->value);
+                                    $mpdf->showWatermarkText  = true;
+                                }else{
+                                    $mpdf->SetWatermarkImage(public_path('watermark/'.$settings->value));
+                                    $mpdf->showWatermarkImage  = true;
+                                }
+                            }else{
+                                $mpdf->SetWatermarkText(env('APP_NAME'));
+                                $mpdf->showWatermarkText  = false;
+
+                            }
+                        }else{
+                            $mpdf->SetWatermarkText(env('APP_NAME'));
+                            $mpdf->showWatermarkText  = true;
+                        }
+                    }else{
+                        $mpdf->SetWatermarkText(env('APP_NAME'));
+                        $mpdf->showWatermarkText  = false;
+                    }
+
+            }
+            $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
             $destinationPath=public_path('pdf/'.$filename[2]);
             if(Files::exists($sourcePath)){
                 Files::move($sourcePath,$destinationPath);
@@ -236,7 +476,7 @@ class DocumentController extends Controller
             if($sec->isDefault == 1){
                 if($sec->isMainSection == 1)
                 {
-                    $cpdf = MPDF::loadView('MainindexPdf', compact('sec'));
+                    $cpdf = MPDF::loadHtml(view('MainindexPdf', compact('sec')),$this->packages());
                     $output=$cpdf->output();
                     file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
                     $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
@@ -245,14 +485,14 @@ class DocumentController extends Controller
                     {
                         $allsections = Section::with('files')->where('bundle_id',$bundle_id)->orderBy('sort_id','ASC')->get();
                         $heading = "INDEX";
-                        $cpdf = MPDF::loadView('indexAllPdf', compact('allsections','heading'));
+                        $cpdf = MPDF::loadHtml(view('indexAllPdf', compact('allsections','heading')),$this->packages());
                         $output=$cpdf->output();
                         file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
                         $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
                     }else{
                         $allsections = Section::with('files')->where('id',$sec->id)->orderBy('sort_id','ASC')->get();
                         $heading = $sec->name ."<br> INDEX";
-                        $cpdf = MPDF::loadView('indexAllPdf', compact('allsections','heading'));
+                        $cpdf = MPDF::loadHtml(view('indexAllPdf', compact('allsections','heading')),$this->packages());
                         $output=$cpdf->output();
                         file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
                         $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
@@ -261,7 +501,7 @@ class DocumentController extends Controller
             }else{
                         $allsections = Section::with('files')->where('id',$sec->id)->orderBy('sort_id','ASC')->get();
                         $heading = $sec->name ."<br> INDEX";
-                        $cpdf = MPDF::loadView('indexAllPdf', compact('allsections','heading'));
+                        $cpdf = MPDF::loadHtml(view('indexAllPdf', compact('allsections','heading')),$this->packages());
                         $output=$cpdf->output();
                         file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
                         $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
@@ -312,326 +552,40 @@ class DocumentController extends Controller
         ->user()
         ->load('enrolledPackage')->enrolledPackage;
         $generated_pdf = generatedTable::where("id",$id)->first();
-                $file = public_path('generated_pdf/'.$generated_pdf->filename);
-        if($enrolled_package->package_id == 1){
-                $admin_setting = Setting::where(['type'=>"admin",'name'=>"watermark_setting"])->first();
-                if(!is_null($admin_setting) && $admin_setting->value == 1){
-                    $settings = Setting::where(['name'=>"watermark"])->first();
-                    if(!is_null($settings)){
-                        $text = $settings->value;
-                    }else{
-                        $text =env('APP_NAME');
-                    }
-                }else{
-                    $text =env('APP_NAME');
-                }
-                // Text font settings
-                $name = uniqid();
-                $font_size = 95;
-                $opacity = 100;
-                $ts = explode("\n", $text);
-                $width = 80;
-                foreach($ts as $k=>$string){
-                    $width = max($width, strlen($string));
-                }
-                $width  = imagefontwidth(75)*100;
-                $height = imagefontheight(75)*count($ts);
-                $el = imagefontheight(75);
-                $em = imagefontwidth(75);
-                $img = imagecreatetruecolor($width, $height);
-
-                $bg = imagecolorallocate($img, 255, 255, 255);
-                imagefilledrectangle($img, 0, 0, $width, $height, $bg);
-
-                $color = imagecolorallocate($img, 0, 0, 0);
-                foreach($ts as $k=>$string){
-                    $len = strlen($string);
-                    $ypos = 0;
-                    for($i=0;$i<$len;$i++){
-                        $xpos = $i * $em;
-                        $ypos = $k * $el;
-                        imagechar($img, $font_size, $xpos, $ypos, $string, $color);
-                        $string = substr($string, 1);
-                    }
-                }
-                imagecolortransparent($img, $bg);
-                $blank = imagecreatetruecolor($width, $height);
-                $tbg = imagecolorallocate($blank, 255, 255, 255);
-                imagefilledrectangle($blank, 0, 0, $width, $height, $tbg);
-                imagecolortransparent($blank, $tbg);
-                $op = !empty($opacity)?$opacity:100;
-                if ( ($op < 0) OR ($op >100) ){
-                    $op = 100;
-                }
-
-                imagecopymerge($blank, $img, 0, 0, 0, 0, $width, $height, 5);
-                imagepng($blank, $name.".png");
-
-                $pdf = new Fpdi();
-                if(file_exists($file)){
-                    $pagecount = $pdf->setSourceFile($file);
-                }else{
-                    die('Source PDF not found!');
-                }
-
-                for($i=1;$i<=$pagecount;$i++){
-                    $tpl = $pdf->importPage($i);
-                    $size = $pdf->getTemplateSize($tpl);
-                    $pdf->addPage();
-                    $pdf->useTemplate($tpl, 1, 1, $size['width'], $size['height'], TRUE);
-
-                    $xxx_final = ($size['width']-150);
-                    $yyy_final = ($size['height']-150);
-                    if(!is_null($admin_setting) && $admin_setting->value == 1){
-                   if(!is_null($settings)){
-                        if($settings->type == "TEXT"){
-                            $pdf->SetFont('Arial','',12);
-                            $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 20, 'png', '', false, false);
-                        }else{
-                            $xxx_final = ($size['width']-150);
-                            $yyy_final = ($size['height']-150);
-                            $image = public_path('watermark/'.$settings->value);
-                            $pdf->Image($image, 10,10,189);
-                        }
-                    }else{
-                        $pdf->Image($name.'.png', 10,10,189);
-
-                    }
-                }else{
-                    $pdf->Image($name.'.png', 10,10,189);
-                }
-
-
-                }
-                // dd(unlink(public_path($name.'.png')));
-                unlink(public_path($name.'.png'));
-
-                $bundle = Bundle::where("id",$generated_pdf->bundle_id)->first();
-                if (!file_exists(public_path('bundle_pdf'))) {
-                        mkdir(public_path('bundle_pdf'), 0777, true);
-                    }
-                if (!file_exists(public_path('bundle_pdf/'.$bundle->name))) {
-                        mkdir(public_path('bundle_pdf/'.$bundle->name), 0777, true);
-                    }
-                if (!file_exists(public_path('bundle_zip'))) {
-                        mkdir(public_path('bundle_zip'), 0777, true);
-                    }
-                $pdf->Output('F', public_path('bundle_pdf/'.$bundle->name.'/'.$bundle->name.'.pdf'));
-
-                if (!file_exists(public_path('bundle_zip/'.$bundle->name.'.zip'))) {
-                    touch(public_path('bundle_zip/'.$bundle->name.'.zip'), strtotime('-1 days'));
-                }
-                $fileName = 'bundle_zip/'.$bundle->name.'.zip';
-                    $zip = new ZipArchive;
-                if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
-
-                    $files = Files::files(public_path('bundle_pdf/'.$bundle->name));
-                    foreach ($files as $key => $value) {
-                        $relativeNameInZipFile = basename($value);
-                        $zip->addFile($value, $relativeNameInZipFile);
-                    }
-
-                    $zip->close();
-                }
-
-
-                return response()->download(public_path($fileName));
-
-        }elseif($enrolled_package->package_id == 3){
-            $settings_watermark = Setting::where(['user_id'=>auth()->user()->id,'name'=>"watermark_setting"]);
-
-            if($settings_watermark->count() > 0)
-            {
-                $settings_watermark = $settings_watermark->first();
-            }else{
-                $settings_watermark->value = 0;
+        $file = public_path('generated_pdf/'.$generated_pdf->filename);
+        $bundle = Bundle::where("id",$generated_pdf->bundle_id)->first();
+        if (!file_exists(public_path('bundle_pdf'))) {
+                mkdir(public_path('bundle_pdf'), 0777, true);
             }
-            if($settings_watermark->value == 1)
-            {
-                $settings = Setting::where(['user_id'=>auth()->user()->id,'name'=>"watermark"])->first();
-                if(!is_null($settings)){
-                    $text = $settings->value;
-                }else{
-                    $text =env('APP_NAME');
-                }
-                // Text font settings
-                $name = uniqid();
-                $font_size = 5;
-                $opacity = 100;
-                $ts = explode("\n", $text);
-                $width = 0;
-                foreach($ts as $k=>$string){
-                    $width = max($width, strlen($string));
-                }
-                $width  = imagefontwidth($font_size)*$width;
-                $height = imagefontheight($font_size)*count($ts);
-                $el = imagefontheight($font_size);
-                $em = imagefontwidth($font_size);
-                $img = imagecreatetruecolor($width, $height);
-
-                $bg = imagecolorallocate($img, 255, 255, 255);
-                imagefilledrectangle($img, 0, 0, $width, $height, $bg);
-
-                $color = imagecolorallocate($img, 0, 0, 0);
-                foreach($ts as $k=>$string){
-                    $len = strlen($string);
-                    $ypos = 0;
-                    for($i=0;$i<$len;$i++){
-                        $xpos = $i * $em;
-                        $ypos = $k * $el;
-                        imagechar($img, $font_size, $xpos, $ypos, $string, $color);
-                        $string = substr($string, 1);
-                    }
-                }
-                imagecolortransparent($img, $bg);
-                $blank = imagecreatetruecolor($width, $height);
-                $tbg = imagecolorallocate($blank, 255, 255, 255);
-                imagefilledrectangle($blank, 0, 0, $width, $height, $tbg);
-                imagecolortransparent($blank, $tbg);
-                $op = !empty($opacity)?$opacity:100;
-                if ( ($op < 0) OR ($op >100) ){
-                    $op = 100;
-                }
-
-                $blank = imagerotate($img, 270, 0);
-                imagecopymerge($blank, $img, 0, 0, 0, 0, $width, $height, 5);
-                imagepng($blank, $name.".png",95);
-
-                $pdf = new Fpdi();
-                if(file_exists($file)){
-                    $pagecount = $pdf->setSourceFile($file);
-                }else{
-                    die('Source PDF not found!');
-                }
-
-                for($i=1;$i<=$pagecount;$i++){
-                    $tpl = $pdf->importPage($i);
-                    $size = $pdf->getTemplateSize($tpl);
-                    $pdf->addPage();
-                    $pdf->useTemplate($tpl, 1, 1, $size['width'], $size['height'], TRUE);
-
-                    $xxx_final = ($size['width']-150);
-                    $yyy_final = ($size['height']-150);
-                    if(!is_null($settings)){
-                        if($settings->type == "TEXT"){
-                            $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 20, 'png', '', true, false);
-                        }else{
-                            $xxx_final = ($size['width']-75);
-                            $yyy_final = ($size['height']-25);
-                            $image = public_path('watermark/'.$settings->value);
-                            $pdf->Image($image, 10,10,189);
-                        }
-                    }else{
-                        $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 20, 'png', '', true, false);
-
-                    }
-
-                }
-                unlink(public_path($name.'.png'));
-
-                $bundle = Bundle::where("id",$generated_pdf->bundle_id)->first();
-                if (!file_exists(public_path('bundle_pdf'))) {
-                        mkdir(public_path('bundle_pdf'), 0777, true);
-                    }
-                if (!file_exists(public_path('bundle_pdf/'.$bundle->name))) {
-                        mkdir(public_path('bundle_pdf/'.$bundle->name), 0777, true);
-                    }
-                if (!file_exists(public_path('bundle_zip'))) {
-                        mkdir(public_path('bundle_zip'), 0777, true);
-                    }
-                $pdf->Output('F', public_path('bundle_pdf/'.$bundle->name.'/'.$bundle->name.'.pdf'));
-                // $pdf->Output("I");
-
-                if (!file_exists(public_path('bundle_zip/'.$bundle->name.'.zip'))) {
-                    touch(public_path('bundle_zip/'.$bundle->name.'.zip'), strtotime('-1 days'));
-                }
-                $fileName = 'bundle_zip/'.$bundle->name.'.zip';
-                    $zip = new ZipArchive;
-                if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
-
-                    $files = Files::files(public_path('bundle_pdf/'.$bundle->name));
-                    foreach ($files as $key => $value) {
-                        $relativeNameInZipFile = basename($value);
-                        $zip->addFile($value, $relativeNameInZipFile);
-                    }
-
-                    $zip->close();
-                }
-
-                // return response()->download(public_path($fileName));
-            }else{
-                $bundle = Bundle::where("id",$generated_pdf->bundle_id)->first();
-                if (!file_exists(public_path('bundle_pdf'))) {
-                    mkdir(public_path('bundle_pdf'), 0777, true);
-                }
-                if (!file_exists(public_path('bundle_pdf/'.$bundle->name))) {
-                    mkdir(public_path('bundle_pdf/'.$bundle->name), 0777, true);
-                }
-                $sourcePath= public_path('generated_pdf/'.$generated_pdf->filename);
-                $destinationPath=public_path('bundle_pdf/'.$bundle->name.'/'.$generated_pdf->filename);
-                if(Files::exists($sourcePath)){
-                    Files::move($sourcePath,$destinationPath);
-                }
-                if (!file_exists(public_path('bundle_zip'))) {
-                        mkdir(public_path('bundle_zip'), 0777, true);
-                    }
-
-                if (!file_exists(public_path('bundle_zip/'.$bundle->name.'.zip'))) {
-                    touch(public_path('bundle_zip/'.$bundle->name.'.zip'), strtotime('-1 days'));
-                }
-                $fileName = 'bundle_zip/'.$bundle->name.'.zip';
-                    $zip = new ZipArchive;
-                if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
-
-                    $files = Files::files(public_path('bundle_pdf/'.$bundle->name));
-                    foreach ($files as $key => $value) {
-                        $relativeNameInZipFile = basename($value);
-                        $zip->addFile($value, $relativeNameInZipFile);
-                    }
-
-                    $zip->close();
-                }
-
-
-                return response()->download(public_path($fileName));
+        if (!file_exists(public_path('bundle_pdf/'.$bundle->name))) {
+                mkdir(public_path('bundle_pdf/'.$bundle->name), 0777, true);
             }
+        if (!file_exists(public_path('bundle_zip'))) {
+                mkdir(public_path('bundle_zip'), 0777, true);
+            }
+            $sourcePath=$file;
+            $destinationPath=public_path('bundle_pdf/Bundle 1/Bundle 1.pdf');
+            if(Files::exists($sourcePath)){
+                Files::move($sourcePath,$destinationPath);
+            }
+        if (!file_exists(public_path('bundle_zip/'.$bundle->name.'.zip'))) {
+            touch(public_path('bundle_zip/'.$bundle->name.'.zip'), strtotime('-1 days'));
         }
-        else{
-                $bundle = Bundle::where("id",$generated_pdf->bundle_id)->first();
-                if (!file_exists(public_path('bundle_pdf'))) {
-                    mkdir(public_path('bundle_pdf'), 0777, true);
-                }
-                if (!file_exists(public_path('bundle_pdf/'.$bundle->name))) {
-                    mkdir(public_path('bundle_pdf/'.$bundle->name), 0777, true);
-                }
-                $sourcePath= public_path('generated_pdf/'.$generated_pdf->filename);
-                $destinationPath=public_path('bundle_pdf/'.$bundle->name.'/'.$generated_pdf->filename);
-                if(Files::exists($sourcePath)){
-                    Files::move($sourcePath,$destinationPath);
-                }
-                if (!file_exists(public_path('bundle_zip'))) {
-                        mkdir(public_path('bundle_zip'), 0777, true);
-                    }
+        $fileName = 'bundle_zip/'.$bundle->name.'.zip';
+            $zip = new ZipArchive;
+        if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
 
-                if (!file_exists(public_path('bundle_zip/'.$bundle->name.'.zip'))) {
-                    touch(public_path('bundle_zip/'.$bundle->name.'.zip'), strtotime('-1 days'));
-                }
-                $fileName = 'bundle_zip/'.$bundle->name.'.zip';
-                    $zip = new ZipArchive;
-                if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
-
-                    $files = Files::files(public_path('bundle_pdf/'.$bundle->name));
-                    foreach ($files as $key => $value) {
-                        $relativeNameInZipFile = basename($value);
-                        $zip->addFile($value, $relativeNameInZipFile);
-                    }
-
-                    $zip->close();
-                }
-
-
-                return response()->download(public_path($fileName));
+            $files = Files::files(public_path('bundle_pdf/'.$bundle->name));
+            foreach ($files as $key => $value) {
+                $relativeNameInZipFile = basename($value);
+                $zip->addFile($value, $relativeNameInZipFile);
             }
+
+            $zip->close();
+        }
+
+        return response()->download(public_path($fileName));
+
     }
 
 }

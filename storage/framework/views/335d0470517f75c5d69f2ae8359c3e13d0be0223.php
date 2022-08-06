@@ -1,4 +1,5 @@
   <!-- Main Sidebar Container -->
+  <div style="display: none">
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="<?php echo e(route('home')); ?>" class="brand-link">
@@ -150,5 +151,6 @@
       </div>
       <!-- /.sidebar -->
   </aside>
+  </div>
   <!-- Main Sidebar Container -->
 <?php /**PATH D:\LSKIT\bundler\resources\views/backend/partials/sidebar.blade.php ENDPATH**/ ?>
