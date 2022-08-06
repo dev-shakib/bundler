@@ -173,6 +173,20 @@ class DocumentController extends Controller
 
             $pdf = MPDF::loadView('newDocsPdf', $view);
             $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
+
+            $mpdf = new MPDF();
+            $fpdi = new Fpdi();
+            $mpdf->enableImports = true;
+            $pagecount = $fpdi->SetSourceFile(public_path('pdf/'.$splitName[0].'.pdf'));
+            for($i=1;$i<=$pagecount;$i++){
+                    $tpl = $fpdi->importPage($i);
+                    $size = $fpdi->getTemplateSize($tpl);
+                    $fpdi->addPage();
+                    $fpdi->useTemplate($tpl, 1, 1, $size['width'], $size['height'], TRUE);
+                    $fpdi->Image(public_path('watermark/watermark.png'),10,10,189);
+
+                }
+            $fpdi->Output('F', public_path('pdf/'.$splitName[0].'.pdf'));
             unlink(public_path("../resources/views/pdf/".$splitName[0].'.blade.php'));
 
         }else if($splitName[1] == "jpg" || $splitName[1] == "jpeg" || $splitName[1] == "gif"  || $splitName[1] == "png"  || $splitName[1] == "JPG" || $splitName[1] == "jpg"  || $splitName[1] == "JPEG"  || $splitName[1] == "PNG" || $splitName[1] == "GIF")
@@ -383,19 +397,20 @@ class DocumentController extends Controller
                     if(!is_null($admin_setting) && $admin_setting->value == 1){
                    if(!is_null($settings)){
                         if($settings->type == "TEXT"){
+                            $pdf->SetFont('Arial','',12);
                             $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 20, 'png', '', false, false);
                         }else{
-                            $xxx_final = ($size['width']-75);
-                            $yyy_final = ($size['height']-25);
+                            $xxx_final = ($size['width']-150);
+                            $yyy_final = ($size['height']-150);
                             $image = public_path('watermark/'.$settings->value);
-                            $pdf->Image($image, $xxx_final, $yyy_final, 0, 0, 'png', '', true, false);
+                            $pdf->Image($image, 10,10,189);
                         }
                     }else{
-                        $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png', '', true, false);
+                        $pdf->Image($name.'.png', 10,10,189);
 
                     }
                 }else{
-                    $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 0, 'png', '', true, false);
+                    $pdf->Image($name.'.png', 10,10,189);
                 }
 
 
@@ -490,8 +505,9 @@ class DocumentController extends Controller
                     $op = 100;
                 }
 
+                $blank = imagerotate($img, 270, 0);
                 imagecopymerge($blank, $img, 0, 0, 0, 0, $width, $height, 5);
-                imagepng($blank, $name.".png");
+                imagepng($blank, $name.".png",95);
 
                 $pdf = new Fpdi();
                 if(file_exists($file)){
@@ -515,7 +531,7 @@ class DocumentController extends Controller
                             $xxx_final = ($size['width']-75);
                             $yyy_final = ($size['height']-25);
                             $image = public_path('watermark/'.$settings->value);
-                            $pdf->Image($image, $xxx_final, $yyy_final, 0, 20, 'png', '', true, false);
+                            $pdf->Image($image, 10,10,189);
                         }
                     }else{
                         $pdf->Image($name.'.png', $xxx_final, $yyy_final, 0, 20, 'png', '', true, false);

@@ -68,7 +68,7 @@ class SettingController extends Controller
 
                 $destinationPath = public_path('watermark');
                 Image::configure(array('driver' => 'gd'));
-                $img = Image::make($file->getRealPath())->resize(267, 104)->save($destinationPath.'/'.$input['imagename']);
+                $img = Image::make($file->getRealPath())->save($destinationPath.'/'.$input['imagename']);
                 $value = $input['imagename'];
             }
         }else{
