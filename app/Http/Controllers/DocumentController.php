@@ -174,19 +174,7 @@ class DocumentController extends Controller
             $pdf = MPDF::loadView('newDocsPdf', $view);
             $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
 
-            $mpdf = new MPDF();
-            $fpdi = new Fpdi();
-            $mpdf->enableImports = true;
-            $pagecount = $fpdi->SetSourceFile(public_path('pdf/'.$splitName[0].'.pdf'));
-            for($i=1;$i<=$pagecount;$i++){
-                    $tpl = $fpdi->importPage($i);
-                    $size = $fpdi->getTemplateSize($tpl);
-                    $fpdi->addPage();
-                    $fpdi->useTemplate($tpl, 1, 1, $size['width'], $size['height'], TRUE);
-                    $fpdi->Image(public_path('watermark/watermark.png'),10,10,189);
 
-                }
-            $fpdi->Output('F', public_path('pdf/'.$splitName[0].'.pdf'));
             unlink(public_path("../resources/views/pdf/".$splitName[0].'.blade.php'));
 
         }else if($splitName[1] == "jpg" || $splitName[1] == "jpeg" || $splitName[1] == "gif"  || $splitName[1] == "png"  || $splitName[1] == "JPG" || $splitName[1] == "jpg"  || $splitName[1] == "JPEG"  || $splitName[1] == "PNG" || $splitName[1] == "GIF")
