@@ -184,7 +184,7 @@
                                             @endif
                                         @endif
                                         <a href="{{ route('bundle.show_single', [$b->slug, $b->id]) }}"
-                                            class="btn btn-outline-primary"><i class="fa fa-eye"></i> VIEW</a>
+                                            class="btn btn-outline-primary" ><i class="fa fa-eye"></i> VIEW</a>
                                         <a href="{{ route('bundle.edit', $b->id) }}"
                                             class="btn btn-outline-primary"><i class="fa fa-pencil"></i> RENAME</a>
                                         @if ($enrolled_package->package_id == 1)
@@ -239,7 +239,7 @@
                         </thead>
                         <tbody>
                         @foreach ($bundle as $b)
-                            <tr>
+                            <tr class="clickable-row" data-href="{{ route('bundle.show_single', [$b->slug, $b->id]) }}" data-toggle="tooltip" data-placement="bottom" title="Click to View">
                                 <a href="">
                                 <td class="py-1 pl-3 align-middle">
                                     {{ $b->name }}
@@ -252,15 +252,15 @@
                                 </td>
 
                                 <td class="py-1 pl-3 align-middle text-right">
-                                    <a title="view" href="{{ route('bundle.show_single', [$b->slug, $b->id]) }}" class="text-white">
+                                    <a title="View" href="{{ route('bundle.show_single', [$b->slug, $b->id]) }}" class="text-white d-inline-block" data-toggle="tooltip" data-placement="top">
                                         <button class="btn btn-primary"><i class="fa fa-eye"></i></button>
                                     </a>
 
-                                    <a title="rename" href="{{ route('bundle.edit', $b->id) }}">
+                                    <a title="Rename" href="{{ route('bundle.edit', $b->id) }}"  data-toggle="tooltip" data-placement="top" class="d-inline-block">
                                     <button class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></button>
                                     </a>
 
-                                    <form title="delete" action="{{ route('bundle.destroy', [$b->id]) }}" method="post" class="d-inline-block">
+                                    <form title="Delete" action="{{ route('bundle.destroy', [$b->id]) }}" method="post" class="d-inline-block"  data-toggle="tooltip" data-placement="top">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger"><i

@@ -8,6 +8,7 @@
 <?php $__env->stopPush(); ?>
 
 <?php $__env->startSection('content'); ?>
+    <div style="display: none">
     <!-- Content Wrapper. Contains page content -->
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -27,6 +28,7 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+    </div>
 
     <!-- Main content -->
     <section class="content">
@@ -34,31 +36,33 @@
             <!-- Main row -->
             <div class="row">
                 <!-- Left col -->
-                <section class="col-lg-12 connectedSortable">
-                    <div class="card">
-                        <div class="card-body">
-                            <?php if($errors->any()): ?>
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <li><?php echo e($error); ?></li>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </ul>
-                                </div>
-                            <?php endif; ?>
-                            <form action="<?php echo e(route('bundle.update', [$bundle->id])); ?>" method="post">
+                <section class="col-12 mt-5">
+                    <div class="card p-0 col-lg-4 m-auto">
+                        <div class="card-header">
+                            <h5>Edit Bundle</h5>
+                        </div>
+                        
+                        <form action="<?php echo e(route('bundle.update', [$bundle->id])); ?>" method="post">
+                            <div class="card-body">
+                                <?php if($errors->any()): ?>
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <li><?php echo e($error); ?></li>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </ul>
+                                    </div>
+                                <?php endif; ?>
                                 <?php echo csrf_field(); ?>
                                 <?php echo method_field('put'); ?>
-                                <div class="row">
-                                    <div class="col-sm-8">
-                                        <input type="text" placeholder="Bundle Name" value="<?php echo e($bundle->name); ?>"
-                                            class="form-control" name="name">
-                                    </div>
-                                    <div class="col-sm-4"><input type="submit" class="btn btn-success" value="Update" />
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                                <input type="text" placeholder="Bundle Name" value="<?php echo e($bundle->name); ?>"
+                                        class="form-control" name="name">
+                            </div>
+                            <div class="card-footer">
+                                <input type="submit" class="btn btn-primary" value="Update" />
+                            </div>
+                        </form>
+                        
                     </div>
                 </section>
                 <!-- /.Left col -->

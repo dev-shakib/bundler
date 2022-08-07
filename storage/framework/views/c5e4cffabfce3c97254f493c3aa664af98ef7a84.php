@@ -1,7 +1,10 @@
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
-    <ul class="navbar-nav">
+    <ul class="navbar-nav align-items-center">
+        <li>
+            <button class="btn btn-sm btn-primary" onclick="history.back()" data-toggle="tooltip" data-placement="bottom" title="Back"><i class="fa fa-long-arrow-left"></i></button>
+        </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="<?php echo e(route('home')); ?>" class="brand-link">
                 <img src="<?php echo e(asset('admin')); ?>/img/AdminLTELogo.png" alt="AdminLTE Logo"
@@ -40,6 +43,11 @@
                     <?php echo e(Auth::user()->name); ?> <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item <?php echo e(Request::is('profile/' . Auth::user()->name, 'profile/' . Auth::user()->name . '/edit') ? 'active' : null); ?>"
+                        href="<?php echo e(route('bundle.index')); ?>">
+                        Bundle List
+                    </a>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item <?php echo e(Request::is('profile/' . Auth::user()->name, 'profile/' . Auth::user()->name . '/edit') ? 'active' : null); ?>"
                         href="<?php echo e(url('/profile/' . Auth::user()->name)); ?>">
                         <?php echo trans('titles.profile'); ?>

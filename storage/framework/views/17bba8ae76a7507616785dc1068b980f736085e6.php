@@ -24,7 +24,6 @@ $enrolled_package = auth()
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="<?php echo e(route('public.home')); ?>">Home</a></li>
                         <li class="breadcrumb-item "><a href="<?php echo e(route('bundle.index')); ?>">Bundle</a></li>
                         <li class="breadcrumb-item active"><?php echo e($bundle->name); ?> List</li>
                     </ol>
@@ -46,14 +45,17 @@ $enrolled_package = auth()
                         <div class="col-sm-12 ">
                             <div class="row">
                                 <div class="col-12">
-                                    <h2 class="text-center py-4"><b><?php echo e($bundle->name); ?></b> bundle</h2>
+                                    <h2 class="text-center py-4"><b><?php echo e($bundle->name); ?></b></h2>
                                 </div>
-                                <div class="col-12">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#sectioncreatemodal">
-                                        <i class="fa fa-folder-open-o"></i>
-                                    </button>
-
+                            </div>
+                            <div class="row align-items-center">
+                                <div class="col-lg-6">
+                                    <span class="d-inline-block" data-toggle="tooltip" data-placement="top" title="Add Section">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#sectioncreatemodal">
+                                            <i class="fa fa-folder-open-o"></i>
+                                        </button>
+                                    </span>
                                     <div class="modal fade" id="sectioncreatemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -88,39 +90,46 @@ $enrolled_package = auth()
                                         </div>
                                     </div>
 
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#exampleModal">
-                                        <i class="fa fa-upload"></i>
-                                    </button>
+                                    <span class="d-inline-block" data-toggle="tooltip" data-placement="top" title="Upload Document">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#exampleModal">
+                                            <i class="fa fa-upload"></i>
+                                        </button>
+                                    </span>
 
                                     <?php if($enrolled_package->package_id == 1): ?>
                                         <?php if($bundle->totalPages() < 60): ?>
                                             <?php if($bundle->generated->count() == 0): ?>
-                                                <a href="<?php echo e(route('public.bundle.generate', [$bundle->id])); ?>"
-                                                    class="btn btn-outline-info">Generate Bundle</a>
+                                                <a href="<?php echo e(route('public.bundle.generate', [$bundle->id])); ?>" data-toggle="tooltip" data-placement="top" title="Generate Bundle"
+                                                    class="btn btn-info"><i class="fa fa-file-text"></i></a>
                                             <?php endif; ?>
                                         <?php else: ?>
-                                            <a href="#" class="btn btn-outline-info">Generate
-                                                Bundle</a>
+                                            <a href="#" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Generate Bundle"><i class="fa fa-file-text"></i></a>
                                         <?php endif; ?>
                                     <?php else: ?>
                                         <?php if($bundle->generated->count() == 0): ?>
-                                            <a href="<?php echo e(route('public.bundle.generate', [$bundle->id])); ?>"
-                                                class="btn btn-outline-info">Generate Bundle</a>
+                                            <a href="<?php echo e(route('public.bundle.generate', [$bundle->id])); ?>" data-toggle="tooltip" data-placement="top" title="Generate Bundle"
+                                                class="btn btn-info"><i class="fa fa-file-text"></i></a>
                                         <?php endif; ?>
                                     <?php endif; ?>
                                     <?php if($enrolled_package->package_id == 1): ?>
                                         <?php if($bundle->totalPages() < 60): ?>
-                                            <a href="<?php echo e(route('public.bundle.generated_bundle', [$bundle->id])); ?>"
-                                                class="btn btn-outline-info">View Generated Bundle</a>
+                                            <a href="<?php echo e(route('public.bundle.generated_bundle', [$bundle->id])); ?>" data-toggle="tooltip" data-placement="top" title="View Generated Bundle"
+                                                class="btn btn-info"><i class="fa fa-file-pdf-o"></i></a>
                                         <?php else: ?>
-                                            <a href="#" class="btn btn-outline-info">View Generated
-                                                Bundle</a>
+                                            <a href="#" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="View Generated Bundle"><i class="fa fa-file-pdf-o"></i></a>
                                         <?php endif; ?>
                                     <?php else: ?>
-                                        <a href="<?php echo e(route('public.bundle.generated_bundle', [$bundle->id])); ?>"
-                                            class="btn btn-outline-info">View Generated Bundle</a>
+                                        <a href="<?php echo e(route('public.bundle.generated_bundle', [$bundle->id])); ?>" data-toggle="tooltip" data-placement="top" title="View Generated Bundle"
+                                            class="btn btn-info"><i class="fa fa-file-pdf-o"></i></a>
                                     <?php endif; ?>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <ol class="breadcrumb float-sm-right m-0 p-0 bg-transparent">
+                                        <li class="breadcrumb-item text-uppercase text-bold "><a href="<?php echo e(route('bundle.index')); ?>">Bundle</a></li>
+                                        <li class="breadcrumb-item text-bold"><?php echo e($bundle->name); ?> List</li>
+                                    </ol>
                                 </div>
                             </div>
                         </div>
@@ -137,7 +146,7 @@ $enrolled_package = auth()
                                     <?php $__currentLoopData = $bundle->section; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <?php if($s->isHiddenInList == 1): ?>
                                         <?php else: ?>
-                                            <tr data-id="<?php echo e($s->id); ?>">
+                                            <tr data-id="<?php echo e($s->id); ?>"  class="clickable-row" data-href="<?php echo e(route('section.show', $s->id)); ?>" data-toggle="tooltip" data-placement="bottom" title="Click to View">
                                                 <td class="py-1 pl-3 align-middle">
                                                     <?php echo e($s->name); ?>
 
@@ -147,14 +156,14 @@ $enrolled_package = auth()
 
                                                 </td>
                                                 <td class="py-1 pl-3 align-middle text-right">
-                                                    <a href="<?php echo e(route('section.show', $s->id)); ?>"
-                                                        class="btn btn-primary"><i class="fa fa-eye"></i>
+                                                    <a href="<?php echo e(route('section.show', $s->id)); ?>" data-toggle="tooltip" data-placement="top" title="View"
+                                                        class="btn btn-primary d-inline-block"><i class="fa fa-eye"></i>
                                                     </a>
-                                                    <a href="<?php echo e(route('public.bundle.section.edit', [$bundle->id, $s->id])); ?>"
-                                                        class="btn btn-primary"><i class="fa fa-pencil-square-o"></i>
+                                                    <a href="<?php echo e(route('public.bundle.section.edit', [$bundle->id, $s->id])); ?>" data-toggle="tooltip" data-placement="top" title="Rename"
+                                                        class="btn btn-primary d-inline-block"><i class="fa fa-pencil-square-o"></i>
                                                     </a>
-                                                    <a href="<?php echo e(route('public.bundle.section.destroy', [$s->id])); ?>"
-                                                        class="btn btn-danger"><i class="fa fa-trash"></i>
+                                                    <a href="<?php echo e(route('public.bundle.section.destroy', [$s->id])); ?>" data-toggle="tooltip" data-placement="top" title="Delete"
+                                                        class="btn btn-danger d-inline-block"><i class="fa fa-trash"></i>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -187,7 +196,7 @@ $enrolled_package = auth()
                 </div>
                 <div class="modal-body">
                     <form action="<?php echo e(route('public.bundle.files.store')); ?>" enctype="multipart/form-data" method="post"
-                        id="image-upload" class="dropzone border-0">
+                        id="image-upload" class="dropzone">
                         <?php echo csrf_field(); ?>
                         <label>SECTION</label>
                         <select class="form-control" id="sectionId" name="section_id" required>

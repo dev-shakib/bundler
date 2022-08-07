@@ -24,7 +24,6 @@
                         <li class="breadcrumb-item "><a href="{{ route('bundle.index') }}">Bundle</a></li>
                         <li class="breadcrumb-item "><a href="{{ route('bundle.show_single', [$section->bundle->slug, $section->bundle->id]) }}">{{ $section->bundle->name }}</a></li>
                         <li class="breadcrumb-item ">{{ $section->name }}</a></li>
-                        <li class="breadcrumb-item active">File List</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -40,10 +39,26 @@
             <div class="row">
                 <!-- Left col -->
                 <section class="col-lg-12 connectedSortable">
-                    <div class="pt-5 pb-2">
-                        <a href="{{ route('public.bundle.files.create', [$section->bundle_id, $section->id]) }}"
-                                class='btn btn-primary'><i class="fa fa-upload mr-2"></i> Add FIle</a>
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="text-center py-4"><b>{{ $section->name }}</b></h2>
+                        </div>
                     </div>
+                    <div class="row align-items-center pb-2">
+                        <div class="col-lg-6">
+                            <a href="{{ route('public.bundle.files.create', [$section->bundle_id, $section->id]) }}"
+                                        class='btn btn-primary'><i class="fa fa-upload mr-2"></i> Add FIle</a>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <ol class="breadcrumb float-sm-right m-0 p-0 bg-transparent">
+                                <li class="breadcrumb-item text-uppercase text-bold"><a href="{{ route('bundle.index') }}">Bundle</a></li>
+                                <li class="breadcrumb-item text-uppercase text-bold"><a href="{{ route('bundle.show_single', [$section->bundle->slug, $section->bundle->id]) }}">{{ $section->bundle->name }}</a></li>
+                                <li class="breadcrumb-item text-bold">{{ $section->name }}</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                    
                     <div>
                         <table class="table table-striped">
                             <thead>
@@ -58,14 +73,14 @@
                                     @php
                                         $filename = explode('.', $f->filename);
                                     @endphp
-                                    <tr data-id="{{ $f->id }}">
+                                    <tr data-id="{{ $f->id }}"  class="clickable-row" data-href="{{ route('public.bundle.files.show', [$section->bundle_id, $section->id, $f->id]) }}" data-toggle="tooltip" data-placement="bottom" title="Click to Edit">
 
                                         <td class="py-1 pl-3 align-middle"><span class="handle"></span>{{ $filename[0] . '.' . $f->mime_types }}</td>
                                         <td class="py-1 pl-3 align-middle">{{ $f->totalPage }}</td>
                                         <td class="py-1 pl-3 align-middle">
-                                            <a href="{{ route('public.bundle.files.show', [$section->bundle_id, $section->id, $f->id]) }}"
+                                            <a href="{{ route('public.bundle.files.show', [$section->bundle_id, $section->id, $f->id]) }}" data-toggle="tooltip" data-placement="top" title="Edit"
                                                 class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>
-                                            <a href="{{ route('public.bundle.files.delete', [$f->id]) }}"
+                                            <a href="{{ route('public.bundle.files.delete', [$f->id]) }}" data-toggle="tooltip" data-placement="top" title="Delete"
                                                 class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>

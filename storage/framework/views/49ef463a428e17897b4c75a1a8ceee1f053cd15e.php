@@ -186,7 +186,7 @@
                                             <?php endif; ?>
                                         <?php endif; ?>
                                         <a href="<?php echo e(route('bundle.show_single', [$b->slug, $b->id])); ?>"
-                                            class="btn btn-outline-primary"><i class="fa fa-eye"></i> VIEW</a>
+                                            class="btn btn-outline-primary" ><i class="fa fa-eye"></i> VIEW</a>
                                         <a href="<?php echo e(route('bundle.edit', $b->id)); ?>"
                                             class="btn btn-outline-primary"><i class="fa fa-pencil"></i> RENAME</a>
                                         <?php if($enrolled_package->package_id == 1): ?>
@@ -241,7 +241,7 @@
                         </thead>
                         <tbody>
                         <?php $__currentLoopData = $bundle; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $b): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <tr>
+                            <tr class="clickable-row" data-href="<?php echo e(route('bundle.show_single', [$b->slug, $b->id])); ?>" data-toggle="tooltip" data-placement="bottom" title="Click to View">
                                 <a href="">
                                 <td class="py-1 pl-3 align-middle">
                                     <?php echo e($b->name); ?>
@@ -256,15 +256,15 @@
                                 </td>
 
                                 <td class="py-1 pl-3 align-middle text-right">
-                                    <a title="view" href="<?php echo e(route('bundle.show_single', [$b->slug, $b->id])); ?>" class="text-white">
+                                    <a title="View" href="<?php echo e(route('bundle.show_single', [$b->slug, $b->id])); ?>" class="text-white d-inline-block" data-toggle="tooltip" data-placement="top">
                                         <button class="btn btn-primary"><i class="fa fa-eye"></i></button>
                                     </a>
 
-                                    <a title="rename" href="<?php echo e(route('bundle.edit', $b->id)); ?>">
+                                    <a title="Rename" href="<?php echo e(route('bundle.edit', $b->id)); ?>"  data-toggle="tooltip" data-placement="top" class="d-inline-block">
                                     <button class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></button>
                                     </a>
 
-                                    <form title="delete" action="<?php echo e(route('bundle.destroy', [$b->id])); ?>" method="post" class="d-inline-block">
+                                    <form title="Delete" action="<?php echo e(route('bundle.destroy', [$b->id])); ?>" method="post" class="d-inline-block"  data-toggle="tooltip" data-placement="top">
                                         <?php echo csrf_field(); ?>
                                         <?php echo method_field('DELETE'); ?>
                                         <button type="submit" class="btn btn-danger"><i

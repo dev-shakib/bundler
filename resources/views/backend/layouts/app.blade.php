@@ -102,6 +102,19 @@
         ) !!}
     @endif --}}
     @yield('footer_scripts')
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+        $(".clickable-row").click(function() {
+            window.location = $(this).data("href");
+            $(this).css('cursor', 'pointer');
+        });
+        $(".clickable-row").hover(function() {
+            $(this).css('cursor', 'pointer');
+        });
+    </script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('admin/') }}/js/pages/dashboard.js"></script>
 </body>
