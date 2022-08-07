@@ -12,6 +12,8 @@ $enrolled_package = auth()
     ->load('enrolledPackage')->enrolledPackage;
 @endphp
 @section('content')
+
+    <div style="display: none">
     <!-- Content Wrapper. Contains page content -->
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -31,6 +33,7 @@ $enrolled_package = auth()
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+    </div>
 
     <!-- Main content -->
     <section class="content">
@@ -41,124 +44,122 @@ $enrolled_package = auth()
                 <section class="col-lg-12 connectedSortable">
                     <div class="row">
                         <div class="col-sm-12 ">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h2 class="text-center py-4"><b>{{ $bundle->name }}</b> bundle</h2>
+                                </div>
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#sectioncreatemodal">
+                                        <i class="fa fa-folder-open-o"></i>
+                                    </button>
 
-                                            <h2><u>Bundle Name:</u> {{ $bundle->name }}</h2>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            @if ($enrolled_package->package_id == 1)
-                                                @if ($bundle->totalPages() < 60)
-                                                    @if ($bundle->generated->count() == 0)
-                                                        <a href="{{ route('public.bundle.generate', [$bundle->id]) }}"
-                                                            class="btn btn-outline-info">Generate Bundle</a>
-                                                    @endif
-                                                @else
-                                                    <a href="#" class="btn btn-outline-info">Generate
-                                                        Bundle</a>
-                                                @endif
-                                            @else
-                                                @if ($bundle->generated->count() == 0)
-                                                    <a href="{{ route('public.bundle.generate', [$bundle->id]) }}"
-                                                        class="btn btn-outline-info">Generate Bundle</a>
-                                                @endif
-                                            @endif
-                                            @if ($enrolled_package->package_id == 1)
-                                                @if ($bundle->totalPages() < 60)
-                                                    <a href="{{ route('public.bundle.generated_bundle', [$bundle->id]) }}"
-                                                        class="btn btn-outline-info">View Generated Bundle</a>
-                                                @else
-                                                    <a href="#" class="btn btn-outline-info">View Generated
-                                                        Bundle</a>
-                                                @endif
-                                            @else
-                                                <a href="{{ route('public.bundle.generated_bundle', [$bundle->id]) }}"
-                                                    class="btn btn-outline-info">View Generated Bundle</a>
-                                            @endif
+                                    <div class="modal fade" id="sectioncreatemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Create Section</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form action="{{ route('section.store') }}" method="post">
+                                                    <div class="modal-body">
+                                                        @if ($errors->any())
+                                                            <div class="alert alert-danger">
+                                                                <ul>
+                                                                    @foreach ($errors->all() as $error)
+                                                                        <li>{{ $error }}</li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            </div>
+                                                        @endif
+
+                                                        @csrf
+                                                        <input type="hidden" name="bundle_id" value="{{ $bundle->id }}">
+                                                        <input type="text" placeholder="Section Name" class="form-control" name="name" required>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                        <input type="submit" class="btn btn-primary" value="Create" />
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class=" card">
-                                <div class="card-body">
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#exampleModal"><i class="fa fa-plus"></i>
-                                        Add
-                                        File
-                                    </button><br>
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Section Name</th>
-                                                <th>Total Page</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="sort_section">
-                                            @foreach ($bundle->section as $s)
-                                                @if ($s->isHiddenInList == 1)
-                                                @else
-                                                    <tr data-id="{{ $s->id }}">
-                                                        <td>
-                                                            {{ $s->name }}
-                                                        </td>
-                                                        <td>
-                                                            {{ $s->files->sum('totalPage') }}
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{ route('public.bundle.section.edit', [$bundle->id, $s->id]) }}"
-                                                                class="btn btn-outline-primary"><i class="fa fa-pencil"></i>
-                                                                Rename
-                                                            </a>
+                                        data-target="#exampleModal">
+                                        <i class="fa fa-upload"></i>
+                                    </button>
 
-                                                            <a href="{{ route('section.show', $s->id) }}"
-                                                                class="btn btn-outline-primary"><i class="fa fa-eye"></i>
-                                                                View
-                                                                File</a>
-                                                            <a href="{{ route('public.bundle.section.destroy', [$s->id]) }}"
-                                                                class="btn btn-outline-danger"><i class="fa fa-trash"></i>
-                                                                Delete
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                    @if ($enrolled_package->package_id == 1)
+                                        @if ($bundle->totalPages() < 60)
+                                            @if ($bundle->generated->count() == 0)
+                                                <a href="{{ route('public.bundle.generate', [$bundle->id]) }}"
+                                                    class="btn btn-outline-info">Generate Bundle</a>
+                                            @endif
+                                        @else
+                                            <a href="#" class="btn btn-outline-info">Generate
+                                                Bundle</a>
+                                        @endif
+                                    @else
+                                        @if ($bundle->generated->count() == 0)
+                                            <a href="{{ route('public.bundle.generate', [$bundle->id]) }}"
+                                                class="btn btn-outline-info">Generate Bundle</a>
+                                        @endif
+                                    @endif
+                                    @if ($enrolled_package->package_id == 1)
+                                        @if ($bundle->totalPages() < 60)
+                                            <a href="{{ route('public.bundle.generated_bundle', [$bundle->id]) }}"
+                                                class="btn btn-outline-info">View Generated Bundle</a>
+                                        @else
+                                            <a href="#" class="btn btn-outline-info">View Generated
+                                                Bundle</a>
+                                        @endif
+                                    @else
+                                        <a href="{{ route('public.bundle.generated_bundle', [$bundle->id]) }}"
+                                            class="btn btn-outline-info">View Generated Bundle</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
-                            <div class="card ">
-                                <div class="card-body">
-                                    @if ($errors->any())
-                                        <div class="alert alert-danger">
-                                            <ul>
-                                                @foreach ($errors->all() as $error)
-                                                    <li>{{ $error }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    @endif
-                                    <form action="{{ route('section.store') }}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="bundle_id" value="{{ $bundle->id }}">
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <input type="text" placeholder="Section Name" class="form-control"
-                                                    name="name">
-                                            </div>
-                                            <div class="col-sm-4"><input type="submit" class="btn btn-success"
-                                                    value="Create" /></div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                        <div class="col-12 mt-4">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Section Name</th>
+                                        <th>Total Page</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="sort_section">
+                                    @foreach ($bundle->section as $s)
+                                        @if ($s->isHiddenInList == 1)
+                                        @else
+                                            <tr data-id="{{ $s->id }}">
+                                                <td class="py-1 pl-3 align-middle">
+                                                    {{ $s->name }}
+                                                </td>
+                                                <td class="py-1 pl-3 align-middle">
+                                                    {{ $s->files->sum('totalPage') }}
+                                                </td>
+                                                <td class="py-1 pl-3 align-middle text-right">
+                                                    <a href="{{ route('section.show', $s->id) }}"
+                                                        class="btn btn-primary"><i class="fa fa-eye"></i>
+                                                    </a>
+                                                    <a href="{{ route('public.bundle.section.edit', [$bundle->id, $s->id]) }}"
+                                                        class="btn btn-primary"><i class="fa fa-pencil-square-o"></i>
+                                                    </a>
+                                                    <a href="{{ route('public.bundle.section.destroy', [$s->id]) }}"
+                                                        class="btn btn-danger"><i class="fa fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                 </section>
                 <!-- /.Left col -->
@@ -176,7 +177,7 @@ $enrolled_package = auth()
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Document</h5>
                     <button type="button" class="close" data-dismiss="modal" onClick="window.location.reload();"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -184,7 +185,7 @@ $enrolled_package = auth()
                 </div>
                 <div class="modal-body">
                     <form action="{{ route('public.bundle.files.store') }}" enctype="multipart/form-data" method="post"
-                        id="image-upload" class="dropzone">
+                        id="image-upload" class="dropzone border-0">
                         @csrf
                         <label>SECTION</label>
                         <select class="form-control" id="sectionId" name="section_id" required>
@@ -196,8 +197,8 @@ $enrolled_package = auth()
                             @endforeach
                         </select><br>
                         <input type="hidden" name="bundle_id" value="{{ $bundle->id }}" />
-                        <div>
-                            <h3>Upload .jpeg,.jpg,.png,.gif,.doc,.docx,.pdf By Click On Box</h3>
+                        <div class="text-center">
+                            <p>Upload .jpeg,.jpg,.png,.gif,.doc,.docx,.pdf By Click On Box</p>
                         </div>
                     </form>
                 </div>

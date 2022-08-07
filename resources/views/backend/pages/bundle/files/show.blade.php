@@ -9,6 +9,7 @@
 @endpush
 
 @section('content')
+    <div style="display: none">
     <!-- Content Wrapper. Contains page content -->
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -31,14 +32,21 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+    </div>
 
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <!-- Main row -->
             <div class="row">
+                <section class="col-12 pt-4 pb-2">
+                        <a href="{{ asset('pdf/'.$file->filename) }}" class="btn btn-primary"><i class="fa fa-download"></i>
+ DOWNLOAD & PREVIEW</a>
+                </section>
+                <!-- /.Right Col -->
+
                 <!-- Left col -->
-                <section class="col-lg-6 connectedSortable">
+                <section class="col-12 connectedSortable">
                     <div class="card">
                         <div class="card-body">
                             <form action="{{ route('public.bundle.files.update') }}" enctype="multipart/form-data"
@@ -47,7 +55,7 @@
                                 <input type="hidden" name="file_id" value="{{ $file_id }}" />
                                 <input type="hidden" name="bundle_id" value="{{ $bundle_id }}" />
                                 <input type="hidden" name="section_id" value="{{ $section_id }}" />
-                                <div>
+                                <div class="text-center">
                                     <h3>Upload .jpeg,.jpg,.png,.gif,.doc,.docx,.pdf By Click On Box</h3>
                                 </div>
                             </form>
@@ -56,18 +64,6 @@
                 </section>
                 <!-- /.Left col -->
                 <!-- Right Col -->
-                <section class="col-lg-6">
-                    <div class="card">
-                        <div class='card-header'>
-                            Preview
-                        </div>
-                        <div class="card-body">
-                            <a href="{{ asset('pdf/'.$file->filename) }}" class="btn btn-outline-primary">DOWNLOAD & PREVIEW</a>
-
-                        </div>
-                    </div>
-                </section>
-                <!-- /.Right Col -->
             </div>
             <!-- /.row (main row) -->
         </div><!-- /.container-fluid -->
