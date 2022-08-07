@@ -8,6 +8,8 @@
 @endpush
 
 @section('content')
+
+    <div style="display: none">
     <!-- Content Wrapper. Contains page content -->
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -29,6 +31,7 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+    </div>
 
     <!-- Main content -->
     <section class="content">
@@ -37,43 +40,38 @@
             <div class="row">
                 <!-- Left col -->
                 <section class="col-lg-12 connectedSortable">
-                    <div class="card">
-                        <div class="card-body">
-                            <a href="{{ route('public.bundle.files.create', [$section->bundle_id, $section->id]) }}"
-                                class='btn btn-primary'>ADD FILE</a>
-
-                        </div>
+                    <div class="pt-5 pb-2">
+                        <a href="{{ route('public.bundle.files.create', [$section->bundle_id, $section->id]) }}"
+                                class='btn btn-primary'><i class="fa fa-upload mr-2"></i> Add FIle</a>
                     </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>File Name</th>
-                                        <th>Page</th>
-                                        <th width="10%"></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="sort_files">
-                                    @foreach ($section->files as $f)
-                                        @php
-                                            $filename = explode('.', $f->filename);
-                                        @endphp
-                                        <tr data-id="{{ $f->id }}">
+                    <div>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>File Name</th>
+                                    <th>Page</th>
+                                    <th width="10%"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="sort_files">
+                                @foreach ($section->files as $f)
+                                    @php
+                                        $filename = explode('.', $f->filename);
+                                    @endphp
+                                    <tr data-id="{{ $f->id }}">
 
-                                            <td><span class="handle"></span>{{ $filename[0] . '.' . $f->mime_types }}</td>
-                                            <td>{{ $f->totalPage }}</td>
-                                            <td>
-                                                <a href="{{ route('public.bundle.files.show', [$section->bundle_id, $section->id, $f->id]) }}"
-                                                    class="btn btn-outline-info"><i class="fa fa-eye"></i> EDIT</a>
-                                                <a href="{{ route('public.bundle.files.delete', [$f->id]) }}"
-                                                    class="btn btn-outline-danger"><i class="fa fa-trash"></i> DELETE</a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                        <td class="py-1 pl-3 align-middle"><span class="handle"></span>{{ $filename[0] . '.' . $f->mime_types }}</td>
+                                        <td class="py-1 pl-3 align-middle">{{ $f->totalPage }}</td>
+                                        <td class="py-1 pl-3 align-middle">
+                                            <a href="{{ route('public.bundle.files.show', [$section->bundle_id, $section->id, $f->id]) }}"
+                                                class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>
+                                            <a href="{{ route('public.bundle.files.delete', [$f->id]) }}"
+                                                class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </section>
                 <!-- /.Left col -->
