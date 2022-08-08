@@ -40,23 +40,29 @@
     <section class="content">
         <div class="container-fluid">
 
-            <div class="row mt-3 justify-content-center">
-                <div class="col-5 text-center">
+            <div class="row mt-3 align-items-center">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6 text-center">
                     <?php if($enrolled_package->package_id == 1): ?>
-                        <div class="card bg-danger">
+                        <div class="card bg-danger mx-5 mb-0">
                             <div class="card-body p-2">
-                                You are now free Plan Please Upgrad Your Plan
+                            You are now in free Plan. Please Upgrade Your Plan.
                                 <a href="<?php echo e(route('public.choosePlan')); ?>" class="btn btn-dark ml-3">UPGRADE</a>
                             </div>
                         </div>
                     <?php elseif($enrolled_package->package_id == 2): ?>
-                        <div class="card bg-primary">
+                        <div class="card bg-primary mx-5 mb-0">
                             <div class="card-body p-2">
                                 UPGRADE TO UNLIMITED
                                 <a href="<?php echo e(route('public.choosePlan')); ?>" class="btn btn-success ml-3">UPGRADE</a>
                             </div>
                         </div>
                     <?php endif; ?>
+                </div>
+                <div class="col-lg-3 text-right">
+                    <button type="button" class="btn btn-lg btn-warning" id="bundle-tour-button">
+                        <i class="fa fa-question"></i>
+                    </button>
                 </div>
             </div>
 
@@ -66,7 +72,7 @@
                 <section class="col-lg-12 connectedSortable">
                 
                 <div class="mb-3">
-                    <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#modal-default">
+                    <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#modal-default"  id="bundle-tour-title">
                         <i class="fa fa-plus"></i>
                         New Bundle
                     </button>
@@ -106,7 +112,7 @@
                                     </form>
                                     <?php else: ?>
                                         <div class="modal-body text-danger">
-                                            You are now free Plan Please Upgrad Your Plan
+                                            You are now in free Plan. Please Upgrade Your Plan to Create more Bundle
                                         </div>
                                         
                                         <div class="modal-footer justify-content-start">
@@ -241,7 +247,7 @@
                         </thead>
                         <tbody>
                         <?php $__currentLoopData = $bundle; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $b): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <tr class="clickable-row" data-href="<?php echo e(route('bundle.show_single', [$b->slug, $b->id])); ?>" data-toggle="tooltip" data-placement="bottom" title="Click to View">
+                            <tr class="clickable-row" data-href="<?php echo e(route('bundle.show_single', [$b->slug, $b->id])); ?>">
                                 <a href="">
                                 <td class="py-1 pl-3 align-middle">
                                     <?php echo e($b->name); ?>
@@ -286,15 +292,44 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('custom-script'); ?>
-    <!-- <script>
-        $(document).ready(function() {
-            $('table').DataTable({
-                select: false,
-                searching: false,
-                paging: false,
+    <script>
+        // tour setup 
+        var tour = {
+            id: 'bundle-tour',
+            steps: [
+                {
+                    target: 'bundle-tour-title',
+                    title: 'Click to Create New Bundle',
+                    content: 'Click Here to create new bundle',
+                    placement: 'right',
+                    arrowOffset: 5
+                },
+            ],
+            showPrevButton: true,
+        },
+        addClickListener = function(el, fn) {
+            if (el.addEventListener) {
+            el.addEventListener('click', fn, false);
+            }
+            else {
+            el.attachEvent('onclick', fn);
+            }
+        },
+        init = function() {
+            var startBtnId = 'bundle-tour-button',
+                calloutId = 'startTourCallout',
+                mgr = hopscotch.getCalloutManager(),
+                state = hopscotch.getState();
+        
+            addClickListener(document.getElementById(startBtnId), function() {
+            if (!hopscotch.isActive) {
+                mgr.removeAllCallouts();
+                hopscotch.startTour(tour);
+            }
             });
-        });
-    </script> -->
+        };
+        init();
+    </script>
 <?php $__env->stopPush(); ?>
 
 <?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\laragon\www\bundler\resources\views/backend/pages/bundle/index.blade.php ENDPATH**/ ?>

@@ -564,7 +564,7 @@ class DocumentController extends Controller
                 mkdir(public_path('bundle_zip'), 0777, true);
             }
             $sourcePath=$file;
-            $destinationPath=public_path('bundle_pdf/Bundle 1/Bundle 1.pdf');
+            $destinationPath=public_path('bundle_pdf/'.$bundle->name.'/'.$generated_pdf->filename);
             if(Files::exists($sourcePath)){
                 Files::move($sourcePath,$destinationPath);
             }

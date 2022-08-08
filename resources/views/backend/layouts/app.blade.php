@@ -29,6 +29,8 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('admin/') }}/plugins/summernote/summernote-bs4.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <!-- hopscotch -->
+    <link rel="stylesheet" href="{{ asset('admin/') }}/css/hopscotch.min.css">
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
     @stack('custom-css')
 </head>
@@ -90,6 +92,8 @@
     <script src="{{ asset('admin/') }}/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('admin/') }}/js/adminlte.js"></script>
+    <!-- hopscotch -->
+    <script src="{{ asset('admin/') }}/js/hopscotch.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('admin/') }}/js/demo.js"></script>
     <!-- Custom js for a perticular page -->
