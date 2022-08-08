@@ -43,16 +43,22 @@ $enrolled_package = auth()
                 <section class="col-lg-12 connectedSortable">
                     <div class="row">
                         <div class="col-sm-12 ">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h2 class="text-center py-4"><b><?php echo e($bundle->name); ?></b></h2>
+                            <div class="row align-items-center">
+                                <div class="col-lg-4"></div>
+                                <div class="col-lg-4">
+                                    <h2 class="text-center py-4 m-0"><b><?php echo e($bundle->name); ?></b></h2>
+                                </div>
+                                <div class="col-lg-4 text-right">
+                                    <button type="button" class="btn btn-lg btn-warning" id="bundle-tour-button">
+                                        <i class="fa fa-question"></i>
+                                    </button>
                                 </div>
                             </div>
                             <div class="row align-items-center">
                                 <div class="col-lg-6">
                                     <span class="d-inline-block" data-toggle="tooltip" data-placement="top" title="Add Section">
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#sectioncreatemodal">
+                                            data-target="#sectioncreatemodal" id="bundle-tour-1">
                                             <i class="fa fa-folder-open-o"></i>
                                         </button>
                                     </span>
@@ -91,7 +97,7 @@ $enrolled_package = auth()
                                     </div>
 
                                     <span class="d-inline-block" data-toggle="tooltip" data-placement="top" title="Upload Document">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"  id="bundle-tour-2"
                                             data-target="#exampleModal">
                                             <i class="fa fa-upload"></i>
                                         </button>
@@ -100,27 +106,27 @@ $enrolled_package = auth()
                                     <?php if($enrolled_package->package_id == 1): ?>
                                         <?php if($bundle->totalPages() < 60): ?>
                                             <?php if($bundle->generated->count() == 0): ?>
-                                                <a href="<?php echo e(route('public.bundle.generate', [$bundle->id])); ?>" data-toggle="tooltip" data-placement="top" title="Generate Bundle"
+                                                <a href="<?php echo e(route('public.bundle.generate', [$bundle->id])); ?>" data-toggle="tooltip" data-placement="top" title="Generate Bundle" id="bundle-tour-3"
                                                     class="btn btn-info"><i class="fa fa-file-text"></i></a>
                                             <?php endif; ?>
                                         <?php else: ?>
-                                            <a href="#" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Generate Bundle"><i class="fa fa-file-text"></i></a>
+                                            <a href="#" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Generate Bundle" id="bundle-tour-3"><i class="fa fa-file-text"></i></a>
                                         <?php endif; ?>
                                     <?php else: ?>
                                         <?php if($bundle->generated->count() == 0): ?>
-                                            <a href="<?php echo e(route('public.bundle.generate', [$bundle->id])); ?>" data-toggle="tooltip" data-placement="top" title="Generate Bundle"
+                                            <a href="<?php echo e(route('public.bundle.generate', [$bundle->id])); ?>" data-toggle="tooltip" data-placement="top" title="Generate Bundle" id="bundle-tour-3"
                                                 class="btn btn-info"><i class="fa fa-file-text"></i></a>
                                         <?php endif; ?>
                                     <?php endif; ?>
                                     <?php if($enrolled_package->package_id == 1): ?>
                                         <?php if($bundle->totalPages() < 60): ?>
-                                            <a href="<?php echo e(route('public.bundle.generated_bundle', [$bundle->id])); ?>" data-toggle="tooltip" data-placement="top" title="View Generated Bundle"
+                                            <a href="<?php echo e(route('public.bundle.generated_bundle', [$bundle->id])); ?>" data-toggle="tooltip" data-placement="top" title="View Generated Bundle" id="bundle-tour-4"
                                                 class="btn btn-info"><i class="fa fa-file-pdf-o"></i></a>
                                         <?php else: ?>
-                                            <a href="#" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="View Generated Bundle"><i class="fa fa-file-pdf-o"></i></a>
+                                            <a href="#" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="View Generated Bundle" id="bundle-tour-4"><i class="fa fa-file-pdf-o"></i></a>
                                         <?php endif; ?>
                                     <?php else: ?>
-                                        <a href="<?php echo e(route('public.bundle.generated_bundle', [$bundle->id])); ?>" data-toggle="tooltip" data-placement="top" title="View Generated Bundle"
+                                        <a href="<?php echo e(route('public.bundle.generated_bundle', [$bundle->id])); ?>" data-toggle="tooltip" data-placement="top" title="View Generated Bundle" id="bundle-tour-4"
                                             class="btn btn-info"><i class="fa fa-file-pdf-o"></i></a>
                                     <?php endif; ?>
                                 </div>
@@ -146,7 +152,7 @@ $enrolled_package = auth()
                                     <?php $__currentLoopData = $bundle->section; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <?php if($s->isHiddenInList == 1): ?>
                                         <?php else: ?>
-                                            <tr data-id="<?php echo e($s->id); ?>"  class="clickable-row" data-href="<?php echo e(route('section.show', $s->id)); ?>" data-toggle="tooltip" data-placement="bottom" title="Click to View">
+                                            <tr data-id="<?php echo e($s->id); ?>"  class="clickable-row" data-href="<?php echo e(route('section.show', $s->id)); ?>">
                                                 <td class="py-1 pl-3 align-middle">
                                                     <?php echo e($s->name); ?>
 
@@ -277,6 +283,65 @@ $enrolled_package = auth()
             })
 
         })
+
+        // tour setup 
+        var tour = {
+            id: 'bundle-tour',
+            steps: [
+                {
+                    target: 'bundle-tour-1',
+                    title: 'Click to Create New Section',
+                    content: 'Click Here to create new Section',
+                    placement: 'top',
+                    arrowOffset: 5
+                },
+                {
+                    target: 'bundle-tour-2',
+                    title: 'Click to Upload Document',
+                    content: 'Click to Upload Document',
+                    placement: 'top',
+                    arrowOffset: 5
+                },
+                {
+                    target: 'bundle-tour-3',
+                    title: 'Click to Generate Bundle',
+                    content: 'Click to Generate Bundle',
+                    placement: 'top',
+                    arrowOffset: 5
+                },
+                {
+                    target: 'bundle-tour-4',
+                    title: 'Click to View Generated Bundle',
+                    content: 'Click to View Generated Bundle',
+                    placement: 'top',
+                    arrowOffset: 5
+                },
+            ],
+            showPrevButton: true,
+        },
+        addClickListener = function(el, fn) {
+            if (el.addEventListener) {
+            el.addEventListener('click', fn, false);
+            }
+            else {
+            el.attachEvent('onclick', fn);
+            }
+        },
+        init = function() {
+            var startBtnId = 'bundle-tour-button',
+                calloutId = 'startTourCallout',
+                mgr = hopscotch.getCalloutManager(),
+                state = hopscotch.getState();
+        
+            addClickListener(document.getElementById(startBtnId), function() {
+            if (!hopscotch.isActive) {
+                mgr.removeAllCallouts();
+                hopscotch.startTour(tour);
+            }
+            });
+        };
+        init();
+        init();
     </script>
 <?php $__env->stopPush(); ?>
 

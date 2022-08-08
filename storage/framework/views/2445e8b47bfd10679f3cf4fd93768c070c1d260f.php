@@ -29,6 +29,8 @@
     <!-- summernote -->
     <link rel="stylesheet" href="<?php echo e(asset('admin/')); ?>/plugins/summernote/summernote-bs4.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <!-- hopscotch -->
+    <link rel="stylesheet" href="<?php echo e(asset('admin/')); ?>/css/hopscotch.min.css">
     <link href="<?php echo e(mix('/css/app.css')); ?>" rel="stylesheet">
     <?php echo $__env->yieldPushContent('custom-css'); ?>
 </head>
@@ -90,6 +92,8 @@
     <script src="<?php echo e(asset('admin/')); ?>/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
     <script src="<?php echo e(asset('admin/')); ?>/js/adminlte.js"></script>
+    <!-- hopscotch -->
+    <script src="<?php echo e(asset('admin/')); ?>/js/hopscotch.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="<?php echo e(asset('admin/')); ?>/js/demo.js"></script>
     <!-- Custom js for a perticular page -->

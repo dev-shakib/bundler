@@ -73,7 +73,7 @@
                                     @php
                                         $filename = explode('.', $f->filename);
                                     @endphp
-                                    <tr data-id="{{ $f->id }}"  class="clickable-row" data-href="{{ route('public.bundle.files.show', [$section->bundle_id, $section->id, $f->id]) }}" data-toggle="tooltip" data-placement="bottom" title="Click to Edit">
+                                    <tr data-id="{{ $f->id }}"  class="clickable-row" data-href="{{ route('public.bundle.files.show', [$section->bundle_id, $section->id, $f->id]) }}">
 
                                         <td class="py-1 pl-3 align-middle"><span class="handle"></span>{{ $filename[0] . '.' . $f->mime_types }}</td>
                                         <td class="py-1 pl-3 align-middle">{{ $f->totalPage }}</td>
