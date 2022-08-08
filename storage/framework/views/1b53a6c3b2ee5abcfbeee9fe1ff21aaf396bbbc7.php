@@ -1,3 +1,5 @@
+
+
 <?php $__env->startSection('template_title'); ?>
     <?php echo e(Auth::user()->name); ?>'s' Bundle
 <?php $__env->stopSection(); ?>
@@ -7,6 +9,8 @@
 <?php $__env->stopPush(); ?>
 
 <?php $__env->startSection('content'); ?>
+
+    <div style="display: none">
     <!-- Content Wrapper. Contains page content -->
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -28,9 +32,10 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+    </div>
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content mt-4">
         <div class="container-fluid">
             <!-- Main row -->
             <div class="row">
@@ -43,7 +48,7 @@
                                 <?php echo csrf_field(); ?>
                                 <input type="hidden" name="bundle_id" value="<?php echo e($bundle_id); ?>" />
                                 <input type="hidden" name="section_id" value="<?php echo e($section_id); ?>" />
-                                <div>
+                                <div class="text-center">
                                     <h3>Upload .jpeg,.jpg,.png,.gif,.doc,.docx,.pdf By Click On Box</h3>
                                 </div>
                             </form>
