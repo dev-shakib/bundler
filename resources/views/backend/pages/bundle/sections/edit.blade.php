@@ -8,6 +8,7 @@
 @endpush
 
 @section('content')
+    <div style="display: none">
     <!-- Content Wrapper. Contains page content -->
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -29,6 +30,7 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+    </div>
 
     <!-- Main content -->
     <section class="content">
@@ -36,31 +38,34 @@
             <!-- Main row -->
             <div class="row">
                 <!-- Left col -->
-                <section class="col-lg-12 connectedSortable">
-                    <div class="card">
-                        <div class="card-body">
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
-                            <form action="{{ route('section.update', [$section->id]) }}" method="post">
-                                @method('PUT')
-                                @csrf
-                                <div class="row">
-                                    <div class="col-sm-8">
-                                        <input type="text" placeholder="Section Name" value="{{ $section->name }}"
-                                            class="form-control" name="name">
-                                    </div>
-                                    <div class="col-sm-4"><input type="submit" class="btn btn-success" value="Update" />
-                                    </div>
-                                </div>
-                            </form>
+                <section class="col-12 mt-5">
+                    <div class="card p-0 col-lg-4 m-auto">
+                        <div class="card-header">
+                            <h5>Edit Section</h5>
                         </div>
+                            <form action="{{ route('section.update', [$section->id]) }}" method="post">
+                                <div class="card-body">
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+                                    
+                                    @method('PUT')
+                                    @csrf
+                                    <input type="text" placeholder="Section Name" value="{{ $section->name }}"
+                                            class="form-control" name="name">
+                                </div>
+                                <div class="card-footer">
+                                    <input type="submit" class="btn btn-primary" value="Update" />
+                                </div>
+                                
+                            </form>
+                        
                     </div>
 
                 </section>

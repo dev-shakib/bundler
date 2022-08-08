@@ -9,6 +9,8 @@
 @endpush
 
 @section('content')
+
+    <div style="display: none">
     <!-- Content Wrapper. Contains page content -->
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -30,9 +32,10 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+    </div>
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content mt-4">
         <div class="container-fluid">
             <!-- Main row -->
             <div class="row">
@@ -45,7 +48,7 @@
                                 @csrf
                                 <input type="hidden" name="bundle_id" value="{{ $bundle_id }}" />
                                 <input type="hidden" name="section_id" value="{{ $section_id }}" />
-                                <div>
+                                <div class="text-center">
                                     <h3>Upload .jpeg,.jpg,.png,.gif,.doc,.docx,.pdf By Click On Box</h3>
                                 </div>
                             </form>

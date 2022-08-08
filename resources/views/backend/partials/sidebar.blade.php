@@ -1,4 +1,5 @@
   <!-- Main Sidebar Container -->
+  <div style="display: none">
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="{{ route('home') }}" class="brand-link">
@@ -38,16 +39,20 @@
                   data-accordion="false">
                   <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
-                  <li class="nav-item">
-                      <a href="{{ route('public.home') }}" class="nav-link {{ Request::is('home') ? 'active' : null }}">
-                          <i class="nav-icon fas fa-tachometer-alt"></i>
-                          <p>
-                              Dashboard
-                          </p>
-                      </a>
-                  </li>
+
+                  @role('admin')
+                      <li class="nav-item">
+                          <a href="{{ route('public.home') }}" class="nav-link {{ Request::is('home') ? 'active' : null }}">
+                              <i class="nav-icon fas fa-tachometer-alt"></i>
+                              <p>
+                                  Dashboard
+                              </p>
+                          </a>
+                      </li>
+                  @endrole
                   @role('user')
-                      <li class="nav-item {{ Request::is('bundle*') ? 'menu-open' : null }}">
+                      {{-- <li
+                          class="nav-item {{ Request::is('bundle*') ? 'menu-open' : null }} {{ Request::is('home') ? 'menu-open' : null }}">
                           <a class="nav-link {{ Request::is('bundle*') ? 'active' : null }}">
                               <i class="nav-icon fas fa-th"></i>
                               <p>
@@ -66,22 +71,29 @@
                                   </a>
                               </li>
                           </ul>
-                      </li>
+                      </li> --}}
+                      <li class="nav-item {{ Request::is('bundle*') ? 'menu-open' : null }} {{ Request::is('home') ? 'menu-open' : null }}">
+                        <a class="nav-link  {{ Request::is('bundle*') ? 'active' : null }}"
+                            href="{{ route('bundle.index') }}">
+                            <i class="nav-icon fas fa-list"></i>
+                            <p>BUNDLE</p>
+                        </a>
+                    </li>
                       @php
-                      $enrolled_package = auth()
-                          ->user()
-                          ->load('enrolledPackage')->enrolledPackage;
-                  @endphp
-                  @if ($enrolled_package->package_id == 3)
-                      <li class="nav-item {{ Request::is('setting*') ? 'menu-open' : null }}">
-                          <a href="{{ route('setting.index') }}" class="nav-link">
-                              <i class="nav-icon fas fa-cogs"></i>
-                              <p>
-                                  SETTINGS
-                              </p>
-                          </a>
-                      </li>
-                  @endif
+                          $enrolled_package = auth()
+                              ->user()
+                              ->load('enrolledPackage')->enrolledPackage;
+                      @endphp
+                      @if ($enrolled_package->package_id == 3)
+                          <li class="nav-item {{ Request::is('setting*') ? 'menu-open' : null }}">
+                              <a href="{{ route('setting.index') }}" class="nav-link">
+                                  <i class="nav-icon fas fa-cogs"></i>
+                                  <p>
+                                      SETTINGS
+                                  </p>
+                              </a>
+                          </li>
+                      @endif
                   @endrole
                   @role('admin')
                       <li class="nav-item">
@@ -169,4 +181,5 @@
       </div>
       <!-- /.sidebar -->
   </aside>
+  </div>
   <!-- Main Sidebar Container -->

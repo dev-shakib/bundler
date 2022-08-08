@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="{{ asset('admin/') }}/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('admin/') }}/plugins/summernote/summernote-bs4.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
     @stack('custom-css')
 </head>
@@ -47,7 +48,7 @@
         <div class="content-wrapper">
             @yield('content')
         </div>
-        
+
 
         @include('backend.partials.footer')
 
@@ -92,6 +93,7 @@
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('admin/') }}/js/demo.js"></script>
     <!-- Custom js for a perticular page -->
+    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     @stack('custom-script')
     {{-- @if (config('settings.googleMapsAPIStatus'))
         {!! HTML::script(
@@ -100,6 +102,19 @@
         ) !!}
     @endif --}}
     @yield('footer_scripts')
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+        $(".clickable-row").click(function() {
+            window.location = $(this).data("href");
+            $(this).css('cursor', 'pointer');
+        });
+        $(".clickable-row").hover(function() {
+            $(this).css('cursor', 'pointer');
+        });
+    </script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('admin/') }}/js/pages/dashboard.js"></script>
 </body>

@@ -2,11 +2,12 @@
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-        </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="<?php echo e(url('/home')); ?>" class="nav-link">Home</a>
+            <a href="<?php echo e(route('home')); ?>" class="brand-link">
+                <img src="<?php echo e(asset('admin')); ?>/img/AdminLTELogo.png" alt="AdminLTE Logo"
+                class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="text-dark">Bundler</span>
+            </a>
         </li>
         
     </ul>
@@ -21,11 +22,6 @@
 
         <!-- Notifications Dropdown Menu -->
         
-        <li class="nav-item" title="Full Screen">
-            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                <i class="fas fa-expand-arrows-alt"></i>
-            </a>
-        </li>
         <?php if(auth()->guard()->guest()): ?>
             <li><a class="nav-link" href="<?php echo e(route('login')); ?>"><?php echo e(trans('titles.login')); ?></a></li>
             <?php if(Route::has('register')): ?>
@@ -62,12 +58,6 @@
                 </div>
             </li>
         <?php endif; ?>
-        <li class="nav-item" title="Customize Panel UI">
-            <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#"
-                role="button">
-                <i class="fas fa-th-large"></i>
-            </a>
-        </li>
 
     </ul>
 </nav>
