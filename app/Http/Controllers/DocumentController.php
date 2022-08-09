@@ -291,7 +291,14 @@ class DocumentController extends Controller
                 $days_after_file_delete = 1095;
             }
             $auto_delete_date = Carbon::now()->addDays($days_after_file_delete)->format('Y-m-d');
-            File::where('id',$file_id)->update(['filename'=>$splitName[0].'.pdf','auto_deleted_at'=>$auto_delete_date, 'totalPage'=>$totalPage,'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
+            $filess = File::where("id",$file_id)->orderBy("sort_id",'desc')->first();
+            if(!is_null($filess))
+            {
+                $sort_id = $filess->sort_id+1;
+            }else{
+                $sort_id = 1;
+            }
+            File::where('id',$file_id)->update(['filename'=>$splitName[0].'.pdf','sort_id'=>$sort_id,'auto_deleted_at'=>$auto_delete_date, 'totalPage'=>$totalPage,'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
 
             return response()->json(['success'=>$splitName[0].'.pdf']);
 
@@ -447,7 +454,14 @@ class DocumentController extends Controller
             $days_after_file_delete = 1095;
         }
          $auto_delete_date = Carbon::now()->addDays($days_after_file_delete)->format('Y-m-d');
-        File::create(['filename'=>$splitName[0].'.pdf','auto_deleted_at'=>$auto_delete_date,'totalPage'=>$totalPage,'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
+         $filess = File::where("section_id",$section_id)->orderBy("sort_id",'desc')->first();
+         if(!is_null($filess))
+         {
+            $sort_id = $filess->sort_id+1;
+         }else{
+            $sort_id = 1;
+         }
+        File::create(['filename'=>$splitName[0].'.pdf','sort_id'=>$sort_id,'auto_deleted_at'=>$auto_delete_date,'totalPage'=>$totalPage,'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
         return response()->json(['success'=>$splitName[0].'.pdf']);
     }
     public function create($bundle_id,$section_id)

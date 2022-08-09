@@ -45,6 +45,7 @@ class BundleController extends Controller
         $bu['bundle_id'] = $bundle->id;
         $bu['user_id'] = $user->id;
         $bu['isDefault'] = 1;
+        $bu['sort_id'] = 1;
         $bu['isHiddenInList'] = 1;
         $bu['isHiddenInGenerateIndexList'] = 1;
         $bu['isMainSection'] = 1;
@@ -54,6 +55,7 @@ class BundleController extends Controller
         $Index['bundle_id'] = $bundle->id;
         $Index['user_id'] = $user->id;
         $Index['isDefault'] = 1;
+        $Index['sort_id'] = 2;
         $Index['isHiddenInList'] = 1;
         $Index['isHiddenInGenerateIndexList'] = 0;
         $Index['isMainSection'] = 0;
@@ -62,6 +64,7 @@ class BundleController extends Controller
         $cover['bundle_id'] = $bundle->id;
         $cover['user_id'] = $user->id;
         $cover['isDefault'] = 1;
+        $cover['sort_id'] = 3;
         $cover['isHiddenInList'] = 0;
         $cover['isHiddenInGenerateIndexList'] = 1;
         $cover['isMainSection'] = 0;
@@ -118,8 +121,7 @@ class BundleController extends Controller
             if(generatedTable::where('bundle_id',$b->id)->count() > 0)
             {
                 $generated_pdf = generatedTable::where('bundle_id',$b->id)->first();
-                unlink(public_path("generated_pdf/".$generated_pdf->filename));
-                unlink(public_path("bundle_pdf/".$b->name."/".$b->name.'.zip'));
+                unlink(public_path("bundle_pdf/".$b->name."/".$b->name.'.pdf'));
                 unlink(public_path("bundle_zip/".$b->name.'.zip'));
                generatedTable::where('bundle_id',$b->id)->delete();
             }
