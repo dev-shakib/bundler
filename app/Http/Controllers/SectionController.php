@@ -57,6 +57,15 @@ class SectionController extends Controller
         $data['name'] = $request->name;
         $data['bundle_id'] = $request->bundle_id;
         $data['user_id'] = $user->id;
+
+        $filess = Section::where("bundle_id",$request->bundle_id)->orderBy("sort_id",'desc')->first();
+            if(!is_null($filess))
+            {
+                $data['sort_id'] =  $filess->sort_id+1;
+            }else{
+                $data['sort_id'] = 1;
+            }
+
         Section::create($data);
         return redirect()->back();
     }
@@ -140,8 +149,13 @@ class SectionController extends Controller
         {
             $s = $section->first();
             $file = File::where('section_id',$s->id)->first();
-            unlink(public_path('pdf/'.$file->filename));
-            File::where('id',$file->id)->delete();
+            if(!is_null($file)){
+
+                if(file_exists(public_path('pdf/'.$file->filename))){
+                    unlink(public_path('pdf/'.$file->filename));
+                }
+                File::where('section_id',$s->id)->delete();
+            }
             $section->delete();
             return redirect()->back();
 

@@ -21,4 +21,8 @@ class Bundle extends Model
     {
        return $this->hasMany(generatedTable::class,'bundle_id','id');
     }
+    public function formatdate()
+    {
+        return $this->created_at->format("d M Y");
+    }
 }
