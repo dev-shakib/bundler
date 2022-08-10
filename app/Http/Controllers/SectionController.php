@@ -148,13 +148,15 @@ class SectionController extends Controller
         if($section->count() > 0)
         {
             $s = $section->first();
-            $file = File::where('section_id',$s->id)->first();
-            if(!is_null($file)){
+            $files = File::where('section_id',$s->id)->get();
+            foreach($files as $file){
+                if(!is_null($file)){
 
-                if(file_exists(public_path('pdf/'.$file->filename))){
-                    unlink(public_path('pdf/'.$file->filename));
+                    if(file_exists(public_path('pdf/'.$file->filename))){
+                        unlink(public_path('pdf/'.$file->filename));
+                    }
+                    File::where('id',$file->id)->delete();
                 }
-                File::where('section_id',$s->id)->delete();
             }
             $section->delete();
             return redirect()->back();

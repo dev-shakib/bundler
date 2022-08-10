@@ -108,21 +108,36 @@ class BundleController extends Controller
         if($bundle->count() > 0)
         {
             $b = $bundle->first();
-            $sec = Section::where('bundle_id',$b->id)->get();
+            $sec = Section::with('files')->where('bundle_id',$b->id)->get();
             foreach($sec as $s)
             {
-                $file = File::where('section_id',$s->id)->first();
-                if(!is_null($file)){
-                    unlink(public_path("pdf/".$file->filename));
-                    File::where('id',$file->id)->delete();
+                if(file_exists(public_path("pdf/section".$s->id.'.pdf'))){
+                    unlink(public_path("pdf/section".$s->id.'.pdf'));
+                }
+                $files = File::where('section_id',$s->id)->get();
+                foreach($files as $file){
+
+                    if(!is_null($file)){
+                        if(file_exists(public_path("pdf/".$file->filename))){
+                            unlink(public_path("pdf/".$file->filename));
+                        }
+                        File::where('id',$file->id)->delete();
+                    }
                 }
                 Section::where('id',$s->id)->delete();
             }
             if(generatedTable::where('bundle_id',$b->id)->count() > 0)
             {
                 $generated_pdf = generatedTable::where('bundle_id',$b->id)->first();
-                unlink(public_path("bundle_pdf/".$b->name."/".$b->name.'.pdf'));
-                unlink(public_path("bundle_zip/".$b->name.'.zip'));
+                if(file_exists(public_path("bundle_pdf/".$b->name."/".$b->name.'.pdf'))){
+                    unlink(public_path("bundle_pdf/".$b->name."/".$b->name.'.pdf'));
+                }
+                if(file_exists(public_path("bundle_zip/".$b->name.'.zip'))){
+                    unlink(public_path("bundle_zip/".$b->name.'.zip'));
+                }
+                if(file_exists(public_path("generated_pdf/".$b->name.'.pdf'))){
+                    unlink(public_path("generated_pdf/".$b->name.'.pdf'));
+                }
                generatedTable::where('bundle_id',$b->id)->delete();
             }
             $bundle->delete();
@@ -137,7 +152,17 @@ class BundleController extends Controller
         if($bundle->count() > 0)
         {
             $file = $bundle->first();
+            if(file_exists(public_path("generated_pdf/".$file->filename))){
+                unlink(public_path("generated_pdf/".$file->filename));
+            }
+            if(file_exists(public_path("bundle_pdf/".$file->bundle->name.'/'.$file->filename))){
                 unlink(public_path("bundle_pdf/".$file->bundle->name.'/'.$file->filename));
+                rmdir(public_path("bundle_pdf/".$file->bundle->name));
+            }
+            $filename = explode('.',$file->filename);
+            if(file_exists(public_path("bundle_zip/".$filename[0].'.zip'))){
+                unlink(public_path("bundle_zip/".$filename[0].'.zip'));
+            }
                 generatedTable::where('id',$file->id)->delete();
             return redirect()->back();
         }else{

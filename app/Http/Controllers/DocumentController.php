@@ -31,7 +31,9 @@ class DocumentController extends Controller
         if($file->count() > 0)
         {
             $file = $file->first();
-            unlink(public_path('pdf/'.$file->filename));
+            if(file_exists(public_path("pdf/".$file->filename))){
+                unlink(public_path('pdf/'.$file->filename));
+            }
             $file->delete();
             return redirect()->back();
         }
@@ -179,6 +181,7 @@ class DocumentController extends Controller
 
             $pdf = MPDF::loadHtml(view('newDocsPdf', $view),$this->packages());
             $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
+            unlink(storage_path("app/public/files/".$filename[2]));
             unlink(public_path("../resources/views/pdf/".$splitName[0].'.blade.php'));
 
             }else if($splitName[1] == "jpe" || $splitName[1] == "jpeg" || $splitName[1] == "gif"  || $splitName[1] == "png"  || $splitName[1] == "JPG" || $splitName[1] == "jpg"  || $splitName[1] == "JPEG"  || $splitName[1] == "PNG" || $splitName[1] == "GIF")
@@ -344,7 +347,7 @@ class DocumentController extends Controller
 
             $pdf = MPDF::loadHtml(view('newDocsPdf', $view),$this->packages());
             $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
-
+            unlink(storage_path("app/public/files/".$filename[2]));
             unlink(public_path("../resources/views/pdf/".$splitName[0].'.blade.php'));
 
         }else if($splitName[1] == "jpg" || $splitName[1] == "jpeg" || $splitName[1] == "gif"  || $splitName[1] == "png"  || $splitName[1] == "JPG" || $splitName[1] == "jpg"  || $splitName[1] == "JPEG"  || $splitName[1] == "PNG" || $splitName[1] == "GIF")
