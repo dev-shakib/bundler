@@ -14,24 +14,24 @@ $enrolled_package = auth()
 @section('content')
 
     <div style="display: none">
-    <!-- Content Wrapper. Contains page content -->
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0">Bundle</h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item "><a href="{{ route('bundle.index') }}">Bundle</a></li>
-                        <li class="breadcrumb-item active">{{ $bundle->name }} List</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+        <!-- Content Wrapper. Contains page content -->
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Bundle</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item "><a href="{{ route('bundle.index') }}">Bundle</a></li>
+                            <li class="breadcrumb-item active">{{ $bundle->name }} List</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
     </div>
 
     <!-- Main content -->
@@ -56,18 +56,21 @@ $enrolled_package = auth()
                             </div>
                             <div class="row align-items-center">
                                 <div class="col-lg-6">
-                                    <span class="d-inline-block" data-toggle="tooltip" data-placement="top" title="Add Section">
+                                    <span class="d-inline-block" data-toggle="tooltip" data-placement="top"
+                                        title="Add Section">
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
                                             data-target="#sectioncreatemodal" id="bundle-tour-1">
                                             <i class="fa fa-folder-open-o"></i>
                                         </button>
                                     </span>
-                                    <div class="modal fade" id="sectioncreatemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="sectioncreatemodal" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel">Create Section</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
@@ -85,10 +88,12 @@ $enrolled_package = auth()
 
                                                         @csrf
                                                         <input type="hidden" name="bundle_id" value="{{ $bundle->id }}">
-                                                        <input type="text" placeholder="Section Name" class="form-control" name="name" required>
+                                                        <input type="text" placeholder="Section Name"
+                                                            class="form-control" name="name" required>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-danger"
+                                                            data-dismiss="modal">Close</button>
                                                         <input type="submit" class="btn btn-primary" value="Create" />
                                                     </div>
                                                 </form>
@@ -96,44 +101,51 @@ $enrolled_package = auth()
                                         </div>
                                     </div>
 
-                                    <span class="d-inline-block" data-toggle="tooltip" data-placement="top" title="Upload Document">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal"  id="bundle-tour-2"
-                                            data-target="#exampleModal">
+                                    <span class="d-inline-block" data-toggle="tooltip" data-placement="top"
+                                        title="Upload Document">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            id="bundle-tour-2" data-target="#exampleModal">
                                             <i class="fa fa-upload"></i>
                                         </button>
                                     </span>
 
                                     @if ($enrolled_package->package_id == 1)
                                         @if ($bundle->totalPages() < 60)
-                                            @if ($bundle->generated->count() == 0)
-                                                <a href="{{ route('public.bundle.generate', [$bundle->id]) }}" data-toggle="tooltip" data-placement="top" title="Generate Bundle" id="bundle-tour-3"
-                                                    class="btn btn-info"><i class="fa fa-file-text"></i></a>
-                                            @endif
+                                            <a href="{{ route('public.bundle.generate', [$bundle->id]) }}"
+                                                data-toggle="tooltip" data-placement="top" title="Generate Bundle"
+                                                id="bundle-tour-3" class="btn btn-info"><i class="fa fa-file-text"></i></a>
                                         @else
-                                            <a href="#" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Generate Bundle" id="bundle-tour-3"><i class="fa fa-file-text"></i></a>
+                                            <a href="#" class="btn btn-info" data-toggle="tooltip"
+                                                data-placement="top" title="Generate Bundle" id="bundle-tour-3"><i
+                                                    class="fa fa-file-text"></i></a>
                                         @endif
                                     @else
-                                        @if ($bundle->generated->count() == 0)
-                                            <a href="{{ route('public.bundle.generate', [$bundle->id]) }}" data-toggle="tooltip" data-placement="top" title="Generate Bundle" id="bundle-tour-3"
-                                                class="btn btn-info"><i class="fa fa-file-text"></i></a>
-                                        @endif
+                                        <a href="{{ route('public.bundle.generate', [$bundle->id]) }}" data-toggle="tooltip"
+                                            data-placement="top" title="Generate Bundle" id="bundle-tour-3"
+                                            class="btn btn-info"><i class="fa fa-file-text"></i></a>
                                     @endif
                                     @if ($enrolled_package->package_id == 1)
                                         @if ($bundle->totalPages() < 60)
-                                            <a href="{{ route('public.bundle.generated_bundle', [$bundle->id]) }}" data-toggle="tooltip" data-placement="top" title="View Generated Bundle" id="bundle-tour-4"
-                                                class="btn btn-info"><i class="fa fa-file-pdf-o"></i></a>
+                                            <a href="{{ route('public.bundle.generated_bundle', [$bundle->id]) }}"
+                                                data-toggle="tooltip" data-placement="top" title="View Generated Bundle"
+                                                id="bundle-tour-4" class="btn btn-info"><i
+                                                    class="fa fa-file-pdf-o"></i></a>
                                         @else
-                                            <a href="#" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="View Generated Bundle" id="bundle-tour-4"><i class="fa fa-file-pdf-o"></i></a>
+                                            <a href="#" class="btn btn-info" data-toggle="tooltip"
+                                                data-placement="top" title="View Generated Bundle" id="bundle-tour-4"><i
+                                                    class="fa fa-file-pdf-o"></i></a>
                                         @endif
                                     @else
-                                        <a href="{{ route('public.bundle.generated_bundle', [$bundle->id]) }}" data-toggle="tooltip" data-placement="top" title="View Generated Bundle" id="bundle-tour-4"
-                                            class="btn btn-info"><i class="fa fa-file-pdf-o"></i></a>
+                                        <a href="{{ route('public.bundle.generated_bundle', [$bundle->id]) }}"
+                                            data-toggle="tooltip" data-placement="top" title="View Generated Bundle"
+                                            id="bundle-tour-4" class="btn btn-info"><i class="fa fa-file-pdf-o"></i></a>
                                     @endif
                                 </div>
 
                                 <div class="col-lg-6">
                                     <ol class="breadcrumb float-sm-right m-0 p-0 bg-transparent">
-                                        <li class="breadcrumb-item text-uppercase text-bold "><a href="{{ route('bundle.index') }}">Bundle</a></li>
+                                        <li class="breadcrumb-item text-uppercase text-bold "><a
+                                                href="{{ route('bundle.index') }}">Bundle</a></li>
                                         <li class="breadcrumb-item text-bold">{{ $bundle->name }} List</li>
                                     </ol>
                                 </div>
@@ -152,7 +164,8 @@ $enrolled_package = auth()
                                     @foreach ($bundle->section as $s)
                                         @if ($s->isHiddenInList == 1)
                                         @else
-                                            <tr data-id="{{ $s->id }}"  class="clickable-row" data-href="{{ route('section.show', $s->id) }}">
+                                            <tr data-id="{{ $s->id }}" class="clickable-row"
+                                                data-href="{{ route('section.show', $s->id) }}">
                                                 <td class="py-1 pl-3 align-middle">
                                                     {{ $s->name }}
                                                 </td>
@@ -160,13 +173,17 @@ $enrolled_package = auth()
                                                     {{ $s->files->sum('totalPage') }}
                                                 </td>
                                                 <td class="py-1 pl-3 align-middle text-right">
-                                                    <a href="{{ route('section.show', $s->id) }}" data-toggle="tooltip" data-placement="top" title="View"
+                                                    <a href="{{ route('section.show', $s->id) }}" data-toggle="tooltip"
+                                                        data-placement="top" title="View"
                                                         class="btn btn-primary d-inline-block"><i class="fa fa-eye"></i>
                                                     </a>
-                                                    <a href="{{ route('public.bundle.section.edit', [$bundle->id, $s->id]) }}" data-toggle="tooltip" data-placement="top" title="Rename"
-                                                        class="btn btn-primary d-inline-block"><i class="fa fa-pencil-square-o"></i>
+                                                    <a href="{{ route('public.bundle.section.edit', [$bundle->id, $s->id]) }}"
+                                                        data-toggle="tooltip" data-placement="top" title="Rename"
+                                                        class="btn btn-primary d-inline-block"><i
+                                                            class="fa fa-pencil-square-o"></i>
                                                     </a>
-                                                    <a href="{{ route('public.bundle.section.destroy', [$s->id]) }}" data-toggle="tooltip" data-placement="top" title="Delete"
+                                                    <a href="{{ route('public.bundle.section.destroy', [$s->id]) }}"
+                                                        data-toggle="tooltip" data-placement="top" title="Delete"
                                                         class="btn btn-danger d-inline-block"><i class="fa fa-trash"></i>
                                                     </a>
                                                 </td>
@@ -282,62 +299,60 @@ $enrolled_package = auth()
 
         })
 
-        // tour setup 
+        // tour setup
         var tour = {
-            id: 'bundle-tour',
-            steps: [
-                {
-                    target: 'bundle-tour-1',
-                    title: 'Click to Create New Section',
-                    content: 'Click Here to create new Section',
-                    placement: 'top',
-                    arrowOffset: 5
-                },
-                {
-                    target: 'bundle-tour-2',
-                    title: 'Click to Upload Document',
-                    content: 'Click to Upload Document',
-                    placement: 'top',
-                    arrowOffset: 5
-                },
-                {
-                    target: 'bundle-tour-3',
-                    title: 'Click to Generate Bundle',
-                    content: 'Click to Generate Bundle',
-                    placement: 'top',
-                    arrowOffset: 5
-                },
-                {
-                    target: 'bundle-tour-4',
-                    title: 'Click to View Generated Bundle',
-                    content: 'Click to View Generated Bundle',
-                    placement: 'top',
-                    arrowOffset: 5
-                },
-            ],
-            showPrevButton: true,
-        },
-        addClickListener = function(el, fn) {
-            if (el.addEventListener) {
-            el.addEventListener('click', fn, false);
-            }
-            else {
-            el.attachEvent('onclick', fn);
-            }
-        },
-        init = function() {
-            var startBtnId = 'bundle-tour-button',
-                calloutId = 'startTourCallout',
-                mgr = hopscotch.getCalloutManager(),
-                state = hopscotch.getState();
-        
-            addClickListener(document.getElementById(startBtnId), function() {
-            if (!hopscotch.isActive) {
-                mgr.removeAllCallouts();
-                hopscotch.startTour(tour);
-            }
-            });
-        };
+                id: 'bundle-tour',
+                steps: [{
+                        target: 'bundle-tour-1',
+                        title: 'Click to Create New Section',
+                        content: 'Click Here to create new Section',
+                        placement: 'top',
+                        arrowOffset: 5
+                    },
+                    {
+                        target: 'bundle-tour-2',
+                        title: 'Click to Upload Document',
+                        content: 'Click to Upload Document',
+                        placement: 'top',
+                        arrowOffset: 5
+                    },
+                    {
+                        target: 'bundle-tour-3',
+                        title: 'Click to Generate Bundle',
+                        content: 'Click to Generate Bundle',
+                        placement: 'top',
+                        arrowOffset: 5
+                    },
+                    {
+                        target: 'bundle-tour-4',
+                        title: 'Click to View Generated Bundle',
+                        content: 'Click to View Generated Bundle',
+                        placement: 'top',
+                        arrowOffset: 5
+                    },
+                ],
+                showPrevButton: true,
+            },
+            addClickListener = function(el, fn) {
+                if (el.addEventListener) {
+                    el.addEventListener('click', fn, false);
+                } else {
+                    el.attachEvent('onclick', fn);
+                }
+            },
+            init = function() {
+                var startBtnId = 'bundle-tour-button',
+                    calloutId = 'startTourCallout',
+                    mgr = hopscotch.getCalloutManager(),
+                    state = hopscotch.getState();
+
+                addClickListener(document.getElementById(startBtnId), function() {
+                    if (!hopscotch.isActive) {
+                        mgr.removeAllCallouts();
+                        hopscotch.startTour(tour);
+                    }
+                });
+            };
         init();
         init();
     </script>

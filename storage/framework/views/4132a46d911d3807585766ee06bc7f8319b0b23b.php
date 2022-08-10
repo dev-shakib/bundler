@@ -7,36 +7,62 @@
 <?php $__env->stopPush(); ?>
 
 <?php $__env->startSection('content'); ?>
-    <!-- Content Wrapper. Contains page content -->
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0">Bundle</h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item "><a href="<?php echo e(route("bundle.index")); ?>">Bundle</a></li>
-                        <li class="breadcrumb-item "><a href="<?php echo e(route('bundle.show_single', [$file->bundle->slug, $file->bundle->id])); ?>"><?php echo e($file->bundle->name); ?></a></li>
-                        <li class="breadcrumb-item "><a href="<?php echo e(route('public.bundle.section.edit', [$file->bundle->id, $file->section->id])); ?>"><?php echo e($file->section->name); ?></a></li>
-                        <li class="breadcrumb-item"><?php echo e($file->mime_types); ?></li>
-                        <li class="breadcrumb-item active">Edit</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+    <div style="display: none">
+        <!-- Content Wrapper. Contains page content -->
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Bundle</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item "><a href="<?php echo e(route('bundle.index')); ?>">Bundle</a></li>
+                            <li class="breadcrumb-item "><a
+                                    href="<?php echo e(route('bundle.show_single', [$file->bundle->slug, $file->bundle->id])); ?>"><?php echo e($file->bundle->name); ?></a>
+                            </li>
+                            <li class="breadcrumb-item "><a
+                                    href="<?php echo e(route('public.bundle.section.edit', [$file->bundle->id, $file->section->id])); ?>"><?php echo e($file->section->name); ?></a>
+                            </li>
+                            <li class="breadcrumb-item"><?php echo e($file->mime_types); ?></li>
+                            <li class="breadcrumb-item active">Edit</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
     </div>
-    <!-- /.content-header -->
 
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <!-- Main row -->
             <div class="row">
+                <section class="col-12 pt-4 pb-2">
+                    <a href="<?php echo e(asset('pdf/' . $file->filename)); ?>" class="btn btn-primary"><i class="fa fa-download"></i>
+                        DOWNLOAD & PREVIEW</a>
+                </section>
+                <!-- /.Right Col -->
+
                 <!-- Left col -->
-                <section class="col-lg-6 connectedSortable">
+                <section class="col-12 connectedSortable">
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="<?php echo e(route('public.bundle.files.rename')); ?>" method="post">
+                                <?php echo csrf_field(); ?>
+                                <input type="hidden" name="file_id" value="<?php echo e($file_id); ?>" />
+                                <div class="form-group">
+                                    <label for="">File Name</label>
+                                    <input type="text" value="<?php echo e($file->name); ?>" name="name" class="form-control"
+                                        id="">
+                                </div>
+                                <input type="submit" value="RENAME" class="btn btn-success">
+                            </form>
+                        </div>
+                    </div>
                     <div class="card">
                         <div class="card-body">
                             <form action="<?php echo e(route('public.bundle.files.update')); ?>" enctype="multipart/form-data"
@@ -45,7 +71,7 @@
                                 <input type="hidden" name="file_id" value="<?php echo e($file_id); ?>" />
                                 <input type="hidden" name="bundle_id" value="<?php echo e($bundle_id); ?>" />
                                 <input type="hidden" name="section_id" value="<?php echo e($section_id); ?>" />
-                                <div>
+                                <div class="text-center">
                                     <h3>Upload .jpeg,.jpg,.png,.gif,.doc,.docx,.pdf By Click On Box</h3>
                                 </div>
                             </form>
@@ -54,18 +80,6 @@
                 </section>
                 <!-- /.Left col -->
                 <!-- Right Col -->
-                <section class="col-lg-6">
-                    <div class="card">
-                        <div class='card-header'>
-                            Preview
-                        </div>
-                        <div class="card-body">
-                            <a href="<?php echo e(asset('pdf/'.$file->filename)); ?>" class="btn btn-outline-primary">DOWNLOAD & PREVIEW</a>
-
-                        </div>
-                    </div>
-                </section>
-                <!-- /.Right Col -->
             </div>
             <!-- /.row (main row) -->
         </div><!-- /.container-fluid -->

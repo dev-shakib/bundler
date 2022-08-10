@@ -142,6 +142,19 @@ class DocumentController extends Controller
                     }];
             }
     }
+    public function rename(Request $request)
+    {
+        $name = $request->name;
+        $id = $request->file_id;
+        $file = File::where('id',$id);
+        if($file->count() == 0){
+            return abort(404);
+        }
+        File::where('id',$id)->update(['name'=>$name]);
+        $file =$file->first();
+
+        return redirect()->route('section.show', [$file->section_id]);
+    }
     public function update(Request $request)
     {
         if (!file_exists(storage_path('app/public/files'))) {
@@ -198,7 +211,6 @@ class DocumentController extends Controller
             ->load('enrolledPackage')->enrolledPackage;
             $sourcePath=storage_path("app/public/files/".$filename[2]);
             $mpdf = new \Mpdf\Mpdf();
-
 
             // Specify a PDF template
             $pagecount = $mpdf->SetSourceFile($sourcePath);
@@ -270,6 +282,8 @@ class DocumentController extends Controller
                     }
 
             }
+
+
             $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
             $destinationPath=public_path('pdf/'.$filename[2]);
             if(Files::exists($sourcePath)){
@@ -301,7 +315,7 @@ class DocumentController extends Controller
             }else{
                 $sort_id = 1;
             }
-            File::where('id',$file_id)->update(['filename'=>$splitName[0].'.pdf','sort_id'=>$sort_id,'auto_deleted_at'=>$auto_delete_date, 'totalPage'=>$totalPage,'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
+            File::where('id',$file_id)->update(['filename'=>$splitName[0].'.pdf','name'=>$splitName[0],'sort_id'=>$sort_id,'auto_deleted_at'=>$auto_delete_date, 'totalPage'=>$totalPage,'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
 
             return response()->json(['success'=>$splitName[0].'.pdf']);
 
@@ -319,7 +333,7 @@ class DocumentController extends Controller
         }
         $file = $request->file('file');
         $filename = $file->getClientOriginalName();
-       $filename =$file->storeAs('public/files', $filename);
+        $filename =$file->storeAs('public/files', $filename);
         $bundle_id= $request->bundle_id;
         $section_id= $request->section_id;
         $filename = explode('/',$filename);
@@ -464,13 +478,11 @@ class DocumentController extends Controller
          }else{
             $sort_id = 1;
          }
-        File::create(['filename'=>$splitName[0].'.pdf','sort_id'=>$sort_id,'auto_deleted_at'=>$auto_delete_date,'totalPage'=>$totalPage,'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
+        File::create(['filename'=>$splitName[0].'.pdf','sort_id'=>$sort_id,"name"=>$splitName[0],'auto_deleted_at'=>$auto_delete_date,'totalPage'=>$totalPage,'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
         return response()->json(['success'=>$splitName[0].'.pdf']);
     }
     public function create($bundle_id,$section_id)
     {
-
-
         $user = Auth::user();
         $section = Section::with(['bundle'])->where('user_id',auth()->user()->id)->where(['bundle_id'=>$bundle_id,'id'=>$section_id])->first();
 
@@ -482,7 +494,6 @@ class DocumentController extends Controller
     public function generate($bundle_id)
     {
         $files = File::where(["user_id"=>auth()->user()->id,'bundle_id'=>$bundle_id])->get();
-        // dd($files);
         $sections = Section::with('files')->where('bundle_id',$bundle_id)->orderBy('sort_id','ASC')->get();
         $pdf = PDFMerger::init();
         foreach($sections as $sec)
@@ -516,12 +527,12 @@ class DocumentController extends Controller
                     }
                 }
             }else{
-                        $allsections = Section::with('files')->where('id',$sec->id)->orderBy('sort_id','ASC')->get();
-                        $heading = $sec->name ."<br> INDEX";
-                        $cpdf = MPDF::loadHtml(view('indexAllPdf', compact('allsections','heading')),$this->packages());
-                        $output=$cpdf->output();
-                        file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
-                        $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
+                    $allsections = Section::with('files')->where('id',$sec->id)->orderBy('sort_id','ASC')->get();
+                    $heading = $sec->name ."<br> INDEX";
+                    $cpdf = MPDF::loadHtml(view('indexAllPdf', compact('allsections','heading')),$this->packages());
+                    $output=$cpdf->output();
+                    file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
+                    $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
             }
             foreach($sec->files as $f){
                 $pdf->addPDF(public_path("pdf/".$f->filename), 'all');
@@ -548,7 +559,14 @@ class DocumentController extends Controller
                 $days_after_file_delete = 1095;
             }
             $auto_delete_date = Carbon::now()->addDays($days_after_file_delete)->format('Y-m-d');
-        generatedTable::create(['bundle_id'=>$bundle_id,'auto_deleted_at'=>$auto_delete_date,'filename'=>$fileName,'paid'=>1]);
+        $generated_table = generatedTable::where("bundle_id",$bundle_id)->count();
+        if($generated_table > 0)
+        {
+            generatedTable::where('bundle_id',$bundle_id)->update(['auto_deleted_at'=>$auto_delete_date,'filename'=>$fileName,'paid'=>1]);
+        }else{
+
+            generatedTable::create(['bundle_id'=>$bundle_id,'auto_deleted_at'=>$auto_delete_date,'filename'=>$fileName,'paid'=>1]);
+        }
 
         return redirect()->back();
     }

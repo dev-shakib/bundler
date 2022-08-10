@@ -72,6 +72,7 @@ Route::group(['middleware' => ['auth', 'activated', 'activity', 'twostep', 'chec
     Route::post('/bundle/files/store', ['as' => 'public.bundle.files.store',   'uses' => 'App\Http\Controllers\DocumentController@uploadDocuments']);
     Route::get('/bundle/files/number={bundle_id}/section={section_id}/file={id}', ['as' => 'public.bundle.files.show',   'uses' => 'App\Http\Controllers\DocumentController@show']);
     Route::post('/bundle/files/update', ['as' => 'public.bundle.files.update',   'uses' => 'App\Http\Controllers\DocumentController@update']);
+    Route::post('/bundle/files/rename', ['as' => 'public.bundle.files.rename',   'uses' => 'App\Http\Controllers\DocumentController@rename']);
 
     Route::post('/bundle/files/update-order',['as' => 'public.bundle.files.updateOrder',   'uses' => 'App\Http\Controllers\DocumentController@updateOrder']);
     Route::get('/bundle/files/delete/file={id}', ['as' => 'public.bundle.files.delete',   'uses' => 'App\Http\Controllers\DocumentController@delete']);

@@ -12,7 +12,7 @@
         $filePageEnd = 0;
         $j = 0;
         $start = 1;
-        $i = 1;
+        $i = 'A';
     ?>
     <?php $__currentLoopData = $allsections; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sec): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <?php if($sec->isDefault == 1 && $sec->isHiddenInList == 1): ?>
@@ -33,12 +33,10 @@
                 ?>
                 <tr>
                     <td></td>
-                    <td style="text-align:left"><?php echo e($item->filename); ?></td>
+                    <td style="text-align:left"><?php echo e($item->name); ?></td>
                     <td style="text-align:right"><?php echo e($filePageStart); ?>-<?php echo e($filePageEnd); ?></td>
                 </tr>
-                <?php
-                    $filePageStart += $item->totalPage;
-                ?>
+
                 
                 <?php
                     if ($heading == 'INDEX'):
@@ -47,11 +45,10 @@
                             ->update(['pages' => $filePageStart . '-' . $filePageEnd]);
                     endif;
                 ?>
+                <?php
+                    $filePageStart += $item->totalPage;
+                ?>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            <?php
-                $start += $sec->files->sum('totalPage');
-            ?>
-            
             <?php
                 if ($heading == 'INDEX'):
                     DB::table('sections')
@@ -59,6 +56,10 @@
                         ->update(['pages' => $start . '-' . $j]);
                 endif;
             ?>
+            <?php
+                $start += $sec->files->sum('totalPage');
+            ?>
+            
         <?php endif; ?>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 </table>

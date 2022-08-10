@@ -12,7 +12,7 @@
         $filePageEnd = 0;
         $j = 0;
         $start = 1;
-        $i = 1;
+        $i = 'A';
     @endphp
     @foreach ($allsections as $sec)
         @if ($sec->isDefault == 1 && $sec->isHiddenInList == 1)
@@ -33,12 +33,10 @@
                 @endphp
                 <tr>
                     <td></td>
-                    <td style="text-align:left">{{ $item->filename }}</td>
+                    <td style="text-align:left">{{ $item->name }}</td>
                     <td style="text-align:right">{{ $filePageStart }}-{{ $filePageEnd }}</td>
                 </tr>
-                @php
-                    $filePageStart += $item->totalPage;
-                @endphp
+
                 {{-- IF INDEX --}}
                 @php
                     if ($heading == 'INDEX'):
@@ -47,11 +45,10 @@
                             ->update(['pages' => $filePageStart . '-' . $filePageEnd]);
                     endif;
                 @endphp
+                @php
+                    $filePageStart += $item->totalPage;
+                @endphp
             @endforeach
-            @php
-                $start += $sec->files->sum('totalPage');
-            @endphp
-            {{-- IF INDEX --}}
             @php
                 if ($heading == 'INDEX'):
                     DB::table('sections')
@@ -59,6 +56,10 @@
                         ->update(['pages' => $start . '-' . $j]);
                 endif;
             @endphp
+            @php
+                $start += $sec->files->sum('totalPage');
+            @endphp
+            {{-- IF INDEX --}}
         @endif
     @endforeach
 </table>

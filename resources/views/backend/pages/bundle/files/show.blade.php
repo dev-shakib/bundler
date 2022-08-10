@@ -10,28 +10,32 @@
 
 @section('content')
     <div style="display: none">
-    <!-- Content Wrapper. Contains page content -->
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0">Bundle</h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item "><a href="{{ route("bundle.index") }}">Bundle</a></li>
-                        <li class="breadcrumb-item "><a href="{{ route('bundle.show_single', [$file->bundle->slug, $file->bundle->id]) }}">{{ $file->bundle->name }}</a></li>
-                        <li class="breadcrumb-item "><a href="{{ route('public.bundle.section.edit', [$file->bundle->id, $file->section->id]) }}">{{ $file->section->name }}</a></li>
-                        <li class="breadcrumb-item">{{ $file->mime_types }}</li>
-                        <li class="breadcrumb-item active">Edit</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+        <!-- Content Wrapper. Contains page content -->
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Bundle</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item "><a href="{{ route('bundle.index') }}">Bundle</a></li>
+                            <li class="breadcrumb-item "><a
+                                    href="{{ route('bundle.show_single', [$file->bundle->slug, $file->bundle->id]) }}">{{ $file->bundle->name }}</a>
+                            </li>
+                            <li class="breadcrumb-item "><a
+                                    href="{{ route('public.bundle.section.edit', [$file->bundle->id, $file->section->id]) }}">{{ $file->section->name }}</a>
+                            </li>
+                            <li class="breadcrumb-item">{{ $file->mime_types }}</li>
+                            <li class="breadcrumb-item active">Edit</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
     </div>
 
     <!-- Main content -->
@@ -40,13 +44,27 @@
             <!-- Main row -->
             <div class="row">
                 <section class="col-12 pt-4 pb-2">
-                        <a href="{{ asset('pdf/'.$file->filename) }}" class="btn btn-primary"><i class="fa fa-download"></i>
- DOWNLOAD & PREVIEW</a>
+                    <a href="{{ asset('pdf/' . $file->filename) }}" class="btn btn-primary"><i class="fa fa-download"></i>
+                        DOWNLOAD & PREVIEW</a>
                 </section>
                 <!-- /.Right Col -->
 
                 <!-- Left col -->
                 <section class="col-12 connectedSortable">
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="{{ route('public.bundle.files.rename') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="file_id" value="{{ $file_id }}" />
+                                <div class="form-group">
+                                    <label for="">File Name</label>
+                                    <input type="text" value="{{ $file->name }}" name="name" class="form-control"
+                                        id="">
+                                </div>
+                                <input type="submit" value="RENAME" class="btn btn-success">
+                            </form>
+                        </div>
+                    </div>
                     <div class="card">
                         <div class="card-body">
                             <form action="{{ route('public.bundle.files.update') }}" enctype="multipart/form-data"

@@ -131,6 +131,7 @@ class BundleController extends Controller
                 $generated_pdf = generatedTable::where('bundle_id',$b->id)->first();
                 if(file_exists(public_path("bundle_pdf/".$b->name."/".$b->name.'.pdf'))){
                     unlink(public_path("bundle_pdf/".$b->name."/".$b->name.'.pdf'));
+                    rmdir(public_path("bundle_pdf/".$b->name));
                 }
                 if(file_exists(public_path("bundle_zip/".$b->name.'.zip'))){
                     unlink(public_path("bundle_zip/".$b->name.'.zip'));

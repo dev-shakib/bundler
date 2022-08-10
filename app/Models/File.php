@@ -9,7 +9,7 @@ class File extends Model
 {
     use HasFactory;
     protected  $table = 'files';
-    protected $fillable = ['user_id','filename','mime_types','bundle_id','section_id','totalPage','auto_deleted_at','pages','sort_id'];
+    protected $fillable = ['user_id','filename','mime_types','bundle_id','section_id','totalPage','auto_deleted_at','pages','sort_id','name'];
      public function bundle()
     {
        return $this->belongsTo(Bundle::class,'bundle_id','id');
