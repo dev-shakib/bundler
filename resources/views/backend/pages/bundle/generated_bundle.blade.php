@@ -71,10 +71,10 @@
                                             </td>
                                             <td>
 
-                                                <a href="{{ route('pdf',$b->id) }}" class="btn btn-outline-primary"><i
+                                                <a href="{{ route('pdf', $b->id) }}" class="btn btn-outline-primary"><i
                                                         class="fa fa-download"></i> DOWNLOAD</a>
                                                 <div class="social-links">
-                                                    {!! Share::page(asset($b->filename))->facebook()->twitter()->linkedin()->whatsapp() !!}
+                                                    {!! Share::page(route('pdf', $b->id))->facebook()->twitter()->linkedin()->whatsapp() !!}
 
                                                 </div>
                                                 <form action="{{ route('bundle.generated.destroy', [$b->id]) }}"

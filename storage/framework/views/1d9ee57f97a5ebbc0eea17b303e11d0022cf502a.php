@@ -14,6 +14,7 @@
         $start = 1;
         $i = 'A';
     ?>
+
     <?php $__currentLoopData = $allsections; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sec): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <?php if($sec->isDefault == 1 && $sec->isHiddenInList == 1): ?>
         <?php else: ?>
@@ -22,6 +23,7 @@
                     $j = $j + $item->totalPage;
                 ?>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
             <tr>
                 <th>Section <?php echo e($i++); ?> : </th>
                 <th style="text-align:left"><?php echo e($sec->name); ?></th>
@@ -34,7 +36,11 @@
                 <tr>
                     <td></td>
                     <td style="text-align:left"><?php echo e($item->name); ?></td>
-                    <td style="text-align:right"><?php echo e($filePageStart); ?>-<?php echo e($filePageEnd); ?></td>
+                    <?php if($heading == 'INDEX'): ?>
+                        <td style="text-align:right"><?php echo e($filePageStart); ?>-<?php echo e($filePageEnd); ?></td>
+                    <?php else: ?>
+                        <td style="text-align:right"><?php echo e($item->pages); ?></td>
+                    <?php endif; ?>
                 </tr>
 
                 

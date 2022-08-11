@@ -70,10 +70,10 @@
                                             </td>
                                             <td>
 
-                                                <a href="<?php echo e(route('pdf',$b->id)); ?>" class="btn btn-outline-primary"><i
+                                                <a href="<?php echo e(route('pdf', $b->id)); ?>" class="btn btn-outline-primary"><i
                                                         class="fa fa-download"></i> DOWNLOAD</a>
                                                 <div class="social-links">
-                                                    <?php echo Share::page(asset($b->filename))->facebook()->twitter()->linkedin()->whatsapp(); ?>
+                                                    <?php echo Share::page(route('pdf', $b->id))->facebook()->twitter()->linkedin()->whatsapp(); ?>
 
 
                                                 </div>

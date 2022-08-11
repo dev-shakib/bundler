@@ -14,6 +14,7 @@
         $start = 1;
         $i = 'A';
     @endphp
+
     @foreach ($allsections as $sec)
         @if ($sec->isDefault == 1 && $sec->isHiddenInList == 1)
         @else
@@ -22,6 +23,7 @@
                     $j = $j + $item->totalPage;
                 @endphp
             @endforeach
+
             <tr>
                 <th>Section {{ $i++ }} : </th>
                 <th style="text-align:left">{{ $sec->name }}</th>
@@ -34,7 +36,11 @@
                 <tr>
                     <td></td>
                     <td style="text-align:left">{{ $item->name }}</td>
-                    <td style="text-align:right">{{ $filePageStart }}-{{ $filePageEnd }}</td>
+                    @if ($heading == 'INDEX')
+                        <td style="text-align:right">{{ $filePageStart }}-{{ $filePageEnd }}</td>
+                    @else
+                        <td style="text-align:right">{{ $item->pages }}</td>
+                    @endif
                 </tr>
 
                 {{-- IF INDEX --}}
