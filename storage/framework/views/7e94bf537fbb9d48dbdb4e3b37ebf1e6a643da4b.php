@@ -25,7 +25,7 @@
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
-    <!-- /.content-header -->
+    <!-- /. -->
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">

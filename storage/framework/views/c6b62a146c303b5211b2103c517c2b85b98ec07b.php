@@ -6,27 +6,33 @@
 
 <?php $__env->startPush('custom-css'); ?>
 <?php $__env->stopPush(); ?>
-
+<?php
+$enrolled_package = auth()
+    ->user()
+    ->load('enrolledPackage')->enrolledPackage;
+?>
 <?php $__env->startSection('content'); ?>
-    <!-- Content Wrapper. Contains page content -->
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0">Bundle</h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="<?php echo e(route('public.home')); ?>">Home</a></li>
-                        <li class="breadcrumb-item "><a href="<?php echo e(route('bundle.index')); ?>">Bundle</a></li>
-                        <li class="breadcrumb-item active"><?php echo e($bundle->name); ?> List</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+
+    <div style="display: none">
+        <!-- Content Wrapper. Contains page content -->
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Bundle</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item "><a href="<?php echo e(route('bundle.index')); ?>">Bundle</a></li>
+                            <li class="breadcrumb-item active"><?php echo e($bundle->name); ?> List</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
     </div>
-    <!-- /.content-header -->
 
     <!-- Main content -->
     <section class="content">
@@ -37,91 +43,157 @@
                 <section class="col-lg-12 connectedSortable">
                     <div class="row">
                         <div class="col-sm-12 ">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h2><u>Bundle Name:</u> <?php echo e($bundle->name); ?></h2>
-
+                            <div class="row align-items-center">
+                                <div class="col-lg-4"></div>
+                                <div class="col-lg-4">
+                                    <h2 class="text-center py-4 m-0"><b><?php echo e($bundle->name); ?></b></h2>
+                                </div>
+                                <div class="col-lg-4 text-right">
+                                    <button type="button" class="btn btn-lg btn-warning" id="bundle-tour-button">
+                                        <i class="fa fa-question"></i>
+                                    </button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class=" card">
-                                <div class="card-body">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#exampleModal"><i class="fa fa-plus"></i>
-                                        Add
-                                        File
-                                    </button><br>
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Section Name</th>
-                                                <th>Total Page</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="sort_section">
-                                            <?php $__currentLoopData = $bundle->section; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <?php if($s->name == 'Index'): ?>
-                                                <?php else: ?>
-                                                    <tr data-id="<?php echo e($s->id); ?>">
-                                                        <td>
-                                                            <?php echo e($s->name); ?>
+                            <div class="row align-items-center">
+                                <div class="col-lg-6">
+                                    <span class="d-inline-block" data-toggle="tooltip" data-placement="top"
+                                        title="Add Section">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#sectioncreatemodal" id="bundle-tour-1">
+                                            <i class="fa fa-folder-open-o"></i>
+                                        </button>
+                                    </span>
+                                    <div class="modal fade" id="sectioncreatemodal" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Create Section</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form action="<?php echo e(route('section.store')); ?>" method="post">
+                                                    <div class="modal-body">
+                                                        <?php if($errors->any()): ?>
+                                                            <div class="alert alert-danger">
+                                                                <ul>
+                                                                    <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                        <li><?php echo e($error); ?></li>
+                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                </ul>
+                                                            </div>
+                                                        <?php endif; ?>
 
-                                                        </td>
-                                                        <td>
-                                                            <?php echo e($s->files->sum('totalPage')); ?>
-
-                                                        </td>
-                                                        <td>
-                                                            <a href="<?php echo e(route('public.bundle.section.edit', [$bundle->id, $s->id])); ?>"
-                                                                class="btn btn-outline-primary"><i class="fa fa-pencil"></i>
-                                                                Rename
-                                                            </a>
-
-                                                            <a href="<?php echo e(route('section.show', $s->id)); ?>"
-                                                                class="btn btn-outline-primary"><i class="fa fa-eye"></i>
-                                                                View
-                                                                File</a>
-                                                            <a href="<?php echo e(route('public.bundle.section.destroy', [$s->id])); ?>"
-                                                                class="btn btn-outline-danger"><i class="fa fa-trash"></i>
-                                                                Delete
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                <?php endif; ?>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card ">
-                                <div class="card-body">
-                                    <?php if($errors->any()): ?>
-                                        <div class="alert alert-danger">
-                                            <ul>
-                                                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <li><?php echo e($error); ?></li>
-                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                            </ul>
-                                        </div>
-                                    <?php endif; ?>
-                                    <form action="<?php echo e(route('section.store')); ?>" method="post">
-                                        <?php echo csrf_field(); ?>
-                                        <input type="hidden" name="bundle_id" value="<?php echo e($bundle->id); ?>">
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <input type="text" placeholder="Section Name" class="form-control"
-                                                    name="name">
+                                                        <?php echo csrf_field(); ?>
+                                                        <input type="hidden" name="bundle_id" value="<?php echo e($bundle->id); ?>">
+                                                        <input type="text" placeholder="Section Name"
+                                                            class="form-control" name="name" required>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger"
+                                                            data-dismiss="modal">Close</button>
+                                                        <input type="submit" class="btn btn-primary" value="Create" />
+                                                    </div>
+                                                </form>
                                             </div>
-                                            <div class="col-sm-4"><input type="submit" class="btn btn-success"
-                                                    value="Create" /></div>
                                         </div>
-                                    </form>
+                                    </div>
+
+                                    <span class="d-inline-block" data-toggle="tooltip" data-placement="top"
+                                        title="Upload Document">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            id="bundle-tour-2" data-target="#exampleModal">
+                                            <i class="fa fa-upload"></i>
+                                        </button>
+                                    </span>
+
+                                    <?php if($enrolled_package->package_id == 1): ?>
+                                        <?php if($bundle->totalPages() < 60): ?>
+                                            <a href="<?php echo e(route('public.bundle.generate', [$bundle->id])); ?>"
+                                                data-toggle="tooltip" data-placement="top" title="Generate Bundle"
+                                                id="bundle-tour-3" class="btn btn-info"><i class="fa fa-file-text"></i></a>
+                                        <?php else: ?>
+                                            <a href="#" class="btn btn-info" data-toggle="tooltip"
+                                                data-placement="top" title="Generate Bundle" id="bundle-tour-3"><i
+                                                    class="fa fa-file-text"></i></a>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <a href="<?php echo e(route('public.bundle.generate', [$bundle->id])); ?>" data-toggle="tooltip"
+                                            data-placement="top" title="Generate Bundle" id="bundle-tour-3"
+                                            class="btn btn-info"><i class="fa fa-file-text"></i></a>
+                                    <?php endif; ?>
+                                    <?php if($enrolled_package->package_id == 1): ?>
+                                        <?php if($bundle->totalPages() < 60): ?>
+                                            <a href="<?php echo e(route('public.bundle.generated_bundle', [$bundle->id])); ?>"
+                                                data-toggle="tooltip" data-placement="top" title="View Generated Bundle"
+                                                id="bundle-tour-4" class="btn btn-info"><i
+                                                    class="fa fa-file-pdf-o"></i></a>
+                                        <?php else: ?>
+                                            <a href="#" class="btn btn-info" data-toggle="tooltip"
+                                                data-placement="top" title="View Generated Bundle" id="bundle-tour-4"><i
+                                                    class="fa fa-file-pdf-o"></i></a>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <a href="<?php echo e(route('public.bundle.generated_bundle', [$bundle->id])); ?>"
+                                            data-toggle="tooltip" data-placement="top" title="View Generated Bundle"
+                                            id="bundle-tour-4" class="btn btn-info"><i class="fa fa-file-pdf-o"></i></a>
+                                    <?php endif; ?>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <ol class="breadcrumb float-sm-right m-0 p-0 bg-transparent">
+                                        <li class="breadcrumb-item text-uppercase text-bold "><a
+                                                href="<?php echo e(route('bundle.index')); ?>">Bundle</a></li>
+                                        <li class="breadcrumb-item text-bold"><?php echo e($bundle->name); ?> List</li>
+                                    </ol>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-12 mt-4">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Section Name</th>
+                                        <th>Total Page</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="sort_section">
+                                    <?php $__currentLoopData = $bundle->section; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php if($s->isHiddenInList == 1): ?>
+                                        <?php else: ?>
+                                            <tr data-id="<?php echo e($s->id); ?>" class="clickable-row"
+                                                data-href="<?php echo e(route('section.show', $s->id)); ?>">
+                                                <td class="py-1 pl-3 align-middle">
+                                                    <?php echo e($s->name); ?>
+
+                                                </td>
+                                                <td class="py-1 pl-3 align-middle">
+                                                    <?php echo e($s->files->sum('totalPage')); ?>
+
+                                                </td>
+                                                <td class="py-1 pl-3 align-middle text-right">
+                                                    <a href="<?php echo e(route('section.show', $s->id)); ?>" data-toggle="tooltip"
+                                                        data-placement="top" title="View"
+                                                        class="btn btn-primary d-inline-block"><i class="fa fa-eye"></i>
+                                                    </a>
+                                                    <a href="<?php echo e(route('public.bundle.section.edit', [$bundle->id, $s->id])); ?>"
+                                                        data-toggle="tooltip" data-placement="top" title="Rename"
+                                                        class="btn btn-primary d-inline-block"><i
+                                                            class="fa fa-pencil-square-o"></i>
+                                                    </a>
+                                                    <a href="<?php echo e(route('public.bundle.section.destroy', [$s->id])); ?>"
+                                                        data-toggle="tooltip" data-placement="top" title="Delete"
+                                                        class="btn btn-danger d-inline-block"><i class="fa fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </tbody>
+                            </table>
                         </div>
                 </section>
                 <!-- /.Left col -->
@@ -139,7 +211,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Document</h5>
                     <button type="button" class="close" data-dismiss="modal" onClick="window.location.reload();"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -152,15 +224,15 @@
                         <label>SECTION</label>
                         <select class="form-control" id="sectionId" name="section_id" required>
                             <?php $__currentLoopData = $bundle->section; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <?php if($item->name == 'Index'): ?>
+                                <?php if($item->isHiddenInList == 1): ?>
                                 <?php else: ?>
                                     <option value="<?php echo e($item->id); ?>"><?php echo e($item->name); ?></option>
                                 <?php endif; ?>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select><br>
                         <input type="hidden" name="bundle_id" value="<?php echo e($bundle->id); ?>" />
-                        <div>
-                            <h3>Upload .jpeg,.jpg,.png,.gif,.doc,.docx,.pdf By Click On Box</h3>
+                        <div class="text-center">
+                            <p>Upload .jpeg,.jpg,.png,.gif,.doc,.docx,.pdf By Click On Box</p>
                         </div>
                     </form>
                 </div>
@@ -228,6 +300,63 @@
             })
 
         })
+
+        // tour setup
+        var tour = {
+                id: 'bundle-tour',
+                steps: [{
+                        target: 'bundle-tour-1',
+                        title: 'Click to Create New Section',
+                        content: 'Click Here to create new Section',
+                        placement: 'top',
+                        arrowOffset: 5
+                    },
+                    {
+                        target: 'bundle-tour-2',
+                        title: 'Click to Upload Document',
+                        content: 'Click to Upload Document',
+                        placement: 'top',
+                        arrowOffset: 5
+                    },
+                    {
+                        target: 'bundle-tour-3',
+                        title: 'Click to Generate Bundle',
+                        content: 'Click to Generate Bundle',
+                        placement: 'top',
+                        arrowOffset: 5
+                    },
+                    {
+                        target: 'bundle-tour-4',
+                        title: 'Click to View Generated Bundle',
+                        content: 'Click to View Generated Bundle',
+                        placement: 'top',
+                        arrowOffset: 5
+                    },
+                ],
+                showPrevButton: true,
+            },
+            addClickListener = function(el, fn) {
+                if (el.addEventListener) {
+                    el.addEventListener('click', fn, false);
+                } else {
+                    el.attachEvent('onclick', fn);
+                }
+            },
+            init = function() {
+                var startBtnId = 'bundle-tour-button',
+                    calloutId = 'startTourCallout',
+                    mgr = hopscotch.getCalloutManager(),
+                    state = hopscotch.getState();
+
+                addClickListener(document.getElementById(startBtnId), function() {
+                    if (!hopscotch.isActive) {
+                        mgr.removeAllCallouts();
+                        hopscotch.startTour(tour);
+                    }
+                });
+            };
+        init();
+        init();
     </script>
 <?php $__env->stopPush(); ?>
 

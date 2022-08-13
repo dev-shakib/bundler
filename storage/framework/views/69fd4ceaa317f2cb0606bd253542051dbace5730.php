@@ -21,13 +21,13 @@
         .pricingTable {
             text-align: center;
             background: #fff;
-            margin: 0 -15px;
             box-shadow: 0 0 10px #ababab;
             padding-bottom: 40px;
             border-radius: 10px;
             color: #cad0de;
             transform: scale(1);
-            transition: all .5s ease 0s
+            transition: all .5s ease 0s;
+            height: 100%;
         }
 
         .pricingTable:hover {
@@ -166,38 +166,36 @@
 
     <!-- Main content -->
     <section class="content">
-        <div class="container-fluid">
+        <div class="container">
             <!-- Main row -->
             <div class="row">
                 <!-- Left col -->
-                <section class="col-lg-12 connectedSortable">
+                <section class="col-lg-12 connectedSortable mt-4">
                     <div class="demo">
-                        <div class="container">
-                            <div class="row">
-                                <?php $__currentLoopData = $package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="col-md-3 col-sm-6">
-                                        <div class="pricingTable">
-                                            <div class="pricingTable-header">
-                                                <i class="fa fa-adjust"></i>
-                                                <div class="price-value"> $<?php echo e($p->price); ?> <span class="month">per
-                                                        month</span>
-                                                </div>
-                                            </div>
-                                            <h3 class="heading"><?php echo e($p->name); ?></h3>
-                                            <div class="pricing-content">
-                                                <ul>
-                                                    <?php $__currentLoopData = $p->plan; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $plan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <li><?php echo e($plan->name); ?></li>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                </ul>
-                                            </div>
-                                            <div class="pricingTable-signup">
-                                                <a href="<?php echo e(route('payment.index', [$p->id, $p->price])); ?>">Choose</a>
+                        <div class="row">
+                            <?php $__currentLoopData = $package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <div class="col-12 col-lg-4">
+                                    <div class="pricingTable">
+                                        <div class="pricingTable-header">
+                                            <i class="fa fa-adjust"></i>
+                                            <div class="price-value"> $<?php echo e($p->price); ?> <span class="month">per
+                                                    month</span>
                                             </div>
                                         </div>
+                                        <h3 class="heading"><?php echo e($p->name); ?></h3>
+                                        <div class="pricing-content">
+                                            <ul>
+                                                <?php $__currentLoopData = $p->plan; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $plan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <li><?php echo e($plan->name); ?></li>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            </ul>
+                                        </div>
+                                        <div class="pricingTable-signup">
+                                            <a href="<?php echo e(route('payment.index', [$p->id, $p->price])); ?>">Choose</a>
+                                        </div>
                                     </div>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            </div>
+                                </div>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                     </div>
                 </section>

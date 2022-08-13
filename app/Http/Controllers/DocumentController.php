@@ -14,7 +14,7 @@ use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
 use Carbon\Carbon;
 use ZipArchive;
 use Image;
-
+use App\Http\Helpers\CPDF;
 use NPDF;
 use Auth;
 use Storage;
@@ -495,6 +495,8 @@ class DocumentController extends Controller
     {
         $files = File::where(["user_id"=>auth()->user()->id,'bundle_id'=>$bundle_id])->get();
         $sections = Section::with('files')->where('bundle_id',$bundle_id)->orderBy('sort_id','ASC')->get();
+        // initiate PDF
+        $pdf = new CPDF();
         $pdf = PDFMerger::init();
         foreach($sections as $sec)
         {
@@ -544,6 +546,22 @@ class DocumentController extends Controller
          if (!file_exists(public_path('generated_pdf'))) {
                 mkdir(public_path('generated_pdf'), 0777, true);
             }
+
+        
+ 
+        // set the source file
+        $pageCount = $pdf;
+  
+        $pdf->AliasNbPages();
+        for ($i=1; $i <= $pageCount; $i++) { 
+            //import a page then get the id and will be used in the template
+            $tplId = $pdf->importPage($i);
+            //create a page
+            $pdf->AddPage();
+            //use the template of the imporated page
+            $pdf->useTemplate($tplId);
+        }
+
         $pdf->save(public_path('generated_pdf/'.$fileName));
         Session::flash('message', 'Bundle Generated Successfully');
         $enrolled_package = auth()
