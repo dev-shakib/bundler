@@ -862,7 +862,7 @@ class ComposerStaticInitd9ca8247bb37e4f5c0aa5e98ff8bc9cd
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
         'App\\Http\\Controllers\\UsersManagementController' => __DIR__ . '/../..' . '/app/Http/Controllers/UsersManagementController.php',
         'App\\Http\\Controllers\\WelcomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/WelcomeController.php',
-        'App\\Http\\Helpers\\CPDF' => __DIR__ . '/../..' . '/app/Http/Helpers/CPDF.php',
+        'App\\Http\\Helpers\\PPDF' => __DIR__ . '/../..' . '/app/Http/Helpers/PPDF.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\CheckCurrentUser' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckCurrentUser.php',

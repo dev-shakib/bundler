@@ -37,7 +37,7 @@ return array(
     'App\\Http\\Controllers\\UserController' => $baseDir . '/app/Http/Controllers/UserController.php',
     'App\\Http\\Controllers\\UsersManagementController' => $baseDir . '/app/Http/Controllers/UsersManagementController.php',
     'App\\Http\\Controllers\\WelcomeController' => $baseDir . '/app/Http/Controllers/WelcomeController.php',
-    'App\\Http\\Helpers\\CPDF' => $baseDir . '/app/Http/Helpers/CPDF.php',
+    'App\\Http\\Helpers\\PPDF' => $baseDir . '/app/Http/Helpers/PPDF.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\Authenticate' => $baseDir . '/app/Http/Middleware/Authenticate.php',
     'App\\Http\\Middleware\\CheckCurrentUser' => $baseDir . '/app/Http/Middleware/CheckCurrentUser.php',
