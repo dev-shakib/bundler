@@ -103,12 +103,13 @@ class SectionController extends Controller
         $section = Section::where(['user_id'=>$user->id,"id"=>$id])->first();
         return view('backend.pages.bundle.sections.edit',['section'=>$section]);
     }
+    
     public function updateOrder(Request $request){
         if($request->has('ids')){
             $arr = explode(',',$request->input('ids'));
 
             foreach($arr as $sortOrder => $id){
-               Section::where('id',$id)->update(['sort_id'=>$sortOrder]);
+               Section::where('id',$id)->update(['sort_id'=>$sortOrder+3]);
             }
             return ['success'=>true,'message'=>'Updated'];
         }
