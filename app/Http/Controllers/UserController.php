@@ -26,7 +26,7 @@ class UserController extends Controller
         $user = Auth::user();
 
         if ($user->isAdmin()) {
-            return view('backend.pages.dashboard');
+            return redirect()->route('users');
         }
         $enrolled_package = auth()
                           ->user()
@@ -35,7 +35,6 @@ class UserController extends Controller
         {
             return redirect()->route('public.choosePlan');
         }
-        return view('backend.pages.dashboard');
     }
 
 }

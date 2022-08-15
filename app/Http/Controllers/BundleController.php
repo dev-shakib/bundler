@@ -16,7 +16,7 @@ class BundleController extends Controller
         $user = Auth::user();
 
         if ($user->isAdmin()) {
-            return view('backend.pages.dashboard');
+            return redirect()->route('users');
         }
         $enrolled_package = auth()
                           ->user()

@@ -12,19 +12,11 @@
                 <span class="text-dark">Bundler</span>
             </a>
         </li>
-        
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         <!-- Navbar Search -->
-        
-
-        <!-- Messages Dropdown Menu -->
-        
-
-        <!-- Notifications Dropdown Menu -->
-        
         <?php if(auth()->guard()->guest()): ?>
             <li><a class="nav-link" href="<?php echo e(route('login')); ?>"><?php echo e(trans('titles.login')); ?></a></li>
             <?php if(Route::has('register')): ?>
@@ -43,10 +35,53 @@
                     <?php echo e(Auth::user()->name); ?> <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item <?php echo e(Request::is('profile/' . Auth::user()->name, 'profile/' . Auth::user()->name . '/edit') ? 'active' : null); ?>"
+                    <?php if (Auth::check() && Auth::user()->hasRole('admin')): ?>
+                    <a class="dropdown-item <?php echo e(Request::is('users', 'users/' . Auth::user()->id, 'users/' . Auth::user()->id . '/edit') ? 'active' : null); ?>"
+                        href="<?php echo e(url('/users')); ?>">
+                        <?php echo trans('titles.adminUserList'); ?>
+
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item <?php echo e(Request::is('roles') || Request::is('permissions') ? 'active' : null); ?>"
+                        href="<?php echo e(route('laravelroles::roles.index')); ?>">
+                        <?php echo trans('titles.laravelroles'); ?>
+
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item <?php echo e(Request::is('users/create') ? 'active' : null); ?>"
+                        href="<?php echo e(url('/users/create')); ?>">
+                        <?php echo trans('titles.adminNewUser'); ?>
+
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item <?php echo e(Request::is('package*') ? 'active' : null); ?>"
+                        href="<?php echo e(route('package.index')); ?>">
+                        <?php echo trans('titles.adminPackage'); ?>
+
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item <?php echo e(Request::is('setting*') ? 'active' : null); ?>"
+                        href="<?php echo e(route('setting.index')); ?>">
+                        Settings
+                    </a>
+                    <?php endif; ?>
+                    <?php if (Auth::check() && Auth::user()->hasRole('user')): ?>
+                    <a class="dropdown-item <?php echo e(Request::is('bundle*') ? 'active' : null); ?>"
                         href="<?php echo e(route('bundle.index')); ?>">
                         Bundle List
                     </a>
+                    <?php
+                          $enrolled_package = auth()
+                              ->user()
+                              ->load('enrolledPackage')->enrolledPackage;
+                    ?>
+                    <?php if($enrolled_package->package_id == 3): ?>
+                        <div class="dropdown-divider"></div>
+                        <a href="<?php echo e(route('setting.index')); ?>" class="dropdown-item <?php echo e(Request::is('setting*') ? 'active' : null); ?>">
+                            Settings
+                        </a>
+                    <?php endif; ?>
+                    <?php endif; ?>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item <?php echo e(Request::is('profile/' . Auth::user()->name, 'profile/' . Auth::user()->name . '/edit') ? 'active' : null); ?>"
                         href="<?php echo e(url('/profile/' . Auth::user()->name)); ?>">
