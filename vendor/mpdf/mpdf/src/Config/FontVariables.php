@@ -207,15 +207,6 @@ class FontVariables
 				"daibannasilbook" => [/* New Tai Lue */
 					'R' => "DBSILBR.ttf",
 				],
-
-                "nikosh" => [
-                'R' => "Nikosh.ttf",
-                'useOTL' => 0xFF,
-                ],
-                "Nirmala" => [
-                'R' => "Nirmala.ttf",
-                'useOTL' => 0xFF,
-                ],
 				"garuda" => [/* Thai */
 					'R' => "Garuda.ttf",
 					'B' => "Garuda-Bold.ttf",

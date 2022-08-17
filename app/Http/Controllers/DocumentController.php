@@ -22,6 +22,7 @@ use Session;
 use MPDF;
 use setasign\Fpdi\Fpdi;
 use App\Http\Helpers\PPDF;
+use App\Http\Helpers\TPDF;
 
 class DocumentController extends Controller
 {
@@ -85,13 +86,15 @@ class DocumentController extends Controller
 
                     }else{
                         return $config = ['instanceConfigurator' => function($pdf) use ($settings) {
-                                $pdf->SetWatermarkText(env('APP_NAME'));
+                                // $pdf->SetWatermarkText(env('APP_NAME'));
+                                $pdf->SetWatermarkText('');
                                 $pdf->showWatermarkText  = true;
                             }];
                     }
                 }else{
                     return $config = ['instanceConfigurator' => function($pdf) {
-                                $pdf->SetWatermarkText(env('APP_NAME'));
+                                // $pdf->SetWatermarkText(env('APP_NAME'));
+                                $pdf->SetWatermarkText('');
                                 $pdf->showWatermarkText  = true;
                             }];
                 }
@@ -109,7 +112,8 @@ class DocumentController extends Controller
                     if(!is_null($settings)){
                         $text = $settings->value;
                     }else{
-                        $text =env('APP_NAME');
+                        // $text =env('APP_NAME');
+                        $text ='';
                     }
                     if(!is_null($settings)){
                         if($settings->type == "TEXT"){
@@ -125,20 +129,23 @@ class DocumentController extends Controller
                         }
                     }else{
                        return $config = ['instanceConfigurator' => function($pdf) {
-                                $pdf->SetWatermarkText(env('APP_NAME'));
+                                // $pdf->SetWatermarkText(env('APP_NAME'));
+                                $pdf->SetWatermarkText('');
                                 $pdf->showWatermarkText  = false;
                             }];
 
                     }
                 }else{
                     return $config = ['instanceConfigurator' => function($pdf) {
-                        $pdf->SetWatermarkText(env('APP_NAME'));
+                        // $pdf->SetWatermarkText(env('APP_NAME'));
+                        $pdf->SetWatermarkText('');
                         $pdf->showWatermarkText  = false;
                     }];
                 }
             }else{
                   return $config = ['instanceConfigurator' => function($pdf) {
-                        $pdf->SetWatermarkText(env('APP_NAME'));
+                        // $pdf->SetWatermarkText(env('APP_NAME'));
+                        $pdf->SetWatermarkText('');
                         $pdf->showWatermarkText  = false;
                     }];
             }
@@ -237,11 +244,13 @@ class DocumentController extends Controller
                                 }
 
                             }else{
-                                $mpdf->SetWatermarkText(env('APP_NAME'));
+                                // $mpdf->SetWatermarkText(env('APP_NAME'));
+                                $mpdf->SetWatermarkText('');
                                 $mpdf->showWatermarkText  = true;
                             }
                         }else{
-                            $mpdf->SetWatermarkText(env('APP_NAME'));
+                            // $mpdf->SetWatermarkText(env('APP_NAME'));
+                            $mpdf->SetWatermarkText('');
                             $mpdf->showWatermarkText  = true;
                         }
                     }elseif($enrolled_package->package_id == 3){
@@ -258,7 +267,8 @@ class DocumentController extends Controller
                             if(!is_null($settings)){
                                 $text = $settings->value;
                             }else{
-                                $text =env('APP_NAME');
+                                // $text =env('APP_NAME');
+                                $text ='';
                             }
                             if(!is_null($settings)){
                                 if($settings->type == "TEXT"){
@@ -269,16 +279,19 @@ class DocumentController extends Controller
                                     $mpdf->showWatermarkImage  = true;
                                 }
                             }else{
-                                $mpdf->SetWatermarkText(env('APP_NAME'));
+                                // $mpdf->SetWatermarkText(env('APP_NAME'));
+                                $mpdf->SetWatermarkText('');
                                 $mpdf->showWatermarkText  = false;
 
                             }
                         }else{
-                            $mpdf->SetWatermarkText(env('APP_NAME'));
+                            // $mpdf->SetWatermarkText(env('APP_NAME'));
+                            $mpdf->SetWatermarkText('');
                             $mpdf->showWatermarkText  = true;
                         }
                     }else{
-                        $mpdf->SetWatermarkText(env('APP_NAME'));
+                        // $mpdf->SetWatermarkText(env('APP_NAME'));
+                        $mpdf->SetWatermarkText('');
                         $mpdf->showWatermarkText  = false;
                     }
 
@@ -404,11 +417,13 @@ class DocumentController extends Controller
                                 }
 
                             }else{
-                                $mpdf->SetWatermarkText(env('APP_NAME'));
+                                // $mpdf->SetWatermarkText(env('APP_NAME'));
+                                $mpdf->SetWatermarkText('');
                                 $mpdf->showWatermarkText  = true;
                             }
                         }else{
-                            $mpdf->SetWatermarkText(env('APP_NAME'));
+                            // $mpdf->SetWatermarkText(env('APP_NAME'));
+                            $mpdf->SetWatermarkText('');
                             $mpdf->showWatermarkText  = true;
                         }
                     }elseif($enrolled_package->package_id == 3){
@@ -425,7 +440,8 @@ class DocumentController extends Controller
                             if(!is_null($settings)){
                                 $text = $settings->value;
                             }else{
-                                $text =env('APP_NAME');
+                                // $text =env('APP_NAME');
+                                $text ='';
                             }
                             if(!is_null($settings)){
                                 if($settings->type == "TEXT"){
@@ -436,16 +452,19 @@ class DocumentController extends Controller
                                     $mpdf->showWatermarkImage  = true;
                                 }
                             }else{
-                                $mpdf->SetWatermarkText(env('APP_NAME'));
+                                // $mpdf->SetWatermarkText(env('APP_NAME'));
+                                $mpdf->SetWatermarkText('');
                                 $mpdf->showWatermarkText  = false;
 
                             }
                         }else{
-                            $mpdf->SetWatermarkText(env('APP_NAME'));
+                            // $mpdf->SetWatermarkText(env('APP_NAME'));
+                            $mpdf->SetWatermarkText('');
                             $mpdf->showWatermarkText  = true;
                         }
                     }else{
-                        $mpdf->SetWatermarkText(env('APP_NAME'));
+                        // $mpdf->SetWatermarkText(env('APP_NAME'));
+                        $mpdf->SetWatermarkText('');
                         $mpdf->showWatermarkText  = false;
                     }
 
@@ -482,6 +501,7 @@ class DocumentController extends Controller
         File::create(['filename'=>$splitName[0].'.pdf','sort_id'=>$sort_id,"name"=>$splitName[0],'auto_deleted_at'=>$auto_delete_date,'totalPage'=>$totalPage,'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
         return response()->json(['success'=>$splitName[0].'.pdf']);
     }
+
     public function create($bundle_id,$section_id)
     {
         $user = Auth::user();
@@ -496,7 +516,10 @@ class DocumentController extends Controller
     {
         $files = File::where(["user_id"=>auth()->user()->id,'bundle_id'=>$bundle_id])->get();
         $sections = Section::with('files')->where('bundle_id',$bundle_id)->orderBy('sort_id','ASC')->get();
-        
+
+        //add page number
+        $this->pdfPageNumbering($files);
+
         $pdf = PDFMerger::init();
         foreach($sections as $sec)
         {
@@ -549,7 +572,9 @@ class DocumentController extends Controller
 
         $pdf->save(public_path('generated_pdf/'.$fileName));
 
-        $this->pdfPageNumbering($fileName);
+        //add page number
+        // $this->pdfPageNumbering($fileName);
+
         Session::flash('message', 'Bundle Generated Successfully');
         $enrolled_package = auth()
                           ->user()
@@ -600,41 +625,46 @@ class DocumentController extends Controller
         if (!file_exists(public_path('bundle_pdf/'.$bundle->name))) {
                 mkdir(public_path('bundle_pdf/'.$bundle->name), 0777, true);
             }
-        if (!file_exists(public_path('bundle_zip'))) {
-                mkdir(public_path('bundle_zip'), 0777, true);
-            }
-            $sourcePath=$file;
-            $destinationPath=public_path('bundle_pdf/'.$bundle->name.'/'.$generated_pdf->filename);
-            if(Files::exists($sourcePath)){
-                Files::move($sourcePath,$destinationPath);
-            }
-        if (!file_exists(public_path('bundle_zip/'.$bundle->name.'.zip'))) {
-            touch(public_path('bundle_zip/'.$bundle->name.'.zip'), strtotime('-1 days'));
+        // if (!file_exists(public_path('bundle_zip'))) {
+        //         mkdir(public_path('bundle_zip'), 0777, true);
+        //     }
+        $sourcePath=$file;
+        $destinationPath=public_path('bundle_pdf/'.$bundle->name.'/'.$generated_pdf->filename);
+        if(Files::exists($sourcePath)){
+            Files::move($sourcePath,$destinationPath);
         }
-        $fileName = 'bundle_zip/'.$bundle->name.'.zip';
-            $zip = new ZipArchive;
-        if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
+        // if (!file_exists(public_path('bundle_zip/'.$bundle->name.'.zip'))) {
+        //     touch(public_path('bundle_zip/'.$bundle->name.'.zip'), strtotime('-1 days'));
+        // }
+        // $fileName = 'bundle_zip/'.$bundle->name.'.zip';
+        //     $zip = new ZipArchive;
+        // if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
 
-            $files = Files::files(public_path('bundle_pdf/'.$bundle->name));
-            foreach ($files as $key => $value) {
-                $relativeNameInZipFile = basename($value);
-                $zip->addFile($value, $relativeNameInZipFile);
-            }
+        //     $files = Files::files(public_path('bundle_pdf/'.$bundle->name));
+        //     foreach ($files as $key => $value) {
+        //         $relativeNameInZipFile = basename($value);
+        //         $zip->addFile($value, $relativeNameInZipFile);
+        //     }
 
-            $zip->close();
+        //     $zip->close();
+        // }
+
+        if($enrolled_package->package_id == 1){
+            //add footer text
+            $this->pageFooterText($generated_pdf->filename, $bundle->name);
         }
 
-        return response()->download(public_path($fileName));
+        return response()->download($destinationPath);
 
     }
 
 
-    //PDF Page Numbering
-    public function pdfPageNumbering($file) {
+    //PDF Footer Text Add
+    public function pageFooterText($file, $bundleName) {
         // initiate PDF
-        $pdf = new PPDF();
+        $pdf = new TPDF();
         // set the source file
-        $pageCount = $pdf->setSourceFile(public_path('generated_pdf/'.$file));
+        $pageCount = $pdf->setSourceFile(public_path('bundle_pdf/'.$bundleName.'/'.$file));
     
         $pdf->AliasNbPages();
         for ($i=1; $i <= $pageCount; $i++) { 
@@ -646,7 +676,34 @@ class DocumentController extends Controller
             $pdf->useTemplate($tplId);
         }
     
-        return $pdf->Output(public_path('generated_pdf/'.$file),'F');
+        return $pdf->Output(public_path('bundle_pdf/'.$bundleName.'/'.$file),'F');
+    }
+
+
+    //PDF Page Numbering
+    public function pdfPageNumbering($files) {
+
+        foreach($files as $singleFile){
+            $file = $singleFile;
+            if($file->id ==5)
+                dd($file->filename);
+            // initiate PDF
+            $pdf = new PPDF();
+            // set the source file
+            $pageCount = $pdf->setSourceFile(public_path('pdf/'.$file->filename));
+        
+            $pdf->AliasNbPages();
+            for ($i=1; $i <= $pageCount; $i++) { 
+                //import a page then get the id and will be used in the template
+                $tplId = $pdf->importPage($i);
+                //create a page
+                $pdf->AddPage();
+                //use the template of the imporated page
+                $pdf->useTemplate($tplId);
+            }
+        
+            return $pdf->Output(public_path('pdf/'.$file->filename),'F');
+        }
     }
 
 }

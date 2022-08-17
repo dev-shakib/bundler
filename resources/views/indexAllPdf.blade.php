@@ -13,6 +13,8 @@
         $j = 0;
         $start = 1;
         $i = 'A';
+        $x = 'A';
+        $sectionNumber = array('','','','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
     @endphp
 
     @foreach ($allsections as $sec)
@@ -25,9 +27,9 @@
             @endforeach
 
             <tr>
-                <th>Section {{ $i++ }} : </th>
+                <th>Section {{ $sectionNumber[$sec->sort_id] }} : </th>
                 <th style="text-align:left">{{ $sec->name }}</th>
-                <th style="text-align:right">{{ $start }}-{{ $j }}</th>
+                {{-- <th style="text-align:right">{{ $start }}-{{ $j }}</th> --}}
             </tr>
             @foreach ($sec->files as $item)
                 @php
@@ -37,9 +39,9 @@
                     <td></td>
                     <td style="text-align:left">{{ $item->name }}</td>
                     @if ($heading == 'INDEX')
-                        <td style="text-align:right">{{ $filePageStart }}-{{ $filePageEnd }}</td>
+                        <td style="text-align:right">{{ ($filePageStart == $filePageEnd)? ($x.''.$filePageStart) : ($x.''.$filePageStart.'-'. $x.''.$filePageEnd) }}</td>
                     @else
-                        <td style="text-align:right">{{ $item->pages }}</td>
+                        <td style="text-align:right">{{ ($filePageStart == $filePageEnd)? ($sectionNumber[$sec->sort_id].$filePageStart) : ($sectionNumber[$sec->sort_id].$filePageStart . '-' . $sectionNumber[$sec->sort_id].$filePageEnd) }}</td>
                     @endif
                 </tr>
 
@@ -48,7 +50,7 @@
                     if ($heading == 'INDEX'):
                         DB::table('files')
                             ->where('id', $item->id)
-                            ->update(['pages' => $filePageStart . '-' . $filePageEnd]);
+                            ->update(['pages' =>  $filePageStart. '-' . $filePageEnd]);
                     endif;
                 @endphp
                 @php
@@ -56,6 +58,9 @@
                 @endphp
             @endforeach
             @php
+                $x++;
+                $filePageStart = 1;
+                $filePageEnd = 0;
                 if ($heading == 'INDEX'):
                     DB::table('sections')
                         ->where('id', $sec->id)

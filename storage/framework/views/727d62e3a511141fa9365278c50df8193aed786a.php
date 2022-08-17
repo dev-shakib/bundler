@@ -13,6 +13,8 @@
         $j = 0;
         $start = 1;
         $i = 'A';
+        $x = 'A';
+        $sectionNumber = array('','','','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
     ?>
 
     <?php $__currentLoopData = $allsections; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sec): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -25,9 +27,9 @@
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
             <tr>
-                <th>Section <?php echo e($i++); ?> : </th>
+                <th>Section <?php echo e($sectionNumber[$sec->sort_id]); ?> : </th>
                 <th style="text-align:left"><?php echo e($sec->name); ?></th>
-                <th style="text-align:right"><?php echo e($start); ?>-<?php echo e($j); ?></th>
+                
             </tr>
             <?php $__currentLoopData = $sec->files; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <?php
@@ -37,9 +39,9 @@
                     <td></td>
                     <td style="text-align:left"><?php echo e($item->name); ?></td>
                     <?php if($heading == 'INDEX'): ?>
-                        <td style="text-align:right"><?php echo e($filePageStart); ?>-<?php echo e($filePageEnd); ?></td>
+                        <td style="text-align:right"><?php echo e(($filePageStart == $filePageEnd)? ($x.''.$filePageStart) : ($x.''.$filePageStart.'-'. $x.''.$filePageEnd)); ?></td>
                     <?php else: ?>
-                        <td style="text-align:right"><?php echo e($item->pages); ?></td>
+                        <td style="text-align:right"><?php echo e(($filePageStart == $filePageEnd)? ($sectionNumber[$sec->sort_id].$filePageStart) : ($sectionNumber[$sec->sort_id].$filePageStart . '-' . $sectionNumber[$sec->sort_id].$filePageEnd)); ?></td>
                     <?php endif; ?>
                 </tr>
 
@@ -48,7 +50,7 @@
                     if ($heading == 'INDEX'):
                         DB::table('files')
                             ->where('id', $item->id)
-                            ->update(['pages' => $filePageStart . '-' . $filePageEnd]);
+                            ->update(['pages' =>  $filePageStart. '-' . $filePageEnd]);
                     endif;
                 ?>
                 <?php
@@ -56,6 +58,9 @@
                 ?>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             <?php
+                $x++;
+                $filePageStart = 1;
+                $filePageEnd = 0;
                 if ($heading == 'INDEX'):
                     DB::table('sections')
                         ->where('id', $sec->id)

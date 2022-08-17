@@ -64,11 +64,6 @@
                             </div>
                         </div>
 
-                        <p class="text-center mb-3">
-                            Or Login with
-                        </p>
-
-                        <?php echo $__env->make('partials.socials-icons', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
                     </form>
                 </div>
