@@ -518,7 +518,7 @@ class DocumentController extends Controller
         $sections = Section::with('files')->where('bundle_id',$bundle_id)->orderBy('sort_id','ASC')->get();
 
         //add page number
-        $this->pdfPageNumbering($files);
+        // $this->pdfPageNumbering($files);
 
         $pdf = PDFMerger::init();
         foreach($sections as $sec)
@@ -681,30 +681,30 @@ class DocumentController extends Controller
 
 
     //PDF Page Numbering
-    public function pdfPageNumbering($files) {
+    // public function pdfPageNumbering($files) {
 
-        foreach($files as $singleFile){
-            $file = $singleFile;
-            if($file->id ==5)
-                dd($file->filename);
-            // initiate PDF
-            $pdf = new PPDF();
-            // set the source file
-            $pageCount = $pdf->setSourceFile(public_path('pdf/'.$file->filename));
+    //     foreach($files as $singleFile){
+    //         $file = $singleFile;
+    //         if($file->id ==5)
+    //             dd($file->filename);
+    //         // initiate PDF
+    //         $pdf = new PPDF();
+    //         // set the source file
+    //         $pageCount = $pdf->setSourceFile(public_path('pdf/'.$file->filename));
         
-            $pdf->AliasNbPages();
-            for ($i=1; $i <= $pageCount; $i++) { 
-                //import a page then get the id and will be used in the template
-                $tplId = $pdf->importPage($i);
-                //create a page
-                $pdf->AddPage();
-                //use the template of the imporated page
-                $pdf->useTemplate($tplId);
-            }
+    //         $pdf->AliasNbPages();
+    //         for ($i=1; $i <= $pageCount; $i++) { 
+    //             //import a page then get the id and will be used in the template
+    //             $tplId = $pdf->importPage($i);
+    //             //create a page
+    //             $pdf->AddPage();
+    //             //use the template of the imporated page
+    //             $pdf->useTemplate($tplId);
+    //         }
         
-            return $pdf->Output(public_path('pdf/'.$file->filename),'F');
-        }
-    }
+    //         return $pdf->Output(public_path('pdf/'.$file->filename),'F');
+    //     }
+    // }
 
 }
 
