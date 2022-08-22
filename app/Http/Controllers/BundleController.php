@@ -68,6 +68,7 @@ class BundleController extends Controller
         $cover['isHiddenInList'] = 0;
         $cover['isHiddenInGenerateIndexList'] = 1;
         $cover['isMainSection'] = 0;
+        $cover['serial_alpha'] = "A";
         Section::create($cover);
         return redirect()->route('bundle.show_single', [$bundle->slug,$bundle->id]);
     }

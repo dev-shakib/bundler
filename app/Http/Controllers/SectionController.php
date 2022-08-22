@@ -65,7 +65,12 @@ class SectionController extends Controller
             }else{
                 $data['sort_id'] = 1;
             }
-
+            if(!is_null($filess))
+            {
+                $data['serial_alpha'] =  chr(ord($filess->serial_alpha) + 1);
+            }else{
+                $data['serial_alpha'] = "A";
+            }
         Section::create($data);
         return redirect()->back();
     }
@@ -103,7 +108,7 @@ class SectionController extends Controller
         $section = Section::where(['user_id'=>$user->id,"id"=>$id])->first();
         return view('backend.pages.bundle.sections.edit',['section'=>$section]);
     }
-    
+
     public function updateOrder(Request $request){
         if($request->has('ids')){
             $arr = explode(',',$request->input('ids'));

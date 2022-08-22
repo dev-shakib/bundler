@@ -375,6 +375,20 @@ class DocumentController extends Controller
 
             $pdf = MPDF::loadHtml(view('newDocsPdf', $view),$this->packages());
             $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
+            $sourcePath=public_path('pdf/'.$splitName[0].'.pdf');
+            $sec = Section::where('id',$section_id)->first();
+            $totalPage = File::where('section_id',$section_id)->sum('totalPage');
+            $totalPage = $totalPage+1;
+            $mpdf = new \Mpdf\Mpdf();
+            $pagecount = $mpdf->SetSourceFile($sourcePath);
+            $max_page_count = $totalPage+$pagecount;
+             for($i=1;$i<=$pagecount;$i++){
+                    $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
+                    $import_page = $mpdf->ImportPage($i);
+                    $mpdf->UseTemplate($import_page);
+                    $mpdf->setFooter($sec->serial_alpha.'{PAGENO}');
+             }
+            $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
             unlink(storage_path("app/public/files/".$filename[2]));
             unlink(public_path("../resources/views/pdf/".$splitName[0].'.blade.php'));
 
@@ -384,6 +398,19 @@ class DocumentController extends Controller
 
             $pdf = MPDF::loadHtml(view('imgPdf', compact('image')),$this->packages());
             $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
+             $sourcePath=public_path('pdf/'.$splitName[0].'.pdf');
+            $sec = Section::where('id',$section_id)->first();
+            $totalPage = File::where('section_id',$section_id)->sum('totalPage');
+            $totalPage = $totalPage+1;
+            $mpdf = new \Mpdf\Mpdf();
+            $pagecount = $mpdf->SetSourceFile($sourcePath);
+             for($i=1;$i<=$pagecount;$i++){
+                    $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
+                    $import_page = $mpdf->ImportPage($i);
+                    $mpdf->UseTemplate($import_page);
+                    $mpdf->setFooter($sec->serial_alpha.'{PAGENO}');
+             }
+            $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
             unlink(storage_path("app/public/files/".$filename[2]));
         }else{
             $enrolled_package = auth()
@@ -392,15 +419,17 @@ class DocumentController extends Controller
             $sourcePath=storage_path("app/public/files/".$filename[2]);
             $mpdf = new \Mpdf\Mpdf();
 
-
+            $sec = Section::where('id',$section_id)->first();
+            $totalPage = File::where('section_id',$section_id)->sum('totalPage');
+            $totalPage = $totalPage+1;
             // Specify a PDF template
             $pagecount = $mpdf->SetSourceFile($sourcePath);
 
             for($i=1;$i<=$pagecount;$i++){
-                    $mpdf->AddPage();
+                    $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
                     $import_page = $mpdf->ImportPage($i);
                     $mpdf->UseTemplate($import_page);
-
+                    $mpdf->setFooter($sec->serial_alpha.'{PAGENO}');
 
                     if($enrolled_package->package_id == 1){
                         $admin_setting = Setting::where(['type'=>"admin",'name'=>"watermark_setting"])->first();
@@ -665,9 +694,9 @@ class DocumentController extends Controller
         $pdf = new TPDF();
         // set the source file
         $pageCount = $pdf->setSourceFile(public_path('bundle_pdf/'.$bundleName.'/'.$file));
-    
+
         $pdf->AliasNbPages();
-        for ($i=1; $i <= $pageCount; $i++) { 
+        for ($i=1; $i <= $pageCount; $i++) {
             //import a page then get the id and will be used in the template
             $tplId = $pdf->importPage($i);
             //create a page
@@ -675,7 +704,7 @@ class DocumentController extends Controller
             //use the template of the imporated page
             $pdf->useTemplate($tplId);
         }
-    
+
         return $pdf->Output(public_path('bundle_pdf/'.$bundleName.'/'.$file),'F');
     }
 
@@ -691,9 +720,9 @@ class DocumentController extends Controller
     //         $pdf = new PPDF();
     //         // set the source file
     //         $pageCount = $pdf->setSourceFile(public_path('pdf/'.$file->filename));
-        
+
     //         $pdf->AliasNbPages();
-    //         for ($i=1; $i <= $pageCount; $i++) { 
+    //         for ($i=1; $i <= $pageCount; $i++) {
     //             //import a page then get the id and will be used in the template
     //             $tplId = $pdf->importPage($i);
     //             //create a page
@@ -701,7 +730,7 @@ class DocumentController extends Controller
     //             //use the template of the imporated page
     //             $pdf->useTemplate($tplId);
     //         }
-        
+
     //         return $pdf->Output(public_path('pdf/'.$file->filename),'F');
     //     }
     // }
