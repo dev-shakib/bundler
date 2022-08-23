@@ -112,9 +112,10 @@ class SectionController extends Controller
     public function updateOrder(Request $request){
         if($request->has('ids')){
             $arr = explode(',',$request->input('ids'));
-
+            $sectionNumber = ['', '', '', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
             foreach($arr as $sortOrder => $id){
-               Section::where('id',$id)->update(['sort_id'=>$sortOrder+3]);
+
+               Section::where('id',$id)->update(['sort_id'=>$sortOrder+3,'serial_alpha'=>$sectionNumber[$sortOrder+3]]);
             }
             return ['success'=>true,'message'=>'Updated'];
         }
