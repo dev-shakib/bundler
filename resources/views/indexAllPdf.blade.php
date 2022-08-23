@@ -14,7 +14,7 @@
         $start = 1;
         $i = 'A';
         $x = 'A';
-        $sectionNumber = array('','','','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+        $sectionNumber = ['', '', '', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
     @endphp
 
     @foreach ($allsections as $sec)
@@ -27,7 +27,7 @@
             @endforeach
 
             <tr>
-                <th>Section {{ $sectionNumber[$sec->sort_id] }} : </th>
+                <th>Section {{ $sec->serial_alpha }} : </th>
                 <th style="text-align:left">{{ $sec->name }}</th>
                 {{-- <th style="text-align:right">{{ $start }}-{{ $j }}</th> --}}
             </tr>
@@ -39,9 +39,13 @@
                     <td></td>
                     <td style="text-align:left">{{ $item->name }}</td>
                     @if ($heading == 'INDEX')
-                        <td style="text-align:right">{{ ($filePageStart == $filePageEnd)? ($x.''.$filePageStart) : ($x.''.$filePageStart.'-'. $x.''.$filePageEnd) }}</td>
+                        <td style="text-align:right">
+                            {{ $filePageStart == $filePageEnd ? $x . '' . $filePageStart : $x . '' . $filePageStart . '-' . $x . '' . $filePageEnd }}
+                        </td>
                     @else
-                        <td style="text-align:right">{{ ($filePageStart == $filePageEnd)? ($sectionNumber[$sec->sort_id].$filePageStart) : ($sectionNumber[$sec->sort_id].$filePageStart . '-' . $sectionNumber[$sec->sort_id].$filePageEnd) }}</td>
+                        <td style="text-align:right">
+                            {{ $filePageStart == $filePageEnd ? $sectionNumber[$sec->sort_id] . $filePageStart : $sectionNumber[$sec->sort_id] . $filePageStart . '-' . $sectionNumber[$sec->sort_id] . $filePageEnd }}
+                        </td>
                     @endif
                 </tr>
 
@@ -50,7 +54,7 @@
                     if ($heading == 'INDEX'):
                         DB::table('files')
                             ->where('id', $item->id)
-                            ->update(['pages' =>  $filePageStart. '-' . $filePageEnd]);
+                            ->update(['pages' => $filePageStart . '-' . $filePageEnd]);
                     endif;
                 @endphp
                 @php
