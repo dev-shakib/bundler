@@ -251,7 +251,7 @@ $enrolled_package = auth()
             }
         });
         Dropzone.options.imageUpload = {
-            maxFilesize: 1,
+            maxFilesize: 50,
             acceptedFiles: ".jpeg,.jpg,.png,.gif,.doc,.docx,.pdf",
             init: function() {
                 //now we will submit the form when the button is clicked
