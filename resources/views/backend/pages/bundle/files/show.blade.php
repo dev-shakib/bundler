@@ -95,7 +95,7 @@
 
     <script type="text/javascript">
         Dropzone.options.imageUpload = {
-            maxFilesize: 1,
+            maxFilesize: 50,
             uploadMultiple: false,
             queueLimit: 1,
             acceptedFiles: ".jpeg,.jpg,.png,.gif,.doc,.docx,.pdf",

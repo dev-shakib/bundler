@@ -9,29 +9,32 @@
 @endpush
 
 @section('content')
-
     <div style="display: none">
-    <!-- Content Wrapper. Contains page content -->
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0">Bundle</h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item "><a href="{{ route("bundle.index") }}">Bundle</a></li>
-                        <li class="breadcrumb-item "><a href="{{ route('bundle.show_single', [$section->bundle->slug, $section->bundle->id]) }}">{{ $section->bundle->name }}</a></li>
-                        <li class="breadcrumb-item "><a href="{{ route('public.bundle.section.edit', [$section->bundle->id, $section->id]) }}">{{ $section->name }}</a></li>
-                        <li class="breadcrumb-item active">Add</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+        <!-- Content Wrapper. Contains page content -->
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Bundle</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item "><a href="{{ route('bundle.index') }}">Bundle</a></li>
+                            <li class="breadcrumb-item "><a
+                                    href="{{ route('bundle.show_single', [$section->bundle->slug, $section->bundle->id]) }}">{{ $section->bundle->name }}</a>
+                            </li>
+                            <li class="breadcrumb-item "><a
+                                    href="{{ route('public.bundle.section.edit', [$section->bundle->id, $section->id]) }}">{{ $section->name }}</a>
+                            </li>
+                            <li class="breadcrumb-item active">Add</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
     </div>
 
     <!-- Main content -->
@@ -69,7 +72,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.2.0/min/dropzone.min.js"></script>
     <script type="text/javascript">
         Dropzone.options.imageUpload = {
-            maxFilesize: 1,
+            maxFilesize: 50,
             acceptedFiles: ".jpeg,.jpg,.png,.gif,.doc,.docx,.pdf",
             init: function() {
                 var home = "{{ route('section.show', [$section_id]) }}";
