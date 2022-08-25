@@ -338,6 +338,7 @@ class DocumentController extends Controller
 
     public function uploadDocuments(Request $request)
     {
+        ini_set("pcre.backtrack_limit", "5000000");
 
         if (!file_exists(storage_path('app/public/files'))) {
             mkdir(storage_path('app/public/files'), 0777, true);
@@ -374,6 +375,7 @@ class DocumentController extends Controller
             $view['view'] = str_replace("PHPWord","",$view['view']);
 
             $pdf = MPDF::loadHtml(view('newDocsPdf', $view),$this->packages());
+
             $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
             $sourcePath=public_path('pdf/'.$splitName[0].'.pdf');
             $sec = Section::where('id',$section_id)->first();
