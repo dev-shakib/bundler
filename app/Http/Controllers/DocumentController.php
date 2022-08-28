@@ -338,6 +338,7 @@ class DocumentController extends Controller
 
     public function uploadDocuments(Request $request)
     {
+        // LIMIT OF 5000000  characters
         ini_set("pcre.backtrack_limit", "5000000");
 
         if (!file_exists(storage_path('app/public/files'))) {
