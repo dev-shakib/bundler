@@ -9,6 +9,7 @@ use App\Models\Bundle;
 use App\Models\Section;
 use App\Models\File;
 use App\Models\generatedTable;
+use RealRashid\SweetAlert\Facades\Alert;
 class BundleController extends Controller
 {
     public function index()
@@ -70,6 +71,7 @@ class BundleController extends Controller
         $cover['isMainSection'] = 0;
         $cover['serial_alpha'] = "A";
         Section::create($cover);
+        Alert::success('Created', 'Bundle Created Successfully');
         return redirect()->route('bundle.show_single', [$bundle->slug,$bundle->id]);
     }
     public function show($slug,$id)
@@ -101,6 +103,7 @@ class BundleController extends Controller
         $name = $request->name;
         $slug = preg_replace('/\s+/', '-', $request->name);
         Bundle::where(['user_id'=>$user->id,"id"=>$id])->update(['name'=>$name,'slug'=>$slug]);
+        Alert::success('Updated', 'Bundle Name Updated Successfully');
         return redirect()->route('bundle.index');
     }
     public function destroy($id)
@@ -143,6 +146,7 @@ class BundleController extends Controller
                generatedTable::where('bundle_id',$b->id)->delete();
             }
             $bundle->delete();
+            Alert::success('Deleted', 'Bundle Deleted Successfully');
             return redirect()->back();
         }else{
             dump("no data found");
@@ -166,6 +170,7 @@ class BundleController extends Controller
                 unlink(public_path("bundle_zip/".$filename[0].'.zip'));
             }
                 generatedTable::where('id',$file->id)->delete();
+                Alert::success('Generated', 'GENERATED BUNDLE SUCCESSFULLY DELETED');
             return redirect()->back();
         }else{
             dump("no data found");

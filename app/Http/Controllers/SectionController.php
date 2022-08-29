@@ -8,6 +8,7 @@ use Auth;
 use Redirect;
 use App\Models\Section;
 use App\Models\File;
+use RealRashid\SweetAlert\Facades\Alert;
 class SectionController extends Controller
 {
     /**
@@ -72,6 +73,7 @@ class SectionController extends Controller
                 $data['serial_alpha'] = "A";
             }
         Section::create($data);
+        Alert::success('Created', 'Section Created Successfully');
         return redirect()->back();
     }
 
@@ -135,10 +137,10 @@ class SectionController extends Controller
         {
             $section->update(['name'=>$request->name]);
             $sec =  $section->first();
+            Alert::success('Updated', 'Section Updated Successfully');
             return redirect()->route('bundle.show_single',[$sec->bundle->slug,$sec->bundle_id]);
 
         }else{
-
             dump("no data found");
         }
     }
@@ -166,6 +168,7 @@ class SectionController extends Controller
                 }
             }
             $section->delete();
+            Alert::success('Delete', 'Section Deleted Successfully');
             return redirect()->back();
 
         }else{

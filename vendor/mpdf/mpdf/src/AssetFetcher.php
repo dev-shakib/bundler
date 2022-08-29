@@ -47,7 +47,7 @@ class AssetFetcher implements \Psr\Log\LoggerAwareInterface
 
 		$this->mpdf->GetFullPath($path);
 
-		return $this->isPathLocal($path) || ($originalSrc !== null && $this->isPathLocal($originalSrc))
+		return $this->isPathLocal($path)
 			? $this->fetchLocalContent($path, $originalSrc)
 			: $this->fetchRemoteContent($path);
 	}

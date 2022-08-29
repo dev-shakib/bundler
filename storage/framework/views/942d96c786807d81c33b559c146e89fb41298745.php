@@ -106,9 +106,8 @@ $enrolled_package = auth()
                                             <i class="fa fa-upload"></i>
                                         </button>
                                     </span>
-
                                     <?php if($enrolled_package->package_id == 1): ?>
-                                        <?php if($bundle->totalPages() < 60): ?>
+                                        <?php if($bundle->totalPages() < 60 && $bundle->totalPages() > 0): ?>
                                             <a href="<?php echo e(route('public.bundle.generate', [$bundle->id])); ?>"
                                                 data-toggle="tooltip" data-placement="top" title="Generate Bundle"
                                                 id="bundle-tour-3" class="btn btn-info"><i class="fa fa-file-text"></i></a>
@@ -123,7 +122,7 @@ $enrolled_package = auth()
                                             class="btn btn-info"><i class="fa fa-file-text"></i></a>
                                     <?php endif; ?>
                                     <?php if($enrolled_package->package_id == 1): ?>
-                                        <?php if($bundle->totalPages() < 60): ?>
+                                        <?php if($bundle->totalPages() < 60 && $bundle->totalPages() > 0): ?>
                                             <a href="<?php echo e(route('public.bundle.generated_bundle', [$bundle->id])); ?>"
                                                 data-toggle="tooltip" data-placement="top" title="View Generated Bundle"
                                                 id="bundle-tour-4" class="btn btn-info"><i
@@ -251,7 +250,7 @@ $enrolled_package = auth()
             }
         });
         Dropzone.options.imageUpload = {
-            maxFilesize: 1,
+            maxFilesize: 50,
             acceptedFiles: ".jpeg,.jpg,.png,.gif,.doc,.docx,.pdf",
             init: function() {
                 //now we will submit the form when the button is clicked
