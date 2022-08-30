@@ -36,6 +36,7 @@
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
+    @include('sweetalert::alert')
     <div class="wrapper">
 
         <!-- Preloader -->
@@ -106,9 +107,9 @@
         ) !!}
     @endif --}}
     @yield('footer_scripts')
-
+    @include('sweetalert::alert', ['cdn' => 'https://cdn.jsdelivr.net/npm/sweetalert2@9'])
     <script>
-        $(function () {
+        $(function() {
             $('[data-toggle="tooltip"]').tooltip()
         });
         $(".clickable-row").click(function() {

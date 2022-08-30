@@ -62,11 +62,8 @@ class ServerParams
 
         switch (substr($iniMax, -1)) {
             case 't': $max *= 1024;
-                // no break
             case 'g': $max *= 1024;
-                // no break
             case 'm': $max *= 1024;
-                // no break
             case 'k': $max *= 1024;
         }
 
@@ -80,7 +77,7 @@ class ServerParams
      */
     public function getNormalizedIniPostMaxSize()
     {
-        return strtoupper(trim(\ini_get('post_max_size')));
+        return strtoupper(trim(ini_get('post_max_size')));
     }
 
     /**

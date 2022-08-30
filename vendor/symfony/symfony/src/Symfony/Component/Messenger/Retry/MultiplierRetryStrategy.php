@@ -86,6 +86,6 @@ class MultiplierRetryStrategy implements RetryStrategyInterface
             return $this->maxDelayMilliseconds;
         }
 
-        return (int) ceil($delay);
+        return $delay;
     }
 }

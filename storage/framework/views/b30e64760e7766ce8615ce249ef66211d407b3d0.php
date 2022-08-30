@@ -36,6 +36,7 @@
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
+    <?php echo $__env->make('sweetalert::alert', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <div class="wrapper">
 
         <!-- Preloader -->
@@ -101,9 +102,9 @@
     <?php echo $__env->yieldPushContent('custom-script'); ?>
     
     <?php echo $__env->yieldContent('footer_scripts'); ?>
-
+    <?php echo $__env->make('sweetalert::alert', ['cdn' => 'https://cdn.jsdelivr.net/npm/sweetalert2@9'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <script>
-        $(function () {
+        $(function() {
             $('[data-toggle="tooltip"]').tooltip()
         });
         $(".clickable-row").click(function() {
