@@ -214,7 +214,7 @@ class DocumentController extends Controller
              for($i=1;$i<=$pagecount;$i++){
                     $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
                     $import_page = $mpdf->ImportPage($i);
-                    $mpdf->UseTemplate($import_page);
+                    $mpdf->UseTemplate($import_page,10, 0, 190, 285);
 
                     $mpdf->setFooter( ['odd' => array (
                     'R' => array (
@@ -254,7 +254,7 @@ class DocumentController extends Controller
              for($i=1;$i<=$pagecount;$i++){
                     $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
                     $import_page = $mpdf->ImportPage($i);
-                    $mpdf->UseTemplate($import_page);
+                    $mpdf->UseTemplate($import_page,10, 0, 190, 285);
                     $mpdf->setFooter( ['odd' => array (
         'R' => array (
             'content' => $sec->serial_alpha.'{PAGENO}',
@@ -264,9 +264,9 @@ class DocumentController extends Controller
             'color'=>'red'
         ),
         'line' => 1,
-    ),
-    'even' => array ( 'R' => array (
-            'content' => $sec->serial_alpha.'{PAGENO}',
+        ),
+            'even' => array ( 'R' => array (
+                'content' => $sec->serial_alpha.'{PAGENO}',
             'font-size' => 10,
             'font-style' => 'B',
             'font-family' => 'serif',
@@ -290,7 +290,7 @@ class DocumentController extends Controller
             for($i=1;$i<=$pagecount;$i++){
                     $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
                     $import_page = $mpdf->ImportPage($i);
-                    $mpdf->UseTemplate($import_page);
+                     $mpdf->UseTemplate($import_page,10, 0, 190, 285);
                     $mpdf->setFooter( ['odd' => array (
         'R' => array (
             'content' => $sec->serial_alpha.'{PAGENO}',
@@ -300,15 +300,15 @@ class DocumentController extends Controller
             'color'=>'red'
         ),
         'line' => 1,
-    ),
-    'even' => array ( 'R' => array (
-            'content' => $sec->serial_alpha.'{PAGENO}',
-            'font-size' => 10,
-            'font-style' => 'B',
-            'font-family' => 'serif',
-            'color'=>'#000000'
-        ),
-        'line' => 1,)]);
+            ),
+            'even' => array ( 'R' => array (
+                    'content' => $sec->serial_alpha.'{PAGENO}',
+                    'font-size' => 10,
+                    'font-style' => 'B',
+                    'font-family' => 'serif',
+                    'color'=>'#000000'
+                ),
+                'line' => 1,)]);
 
 
                     if($enrolled_package->package_id == 1){
@@ -470,7 +470,7 @@ class DocumentController extends Controller
              for($i=1;$i<=$pagecount;$i++){
                     $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
                     $import_page = $mpdf->ImportPage($i);
-                    $mpdf->UseTemplate($import_page);
+                     $mpdf->UseTemplate($import_page,10, 0, 190, 285);
 
                     $mpdf->setFooter( ['odd' => array (
                     'R' => array (
@@ -480,7 +480,7 @@ class DocumentController extends Controller
                         'font-family' => 'serif',
                         'color'=>'red'
                     ),
-                    'line' => 1,
+                    'line' => 2,
                 ),
                 'even' => array ( 'R' => array (
                         'content' => $sec->serial_alpha.'{PAGENO}',
@@ -489,7 +489,7 @@ class DocumentController extends Controller
                         'font-family' => 'serif',
                         'color'=>'#000000'
                     ),
-                    'line' => 1,)]);
+                    'line' => 2,)]);
              }
             $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
             unlink(storage_path("app/public/files/".$filename[2]));
@@ -510,7 +510,7 @@ class DocumentController extends Controller
              for($i=1;$i<=$pagecount;$i++){
                     $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
                     $import_page = $mpdf->ImportPage($i);
-                    $mpdf->UseTemplate($import_page);
+                    $mpdf->UseTemplate($import_page,10, 0, 190, 285);
                     $mpdf->setFooter( ['odd' => array (
         'R' => array (
             'content' => $sec->serial_alpha.'{PAGENO}',
@@ -519,7 +519,7 @@ class DocumentController extends Controller
             'font-family' => 'serif',
             'color'=>'red'
         ),
-        'line' => 1,
+        'line' => 2,
     ),
     'even' => array ( 'R' => array (
             'content' => $sec->serial_alpha.'{PAGENO}',
@@ -528,7 +528,7 @@ class DocumentController extends Controller
             'font-family' => 'serif',
             'color'=>'#000000'
         ),
-        'line' => 1,)]);
+        'line' => 2,)]);
              }
             $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
             unlink(storage_path("app/public/files/".$filename[2]));
@@ -538,7 +538,7 @@ class DocumentController extends Controller
             ->load('enrolledPackage')->enrolledPackage;
             $sourcePath=storage_path("app/public/files/".$filename[2]);
             $mpdf = new \Mpdf\Mpdf();
-
+            $mpdf->SetDisplayMode(50);
             $sec = Section::where('id',$section_id)->first();
             $totalPage = File::where('section_id',$section_id)->sum('totalPage');
             $totalPage = $totalPage+1;
@@ -548,7 +548,7 @@ class DocumentController extends Controller
             for($i=1;$i<=$pagecount;$i++){
                     $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
                     $import_page = $mpdf->ImportPage($i);
-                    $mpdf->UseTemplate($import_page);
+                    $mpdf->UseTemplate($import_page,10, 0, 190, 285);
                     $mpdf->setFooter( ['odd' => array (
         'R' => array (
             'content' => $sec->serial_alpha.'{PAGENO}',
@@ -557,7 +557,7 @@ class DocumentController extends Controller
             'font-family' => 'serif',
             'color'=>'red'
         ),
-        'line' => 1,
+        'line' => 2,
     ),
     'even' => array ( 'R' => array (
             'content' => $sec->serial_alpha.'{PAGENO}',
@@ -566,7 +566,7 @@ class DocumentController extends Controller
             'font-family' => 'serif',
             'color'=>'#000000'
         ),
-        'line' => 1,)]);
+        'line' => 2,)]);
 
                     if($enrolled_package->package_id == 1){
                         $admin_setting = Setting::where(['type'=>"admin",'name'=>"watermark_setting"])->first();
