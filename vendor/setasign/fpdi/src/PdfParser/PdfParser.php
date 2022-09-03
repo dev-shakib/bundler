@@ -25,8 +25,7 @@ use setasign\Fpdi\PdfParser\Type\PdfStream;
 use setasign\Fpdi\PdfParser\Type\PdfString;
 use setasign\Fpdi\PdfParser\Type\PdfToken;
 use setasign\Fpdi\PdfParser\Type\PdfType;
-use setasign\Fpdi\PdfParser\PdfParserException;
-use setasign\Fpdi\PdfParser\Type\PdfTypeException;
+
 /**
  * A PDF parser class
  */
@@ -154,7 +153,7 @@ class PdfParser
      */
     public function getCrossReference()
     {
-         if ($this->xref === null) {
+        if ($this->xref === null) {
             $this->xref = new CrossReference($this, $this->resolveFileHeader());
         }
 
