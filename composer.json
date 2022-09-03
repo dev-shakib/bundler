@@ -6,6 +6,12 @@
         "framework",
         "laravel"
     ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://www.setasign.com/downloads/"
+        }
+    ],
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
@@ -47,6 +53,7 @@
         "setasign/fpdf": "^1.8",
         "setasign/fpdi": "^2.3",
         "setasign/fpdi-fpdf": "^2.3",
+        "setasign/fpdi_pdf-parser": "^2.0",
         "shvetsgroup/laravel-email-database-log": "^8.0.0",
         "socialiteproviders/37signals": "^3.0",
         "socialiteproviders/generators": "^4.6.1",

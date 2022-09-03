@@ -162,8 +162,10 @@ use Symfony\Component\Notifier\Bridge\Twilio\TwilioTransportFactory;
 use Symfony\Component\Notifier\Bridge\Vonage\VonageTransportFactory;
 use Symfony\Component\Notifier\Bridge\Yunpian\YunpianTransportFactory;
 use Symfony\Component\Notifier\Bridge\Zulip\ZulipTransportFactory;
+use Symfony\Component\Notifier\ChatterInterface;
 use Symfony\Component\Notifier\Notifier;
 use Symfony\Component\Notifier\Recipient\Recipient;
+use Symfony\Component\Notifier\TexterInterface;
 use Symfony\Component\Notifier\Transport\TransportFactoryInterface as NotifierTransportFactoryInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\PropertyInfo\Extractor\PhpStanExtractor;
@@ -669,6 +671,10 @@ class FrameworkExtension extends Extension
         }
 
         if ($this->isConfigEnabled($container, $config['form']['csrf_protection'])) {
+            if (!$container->hasDefinition('security.csrf.token_generator')) {
+                throw new \LogicException('To use form CSRF protection, "framework.csrf_protection" must be enabled.');
+            }
+
             $loader->load('form_csrf.php');
 
             $container->setParameter('form.type_extension.csrf.enabled', true);
@@ -917,7 +923,7 @@ class FrameworkExtension extends Extension
             if (isset($workflow['marking_store']['type'])) {
                 $markingStoreDefinition = new ChildDefinition('workflow.marking_store.method');
                 $markingStoreDefinition->setArguments([
-                    'state_machine' === $type, //single state
+                    'state_machine' === $type, // single state
                     $workflow['marking_store']['property'],
                 ]);
             } elseif (isset($workflow['marking_store']['service'])) {
@@ -2485,11 +2491,13 @@ class FrameworkExtension extends Extension
             $container->getDefinition('chatter.transports')->setArgument(0, $config['chatter_transports']);
         } else {
             $container->removeDefinition('chatter');
+            $container->removeAlias(ChatterInterface::class);
         }
         if ($config['texter_transports']) {
             $container->getDefinition('texter.transports')->setArgument(0, $config['texter_transports']);
         } else {
             $container->removeDefinition('texter');
+            $container->removeAlias(TexterInterface::class);
         }
 
         if ($this->mailerConfigEnabled) {
