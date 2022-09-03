@@ -1,15 +1,10 @@
 <?php
 
 return [
-    'mode'                     => 'utf-8',
+    'mode'                     => '',
     'format'                   => 'A4',
     'default_font_size'        => '12',
     'default_font'             => 'sans-serif',
-    'custom_font_dir'  => base_path('resources/fonts/'), // don't forget the trailing slash!
-    'custom_font_data' => [
-    'examplefont' => [
-      'R'  => 'Nikosh.ttf',    // regular font
-    ]],
     'margin_left'              => 10,
     'margin_right'             => 10,
     'margin_top'               => 10,
@@ -20,9 +15,9 @@ return [
     'title'                    => 'Laravel mPDF',
     'subject'                  => '',
     'author'                   => '',
-    'watermark'                => 'HELLO',
-    'show_watermark'           => true,
-    'show_watermark_image'     => true,
+    'watermark'                => '',
+    'show_watermark'           => false,
+    'show_watermark_image'     => false,
     'watermark_font'           => 'sans-serif',
     'display_mode'             => 'fullpage',
     'watermark_text_alpha'     => 0.1,
@@ -32,7 +27,7 @@ return [
     'watermark_image_position' => 'P',
     'custom_font_dir'          => '',
     'custom_font_data'         => [],
-    'auto_language_detection'  => true,
+    'auto_language_detection'  => false,
     'temp_dir'                 => rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR),
     'pdfa'                     => false,
     'pdfaauto'                 => false,

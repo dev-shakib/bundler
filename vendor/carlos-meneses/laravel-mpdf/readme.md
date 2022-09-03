@@ -16,7 +16,7 @@ Require this package in your `composer.json`
 
 ```
 "require": {
-  carlos-meneses/laravel-mpdf: "2.1.8"
+  carlos-meneses/laravel-mpdf: "2.1.9"
 }
 ```
 
@@ -211,6 +211,33 @@ class ReportController extends Controller {
 </div>
 ```
 
+## Added Support for the Macroable Trait
+You can configure the macro in the `AppServiceProvider` provider file.
+
+```php
+//...
+use Meneses\LaravelMpdf\LaravelMpdf;
+
+class AppServiceProvider extends ServiceProvider
+{
+  //...
+
+  public function boot()
+  {
+    LaravelMpdf::macro('hello', function () {
+      return "Hello, World!";
+    });
+  }
+
+  //...
+}
+```
+
+Now
+
+```php
+PDF::loadView(/* ... */)->hello();
+```
 
 ## License
 
