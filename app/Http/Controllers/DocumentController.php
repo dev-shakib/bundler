@@ -195,7 +195,7 @@ class DocumentController extends Controller
                  $PDFWriter = \PhpOffice\PhpWord\IOFactory::createWriter($Content,'HTML');
              if (!file_exists(public_path('../resources/views/pdf'))) {
                 mkdir(public_path('../resources/views/pdf'), 0777, true);
-            }
+                }
             $PDFWriter->save(public_path('../resources/views/pdf/'. $splitName[0].'.blade.php'));
 
             $view['view'] = view('pdf.'.$splitName[0])->render();
@@ -436,7 +436,10 @@ class DocumentController extends Controller
         $section_id= $request->section_id;
         $filename = explode('/',$filename);
         $splitName = explode('.',  $filename[2]);
-
+        $file_namess = uniqid();
+        $enrolled_package = auth()
+            ->user()
+            ->load('enrolledPackage')->enrolledPackage;
         if($splitName[1] == "docx" || $splitName[1] == "doc" || $splitName[1] == "dot")
         {
             $domPdfPath = base_path('vendor/dompdf/dompdf');
@@ -459,14 +462,37 @@ class DocumentController extends Controller
 
             $pdf = MPDF::loadHtml(view('newDocsPdf', $view),$this->packages());
 
-            $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
-            $sourcePath=public_path('pdf/'.$splitName[0].'.pdf');
+            $pdf->save(public_path('pdf/'.$file_namess.'.pdf'));
+            $sourcePath=public_path('pdf/'.$file_namess.'.pdf');
             $sec = Section::where('id',$section_id)->first();
             $totalPage = File::where('section_id',$section_id)->sum('totalPage');
             $totalPage = $totalPage+1;
             $mpdf = new \Mpdf\Mpdf();
             $pagecount = $mpdf->SetSourceFile($sourcePath);
             $max_page_count = $totalPage+$pagecount;
+
+
+            $files = File::where('bundle_id',$bundle_id)->sum('totalPage');
+            if($enrolled_package->package_id == 1)
+            {
+                if($files == 60)
+                {
+                    unlink(storage_path("app/public/files/".$filename[2]));
+                    Alert::error('Failed', "You have reached your plan limit. please upgrade!")->autoClose(10000);
+                    return response()->json(['status'=>"failed", "msg"=>"You have reached your plan limit. please upgrade!"]);
+                }
+                $total_page_used = $files+$pagecount;
+                $max_page_can_upload = 60 - $files;
+                $extra_add_page = $max_page_can_upload -$pagecount;
+                if($extra_add_page < 0)
+                {
+                    Alert::error('Failed', "You are crossing your plan limits.page can be added $max_page_can_upload. uploaded files has $pagecount pages. please upgrade your plan!")->autoClose(10000);
+
+                    unlink(storage_path("app/public/files/".$filename[2]));
+                    return response()->json(['status'=>"failed", "msg"=>"You are crossing your plan limits. please upgrade!"]);
+                }
+            }
+
              for($i=1;$i<=$pagecount;$i++){
                     $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
                     $import_page = $mpdf->ImportPage($i);
@@ -500,35 +526,57 @@ class DocumentController extends Controller
             $image = [$filename[2]];
 
             $pdf = MPDF::loadHtml(view('imgPdf', compact('image')),$this->packages());
-            $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
-             $sourcePath=public_path('pdf/'.$splitName[0].'.pdf');
+            $pdf->save(public_path('pdf/'.$file_namess.'.pdf'));
+             $sourcePath=public_path('pdf/'.$file_namess.'.pdf');
             $sec = Section::where('id',$section_id)->first();
             $totalPage = File::where('section_id',$section_id)->sum('totalPage');
             $totalPage = $totalPage+1;
             $mpdf = new \Mpdf\Mpdf();
             $pagecount = $mpdf->SetSourceFile($sourcePath);
+
+            $files = File::where('bundle_id',$bundle_id)->sum('totalPage');
+            if($enrolled_package->package_id == 1)
+            {
+                if($files == 60)
+                {
+                    unlink(storage_path("app/public/files/".$filename[2]));
+                    Alert::error('Failed', "You have reached your plan limit. please upgrade!")->autoClose(10000);
+                    return response()->json(['status'=>"failed", "msg"=>"You have reached your plan limit. please upgrade!"]);
+                }
+                $total_page_used = $files+$pagecount;
+                $max_page_can_upload = 60 - $files;
+                $extra_add_page = $max_page_can_upload -$pagecount;
+                if($extra_add_page < 0)
+                {
+                    Alert::error('Failed', "You are crossing your plan limits.page can be added $max_page_can_upload. uploaded files has $pagecount pages. please upgrade your plan!")->autoClose(10000);
+
+                    unlink(storage_path("app/public/files/".$filename[2]));
+                    return response()->json(['status'=>"failed", "msg"=>"You are crossing your plan limits. please upgrade!"]);
+                }
+            }
+
              for($i=1;$i<=$pagecount;$i++){
                     $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
                     $import_page = $mpdf->ImportPage($i);
                     $mpdf->UseTemplate($import_page,10, 0, 190, 285);
                     $mpdf->setFooter( ['odd' => array (
-        'R' => array (
-            'content' => $sec->serial_alpha.'{PAGENO}',
-            'font-size' => 10,
-            'font-style' => 'B',
-            'font-family' => 'serif',
-            'color'=>'red'
-        ),
-        'line' => 2,
-    ),
-    'even' => array ( 'R' => array (
-            'content' => $sec->serial_alpha.'{PAGENO}',
-            'font-size' => 10,
-            'font-style' => 'B',
-            'font-family' => 'serif',
-            'color'=>'#000000'
-        ),
-        'line' => 2,)]);
+                'R' => array (
+                    'content' => $sec->serial_alpha.'{PAGENO}',
+                    'font-size' => 10,
+                    'font-style' => 'B',
+                    'font-family' => 'serif',
+                    'color'=>'red'
+                ),
+                'line' => 2,
+            ),
+            'even' => array ( 'R' => array (
+                    'content' => $sec->serial_alpha.'{PAGENO}',
+                    'font-size' => 10,
+                    'font-style' => 'B',
+                    'font-family' => 'serif',
+                    'color'=>'#000000'
+                ),
+                'line' => 2,)]);
              }
             $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
             unlink(storage_path("app/public/files/".$filename[2]));
@@ -544,29 +592,49 @@ class DocumentController extends Controller
             $totalPage = $totalPage+1;
             // Specify a PDF template
             $pagecount = $mpdf->SetSourceFile($sourcePath);
+            $files = File::where('bundle_id',$bundle_id)->sum('totalPage');
+            if($enrolled_package->package_id == 1)
+            {
+                if($files == 60)
+                {
+                    unlink(storage_path("app/public/files/".$filename[2]));
+                    Alert::error('Failed', "You have reached your plan limit. please upgrade!")->autoClose(10000);
+                    return response()->json(['status'=>"failed", "msg"=>"You have reached your plan limit. please upgrade!"]);
+                }
+                $total_page_used = $files+$pagecount;
+                $max_page_can_upload = 60 - $files;
+                $extra_add_page = $max_page_can_upload -$pagecount;
+                if($extra_add_page < 0)
+                {
+                    Alert::error('Failed', "You are crossing your plan limits.page can be added $max_page_can_upload. uploaded files has $pagecount pages. please upgrade your plan!")->autoClose(10000);
+
+                    unlink(storage_path("app/public/files/".$filename[2]));
+                    return response()->json(['status'=>"failed", "msg"=>"You are crossing your plan limits. please upgrade!"]);
+                }
+            }
 
             for($i=1;$i<=$pagecount;$i++){
                     $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
                     $import_page = $mpdf->ImportPage($i);
                     $mpdf->UseTemplate($import_page,10, 0, 190, 285);
                     $mpdf->setFooter( ['odd' => array (
-        'R' => array (
-            'content' => $sec->serial_alpha.'{PAGENO}',
-            'font-size' => 10,
-            'font-style' => 'B',
-            'font-family' => 'serif',
-            'color'=>'red'
-        ),
-        'line' => 2,
-    ),
-    'even' => array ( 'R' => array (
-            'content' => $sec->serial_alpha.'{PAGENO}',
-            'font-size' => 10,
-            'font-style' => 'B',
-            'font-family' => 'serif',
-            'color'=>'#000000'
-        ),
-        'line' => 2,)]);
+                    'R' => array (
+                        'content' => $sec->serial_alpha.'{PAGENO}',
+                        'font-size' => 10,
+                        'font-style' => 'B',
+                        'font-family' => 'serif',
+                        'color'=>'red'
+                    ),
+                    'line' => 2,
+                ),
+                'even' => array ( 'R' => array (
+                        'content' => $sec->serial_alpha.'{PAGENO}',
+                        'font-size' => 10,
+                        'font-style' => 'B',
+                        'font-family' => 'serif',
+                        'color'=>'#000000'
+                    ),
+                    'line' => 2,)]);
 
                     if($enrolled_package->package_id == 1){
                         $admin_setting = Setting::where(['type'=>"admin",'name'=>"watermark_setting"])->first();
@@ -636,35 +704,35 @@ class DocumentController extends Controller
 
             }
             $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
-            $destinationPath=public_path('pdf/'.$filename[2]);
+            $destinationPath=public_path('pdf/'.$file_namess.'.pdf');
             if(Files::exists($sourcePath)){
                 Files::move($sourcePath,$destinationPath);
             }
 
-        }
-        $path = public_path('pdf/'.$splitName[0].'.pdf');
-        $totalPage = $this->countPages($path);
-        $enrolled_package = auth()
-                          ->user()
-                          ->load('enrolledPackage')->enrolledPackage;
-        if($enrolled_package->package_id == 1)
-        {
-            $days_after_file_delete = 100;
-        }elseif($enrolled_package->package_id == 2)
-        {
-            $days_after_file_delete = 730;
-        }else{
-            $days_after_file_delete = 1095;
-        }
-         $auto_delete_date = Carbon::now()->addDays($days_after_file_delete)->format('Y-m-d');
-         $filess = File::where("section_id",$section_id)->orderBy("sort_id",'desc')->first();
-         if(!is_null($filess))
-         {
-            $sort_id = $filess->sort_id+1;
-         }else{
-            $sort_id = 1;
+            }
+            $path = public_path('pdf/'.$file_namess.'.pdf');
+            $totalPage = $this->countPages($path);
+            $enrolled_package = auth()
+                            ->user()
+                            ->load('enrolledPackage')->enrolledPackage;
+            if($enrolled_package->package_id == 1)
+            {
+                $days_after_file_delete = 100;
+            }elseif($enrolled_package->package_id == 2)
+            {
+                $days_after_file_delete = 730;
+            }else{
+                $days_after_file_delete = 1095;
+            }
+            $auto_delete_date = Carbon::now()->addDays($days_after_file_delete)->format('Y-m-d');
+            $filess = File::where("section_id",$section_id)->orderBy("sort_id",'desc')->first();
+            if(!is_null($filess))
+            {
+                $sort_id = $filess->sort_id+1;
+            }else{
+                $sort_id = 1;
          }
-        File::create(['filename'=>$splitName[0].'.pdf','sort_id'=>$sort_id,"name"=>$splitName[0],'auto_deleted_at'=>$auto_delete_date,'totalPage'=>$totalPage,'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
+        File::create(['filename'=>$file_namess.'.pdf','sort_id'=>$sort_id,"name"=>$splitName[0],'auto_deleted_at'=>$auto_delete_date,'totalPage'=>$totalPage,'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
         Alert::success('Uploaded', 'File Uploaded Successfully');
         return response()->json(['success'=>$splitName[0].'.pdf']);
     }

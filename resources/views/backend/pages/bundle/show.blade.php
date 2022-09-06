@@ -109,7 +109,7 @@ $enrolled_package = auth()
                                         </button>
                                     </span>
                                     @if ($enrolled_package->package_id == 1)
-                                        @if ($bundle->totalPages() < 60 && $bundle->totalPages() > 0)
+                                        @if ($bundle->totalPages() < 61 && $bundle->totalPages() > 0)
                                             <a href="{{ route('public.bundle.generate', [$bundle->id]) }}"
                                                 data-toggle="tooltip" data-placement="top" title="Generate Bundle"
                                                 id="bundle-tour-3" class="btn btn-info"><i class="fa fa-file-text"></i></a>
@@ -124,7 +124,7 @@ $enrolled_package = auth()
                                             class="btn btn-info"><i class="fa fa-file-text"></i></a>
                                     @endif
                                     @if ($enrolled_package->package_id == 1)
-                                        @if ($bundle->totalPages() < 60 && $bundle->totalPages() > 0)
+                                        @if ($bundle->totalPages() < 61 && $bundle->totalPages() > 0)
                                             <a href="{{ route('public.bundle.generated_bundle', [$bundle->id]) }}"
                                                 data-toggle="tooltip" data-placement="top" title="View Generated Bundle"
                                                 id="bundle-tour-4" class="btn btn-info"><i
