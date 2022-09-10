@@ -88,6 +88,7 @@
                                         <th>{!! trans('usersmanagement.users-table.actions') !!}</th>
                                         <th class="no-search no-sort"></th>
                                         <th class="no-search no-sort"></th>
+                                        <th class="no-search no-sort"></th>
                                     </tr>
                                 </thead>
                                 <tbody id="users_table">
@@ -140,6 +141,14 @@
                                                     href="{{ URL::to('users/' . $user->id) }}" data-toggle="tooltip"
                                                     title="Show">
                                                     {!! trans('usersmanagement.buttons.show') !!}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-sm btn-success btn-block"
+                                                    href="{{ route('users.change_plan', [$user->id]) }}"
+                                                    data-toggle="tooltip" title="Change Plan">
+                                                    <i class="fa fa-pencil"></i>
+                                                    {!! trans('usersmanagement.buttons.changePlan') !!}
                                                 </a>
                                             </td>
                                             <td>

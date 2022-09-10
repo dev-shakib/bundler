@@ -16,7 +16,7 @@ return [
     'updateSuccess'   => 'Successfully updated user! ',
     'deleteSuccess'   => 'Successfully deleted user! ',
     'deleteSelfError' => 'You cannot delete yourself! ',
-
+    'change-plan'     => "Change Plan",
     // Show User Tab
     'viewProfile'            => 'View Profile',
     'editUser'               => 'Edit User',
@@ -69,6 +69,7 @@ return [
 
     'buttons' => [
         'create-new'    => 'New User',
+        "changePlan"    => "Change Plan",
         'delete'        => '<i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>  <span class="hidden-xs hidden-sm">Delete</span><span class="hidden-xs hidden-sm hidden-md"> User</span>',
         'show'          => '<i class="fa fa-eye fa-fw" aria-hidden="true"></i> <span class="hidden-xs hidden-sm">Show</span><span class="hidden-xs hidden-sm hidden-md"> User</span>',
         'edit'          => '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> <span class="hidden-xs hidden-sm">Edit</span><span class="hidden-xs hidden-sm hidden-md"> User</span>',

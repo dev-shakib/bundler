@@ -165,6 +165,8 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
             'deleted',
         ],
     ]);
+    Route::get("users/plan/change-plan/{user_id}",[App\Http\Controllers\UserController::class, 'changePlan'])->name('users.change_plan');
+    Route::post("users/plan/change-plan/{user_id}",[App\Http\Controllers\UserController::class, 'updatePlan'])->name('users.change_plan.update');
     Route::post('search-users', 'App\Http\Controllers\UsersManagementController@search')->name('search-users');
 
     Route::resource('themes', \App\Http\Controllers\ThemesManagementController::class, [
