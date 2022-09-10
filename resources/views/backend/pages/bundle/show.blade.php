@@ -254,6 +254,9 @@ $enrolled_package = auth()
             acceptedFiles: ".jpeg,.jpg,.png,.gif,.doc,.docx,.pdf",
             init: function() {
                 //now we will submit the form when the button is clicked
+                this.on("error", function(file, responseText) {
+                    $('.dz-error-message').text(responseText.message);
+                });
                 this.on("success", function(files, response) {
                     // location.href = home; // this will redirect you when the file is added to dropzone
                     location.reload();

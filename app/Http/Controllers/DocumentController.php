@@ -19,6 +19,7 @@ use Auth;
 use Storage;
 use File as Files;
 use Session;
+use Exception;
 use MPDF;
 use setasign\Fpdi\Fpdi;
 use App\Http\Helpers\PPDF;
@@ -171,6 +172,7 @@ class DocumentController extends Controller
         }
         $file = $request->file('file');
         $filename = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
        $filename =$file->storeAs('public/files', $filename);
         $bundle_id= $request->bundle_id;
         $section_id= $request->section_id;
@@ -182,7 +184,7 @@ class DocumentController extends Controller
             $filename = explode('/',$filename);
             $splitName = explode('.',  $filename[2]);
 
-            if($splitName[1] == "docx" || $splitName[1] == "doc" || $splitName[1] == "dot")
+            if($extension == "docx" || $extension == "doc" || $extension == "dot")
             {
                 $domPdfPath = base_path('vendor/dompdf/dompdf');
                 \PhpOffice\PhpWord\Settings::setPdfRendererPath($domPdfPath);
@@ -196,119 +198,117 @@ class DocumentController extends Controller
              if (!file_exists(public_path('../resources/views/pdf'))) {
                 mkdir(public_path('../resources/views/pdf'), 0777, true);
                 }
-            $PDFWriter->save(public_path('../resources/views/pdf/'. $splitName[0].'.blade.php'));
+                $PDFWriter->save(public_path('../resources/views/pdf/'. $splitName[0].'.blade.php'));
 
-            $view['view'] = view('pdf.'.$splitName[0])->render();
-            $view['view'] = str_replace("PHPWord","",$view['view']);
+                $view['view'] = view('pdf.'.$splitName[0])->render();
+                $view['view'] = str_replace("PHPWord","",$view['view']);
 
-            $pdf = MPDF::loadHtml(view('newDocsPdf', $view),$this->packages());
+                $pdf = MPDF::loadHtml(view('newDocsPdf', $view),$this->packages());
 
-            $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
-            $sourcePath=public_path('pdf/'.$splitName[0].'.pdf');
-            $sec = Section::where('id',$section_id)->first();
-            $totalPage = File::where('section_id',$section_id)->sum('totalPage');
-            $totalPage = $totalPage+1;
-            $mpdf = new \Mpdf\Mpdf();
-            $pagecount = $mpdf->SetSourceFile($sourcePath);
-            $max_page_count = $totalPage+$pagecount;
-             for($i=1;$i<=$pagecount;$i++){
-                    $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
-                    $import_page = $mpdf->ImportPage($i);
-                    $mpdf->UseTemplate($import_page,10, 0, 190, 285);
+                $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
+                $sourcePath=public_path('pdf/'.$splitName[0].'.pdf');
+                $sec = Section::where('id',$section_id)->first();
+                $totalPage = File::where('section_id',$section_id)->sum('totalPage');
+                $totalPage = $totalPage+1;
+                $mpdf = new \Mpdf\Mpdf();
+                $pagecount = $mpdf->SetSourceFile($sourcePath);
+                $max_page_count = $totalPage+$pagecount;
+                for($i=1;$i<=$pagecount;$i++){
+                        $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
+                        $import_page = $mpdf->ImportPage($i);
+                        $mpdf->UseTemplate($import_page,10, 0, 190, 285);
 
-                    $mpdf->setFooter( ['odd' => array (
-                    'R' => array (
-                        'content' => $sec->serial_alpha.'{PAGENO}',
-                        'font-size' => 10,
-                        'font-style' => 'B',
-                        'font-family' => 'serif',
-                        'color'=>'red'
+                        $mpdf->setFooter( ['odd' => array (
+                        'R' => array (
+                            'content' => $sec->serial_alpha.'{PAGENO}',
+                            'font-size' => 10,
+                            'font-style' => 'B',
+                            'font-family' => 'serif',
+                            'color'=>'red'
+                        ),
+                        'line' => 1,
                     ),
-                    'line' => 1,
-                ),
-                'even' => array ( 'R' => array (
-                        'content' => $sec->serial_alpha.'{PAGENO}',
-                        'font-size' => 10,
-                        'font-style' => 'B',
-                        'font-family' => 'serif',
-                        'color'=>'#000000'
-                    ),
-                    'line' => 1,)]);
-             }
-            $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
-            unlink(storage_path("app/public/files/".$filename[2]));
-            unlink(public_path("../resources/views/pdf/".$splitName[0].'.blade.php'));
+                    'even' => array ( 'R' => array (
+                            'content' => $sec->serial_alpha.'{PAGENO}',
+                            'font-size' => 10,
+                            'font-style' => 'B',
+                            'font-family' => 'serif',
+                            'color'=>'#000000'
+                        ),
+                        'line' => 1,)]);
+                }
+                $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
+                unlink(storage_path("app/public/files/".$filename[2]));
+                unlink(public_path("../resources/views/pdf/".$splitName[0].'.blade.php'));
 
-            }else if($splitName[1] == "jpe" || $splitName[1] == "jpeg" || $splitName[1] == "gif"  || $splitName[1] == "png"  || $splitName[1] == "JPG" || $splitName[1] == "jpg"  || $splitName[1] == "JPEG"  || $splitName[1] == "PNG" || $splitName[1] == "GIF")
+            }else if($extension == "jpe" || $extension == "jpeg" || $extension == "gif"  || $extension == "png"  || $extension== "JPG" || $extension == "jpg"  || $extension== "JPEG"  || $extension== "PNG" || $extension == "GIF")
             {
                 $data['image'] = [$filename[2]];
+                $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
+                $sourcePath=public_path('pdf/'.$splitName[0].'.pdf');
+                $sec = Section::where('id',$section_id)->first();
+                $totalPage = File::where('section_id',$section_id)->sum('totalPage');
+                $totalPage = $totalPage+1;
+                $mpdf = new \Mpdf\Mpdf();
+                $pagecount = $mpdf->SetSourceFile($sourcePath);
+                for($i=1;$i<=$pagecount;$i++){
+                        $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
+                        $import_page = $mpdf->ImportPage($i);
+                        $mpdf->UseTemplate($import_page,10, 0, 190, 285);
+                        $mpdf->setFooter( ['odd' => array (
+                            'R' => array (
+                                'content' => $sec->serial_alpha.'{PAGENO}',
+                                'font-size' => 10,
+                                'font-style' => 'B',
+                                'font-family' => 'serif',
+                                'color'=>'red'
+                            ),
+                            'line' => 1,
+                            ),
+                                'even' => array ( 'R' => array (
+                                    'content' => $sec->serial_alpha.'{PAGENO}',
+                                'font-size' => 10,
+                                'font-style' => 'B',
+                                'font-family' => 'serif',
+                                'color'=>'#000000'
+                            ),
+                            'line' => 1,)]);
+                }
+                $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
+                unlink(storage_path("app/public/files/".$filename[2]));
+            }else{
 
+                $enrolled_package = auth()
+                ->user()
+                ->load('enrolledPackage')->enrolledPackage;
+                $sourcePath=storage_path("app/public/files/".$filename[2]);
+                $mpdf = new \Mpdf\Mpdf();
 
-                 $pdf->save(public_path('pdf/'.$splitName[0].'.pdf'));
-             $sourcePath=public_path('pdf/'.$splitName[0].'.pdf');
-            $sec = Section::where('id',$section_id)->first();
-            $totalPage = File::where('section_id',$section_id)->sum('totalPage');
-            $totalPage = $totalPage+1;
-            $mpdf = new \Mpdf\Mpdf();
-            $pagecount = $mpdf->SetSourceFile($sourcePath);
-             for($i=1;$i<=$pagecount;$i++){
+                // Specify a PDF template
+                $pagecount = $mpdf->SetSourceFile($sourcePath);
+
+                for($i=1;$i<=$pagecount;$i++){
                     $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
                     $import_page = $mpdf->ImportPage($i);
                     $mpdf->UseTemplate($import_page,10, 0, 190, 285);
                     $mpdf->setFooter( ['odd' => array (
-        'R' => array (
-            'content' => $sec->serial_alpha.'{PAGENO}',
-            'font-size' => 10,
-            'font-style' => 'B',
-            'font-family' => 'serif',
-            'color'=>'red'
-        ),
-        'line' => 1,
-        ),
-            'even' => array ( 'R' => array (
-                'content' => $sec->serial_alpha.'{PAGENO}',
-            'font-size' => 10,
-            'font-style' => 'B',
-            'font-family' => 'serif',
-            'color'=>'#000000'
-        ),
-        'line' => 1,)]);
-             }
-            $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
-            unlink(storage_path("app/public/files/".$filename[2]));
-            }else{
-
-            $enrolled_package = auth()
-            ->user()
-            ->load('enrolledPackage')->enrolledPackage;
-            $sourcePath=storage_path("app/public/files/".$filename[2]);
-            $mpdf = new \Mpdf\Mpdf();
-
-            // Specify a PDF template
-            $pagecount = $mpdf->SetSourceFile($sourcePath);
-
-            for($i=1;$i<=$pagecount;$i++){
-                    $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
-                    $import_page = $mpdf->ImportPage($i);
-                     $mpdf->UseTemplate($import_page,10, 0, 190, 285);
-                    $mpdf->setFooter( ['odd' => array (
-        'R' => array (
-            'content' => $sec->serial_alpha.'{PAGENO}',
-            'font-size' => 10,
-            'font-style' => 'B',
-            'font-family' => 'serif',
-            'color'=>'red'
-        ),
-        'line' => 1,
-            ),
-            'even' => array ( 'R' => array (
-                    'content' => $sec->serial_alpha.'{PAGENO}',
-                    'font-size' => 10,
-                    'font-style' => 'B',
-                    'font-family' => 'serif',
-                    'color'=>'#000000'
-                ),
-                'line' => 1,)]);
+                                'R' => array (
+                                    'content' => $sec->serial_alpha.'{PAGENO}',
+                                    'font-size' => 10,
+                                    'font-style' => 'B',
+                                    'font-family' => 'serif',
+                                    'color'=>'red'
+                                ),
+                                'line' => 1,
+                                ),
+                                'even' => array ( 'R' => array (
+                                        'content' => $sec->serial_alpha.'{PAGENO}',
+                                        'font-size' => 10,
+                                        'font-style' => 'B',
+                                        'font-family' => 'serif',
+                                        'color'=>'#000000'
+                                    ),
+                                'line' => 1,)]);
 
 
                     if($enrolled_package->package_id == 1){
@@ -377,22 +377,22 @@ class DocumentController extends Controller
                         $mpdf->showWatermarkText  = false;
                     }
 
-            }
+                }
 
 
-            $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
-            $destinationPath=public_path('pdf/'.$filename[2]);
-            if(Files::exists($sourcePath)){
-                Files::move($sourcePath,$destinationPath);
-            }
+                $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
+                $destinationPath=public_path('pdf/'.$filename[2]);
+                if(Files::exists($sourcePath)){
+                    Files::move($sourcePath,$destinationPath);
+                }
 
 
 
-        }
-            $path = public_path('pdf/'.$splitName[0].'.pdf');
-            $totalPage = $this->countPages($path);
-            $enrolled_package = auth()
-                          ->user()
+                }
+                $path = public_path('pdf/'.$splitName[0].'.pdf');
+                $totalPage = $this->countPages($path);
+                $enrolled_package = auth()
+                            ->user()
                           ->load('enrolledPackage')->enrolledPackage;
             if($enrolled_package->package_id == 1)
             {
@@ -429,8 +429,10 @@ class DocumentController extends Controller
         if (!file_exists(public_path('pdf'))) {
             mkdir(public_path('pdf'), 0777, true);
         }
+
         $file = $request->file('file');
         $filename = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
         $filename =$file->storeAs('public/files', $filename);
         $bundle_id= $request->bundle_id;
         $section_id= $request->section_id;
@@ -440,8 +442,11 @@ class DocumentController extends Controller
         $enrolled_package = auth()
             ->user()
             ->load('enrolledPackage')->enrolledPackage;
-        if($splitName[1] == "docx" || $splitName[1] == "doc" || $splitName[1] == "dot")
+        if($extension == "docx" || $extension == "doc" || $extension == "dot")
         {
+            try{
+
+
             $domPdfPath = base_path('vendor/dompdf/dompdf');
             \PhpOffice\PhpWord\Settings::setPdfRendererPath($domPdfPath);
             \PhpOffice\PhpWord\Settings::setPdfRendererName('DomPDF');
@@ -452,7 +457,7 @@ class DocumentController extends Controller
 
             //Save it into PDF
             $PDFWriter = \PhpOffice\PhpWord\IOFactory::createWriter($Content,'HTML');
-             if (!file_exists(public_path('../resources/views/pdf'))) {
+            if (!file_exists(public_path('../resources/views/pdf'))) {
                 mkdir(public_path('../resources/views/pdf'), 0777, true);
             }
             $PDFWriter->save(public_path('../resources/views/pdf/'. $splitName[0].'.blade.php'));
@@ -492,21 +497,20 @@ class DocumentController extends Controller
                     return response()->json(['status'=>"failed", "msg"=>"You are crossing your plan limits. please upgrade!"]);
                 }
             }
+            for($i=1;$i<=$pagecount;$i++){
+                $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
+                $import_page = $mpdf->ImportPage($i);
+                    $mpdf->UseTemplate($import_page,10, 0, 190, 285);
 
-             for($i=1;$i<=$pagecount;$i++){
-                    $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
-                    $import_page = $mpdf->ImportPage($i);
-                     $mpdf->UseTemplate($import_page,10, 0, 190, 285);
-
-                    $mpdf->setFooter( ['odd' => array (
-                    'R' => array (
-                        'content' => $sec->serial_alpha.'{PAGENO}',
-                        'font-size' => 10,
-                        'font-style' => 'B',
-                        'font-family' => 'serif',
-                        'color'=>'red'
-                    ),
-                    'line' => 2,
+                $mpdf->setFooter( ['odd' => array (
+                'R' => array (
+                    'content' => $sec->serial_alpha.'{PAGENO}',
+                    'font-size' => 10,
+                    'font-style' => 'B',
+                    'font-family' => 'serif',
+                    'color'=>'red'
+                ),
+                'line' => 2,
                 ),
                 'even' => array ( 'R' => array (
                         'content' => $sec->serial_alpha.'{PAGENO}',
@@ -516,24 +520,27 @@ class DocumentController extends Controller
                         'color'=>'#000000'
                     ),
                     'line' => 2,)]);
-             }
+            }
             $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
             unlink(storage_path("app/public/files/".$filename[2]));
             unlink(public_path("../resources/views/pdf/".$splitName[0].'.blade.php'));
+            }catch(\Exception $e){
+                return response()->json(['error'=>"Can't upload this file please change check the format"],400);
+            }
 
-        }else if($splitName[1] == "jpg" || $splitName[1] == "jpeg" || $splitName[1] == "gif"  || $splitName[1] == "png"  || $splitName[1] == "JPG" || $splitName[1] == "jpg"  || $splitName[1] == "JPEG"  || $splitName[1] == "PNG" || $splitName[1] == "GIF")
+        }else if($extension == "jpg" || $extension == "jpeg" || $extension == "gif"  || $extension == "png"  || $extension == "JPG" || $extension == "jpg"  || $extension == "JPEG"  || $extension == "PNG" || $extension == "GIF")
         {
+            try{
             $image = [$filename[2]];
-
             $pdf = MPDF::loadHtml(view('imgPdf', compact('image')),$this->packages());
             $pdf->save(public_path('pdf/'.$file_namess.'.pdf'));
+
              $sourcePath=public_path('pdf/'.$file_namess.'.pdf');
             $sec = Section::where('id',$section_id)->first();
             $totalPage = File::where('section_id',$section_id)->sum('totalPage');
             $totalPage = $totalPage+1;
             $mpdf = new \Mpdf\Mpdf();
             $pagecount = $mpdf->SetSourceFile($sourcePath);
-
             $files = File::where('bundle_id',$bundle_id)->sum('totalPage');
             if($enrolled_package->package_id == 1)
             {
@@ -554,33 +561,38 @@ class DocumentController extends Controller
                     return response()->json(['status'=>"failed", "msg"=>"You are crossing your plan limits. please upgrade!"]);
                 }
             }
-
-             for($i=1;$i<=$pagecount;$i++){
+            for($i=1;$i<=$pagecount;$i++){
                     $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
                     $import_page = $mpdf->ImportPage($i);
                     $mpdf->UseTemplate($import_page,10, 0, 190, 285);
                     $mpdf->setFooter( ['odd' => array (
-                'R' => array (
-                    'content' => $sec->serial_alpha.'{PAGENO}',
-                    'font-size' => 10,
-                    'font-style' => 'B',
-                    'font-family' => 'serif',
-                    'color'=>'red'
-                ),
-                'line' => 2,
-            ),
-            'even' => array ( 'R' => array (
-                    'content' => $sec->serial_alpha.'{PAGENO}',
-                    'font-size' => 10,
-                    'font-style' => 'B',
-                    'font-family' => 'serif',
-                    'color'=>'#000000'
-                ),
-                'line' => 2,)]);
+                        'R' => array (
+                            'content' => $sec->serial_alpha.'{PAGENO}',
+                            'font-size' => 10,
+                            'font-style' => 'B',
+                            'font-family' => 'serif',
+                            'color'=>'red'
+                        ),
+                        'line' => 2,
+                    ),
+                    'even' => array ( 'R' => array (
+                            'content' => $sec->serial_alpha.'{PAGENO}',
+                            'font-size' => 10,
+                            'font-style' => 'B',
+                            'font-family' => 'serif',
+                            'color'=>'#000000'
+                        ),
+                        'line' => 2,)]);
              }
             $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
             unlink(storage_path("app/public/files/".$filename[2]));
+            }catch(\Exception $e){
+                return response()->json(['error'=>"Can't upload this file please change check the format"],400);
+            }
         }else{
+
+            try{
+
             $enrolled_package = auth()
             ->user()
             ->load('enrolledPackage')->enrolledPackage;
@@ -708,8 +720,10 @@ class DocumentController extends Controller
             if(Files::exists($sourcePath)){
                 Files::move($sourcePath,$destinationPath);
             }
-
+            }catch(\Exception $e){
+                return response()->json(['error'=>"Can't upload this file please change check the format"],400);
             }
+        }
             $path = public_path('pdf/'.$file_namess.'.pdf');
             $totalPage = $this->countPages($path);
             $enrolled_package = auth()
@@ -731,7 +745,7 @@ class DocumentController extends Controller
                 $sort_id = $filess->sort_id+1;
             }else{
                 $sort_id = 1;
-         }
+            }
         File::create(['filename'=>$file_namess.'.pdf','sort_id'=>$sort_id,"name"=>$splitName[0],'auto_deleted_at'=>$auto_delete_date,'totalPage'=>$totalPage,'mime_types'=>$splitName[1], 'user_id'=>auth()->user()->id,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
         Alert::success('Uploaded', 'File Uploaded Successfully');
         return response()->json(['success'=>$splitName[0].'.pdf']);
