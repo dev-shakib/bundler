@@ -66,7 +66,7 @@ class SectionController extends Controller
             }else{
                 $data['sort_id'] = 1;
             }
-            if(!is_null($filess))
+            if(!is_null($filess->serial_alpha))
             {
                 $data['serial_alpha'] =  chr(ord($filess->serial_alpha) + 1);
             }else{

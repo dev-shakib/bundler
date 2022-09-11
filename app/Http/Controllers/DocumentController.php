@@ -216,7 +216,7 @@ class DocumentController extends Controller
                 for($i=1;$i<=$pagecount;$i++){
                         $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
                         $import_page = $mpdf->ImportPage($i);
-                        $mpdf->UseTemplate($import_page,10, 0, 190, 270);
+                        $mpdf->UseTemplate($import_page,10, 10, 190, 270);
 
                         $mpdf->setFooter( ['odd' => array (
                         'R' => array (
@@ -254,7 +254,7 @@ class DocumentController extends Controller
                 for($i=1;$i<=$pagecount;$i++){
                         $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
                         $import_page = $mpdf->ImportPage($i);
-                        $mpdf->UseTemplate($import_page,10, 0, 190, 270);
+                        $mpdf->UseTemplate($import_page,10, 10, 190, 270);
                         $mpdf->setFooter( ['odd' => array (
                             'R' => array (
                                 'content' => $sec->serial_alpha.'{PAGENO}',
@@ -290,7 +290,7 @@ class DocumentController extends Controller
                 for($i=1;$i<=$pagecount;$i++){
                     $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
                     $import_page = $mpdf->ImportPage($i);
-                    $mpdf->UseTemplate($import_page,10, 0, 190, 270);
+                    $mpdf->UseTemplate($import_page,10, 10, 190, 270);
                     $mpdf->setFooter( ['odd' => array (
                                 'R' => array (
                                     'content' => $sec->serial_alpha.'{PAGENO}',
@@ -500,7 +500,7 @@ class DocumentController extends Controller
             for($i=1;$i<=$pagecount;$i++){
                 $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
                 $import_page = $mpdf->ImportPage($i);
-                    $mpdf->UseTemplate($import_page,10, 0, 190, 270);
+                    $mpdf->UseTemplate($import_page,10, 10, 190, 270);
 
                 $mpdf->setFooter( ['odd' => array (
                 'R' => array (
@@ -564,7 +564,7 @@ class DocumentController extends Controller
             for($i=1;$i<=$pagecount;$i++){
                     $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
                     $import_page = $mpdf->ImportPage($i);
-                    $mpdf->UseTemplate($import_page,10, 0, 190, 270);
+                    $mpdf->UseTemplate($import_page,10, 10, 190, 270);
                     $mpdf->setFooter( ['odd' => array (
                         'R' => array (
                             'content' => $sec->serial_alpha.'{PAGENO}',
@@ -600,6 +600,7 @@ class DocumentController extends Controller
             $mpdf = new \Mpdf\Mpdf();
             $mpdf->SetDisplayMode(50);
             $sec = Section::where('id',$section_id)->first();
+
             $totalPage = File::where('section_id',$section_id)->sum('totalPage');
             $totalPage = $totalPage+1;
             // Specify a PDF template
@@ -628,7 +629,7 @@ class DocumentController extends Controller
             for($i=1;$i<=$pagecount;$i++){
                     $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
                     $import_page = $mpdf->ImportPage($i);
-                    $mpdf->UseTemplate($import_page,10, 0, 190, 270);
+                    $mpdf->UseTemplate($import_page,10, 10, 190, 270);
                     $mpdf->setFooter( ['odd' => array (
                     'R' => array (
                         'content' => $sec->serial_alpha.'{PAGENO}',
