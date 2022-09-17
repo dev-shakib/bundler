@@ -61,9 +61,13 @@
                             href="{{ route('setting.index') }}">
                             Settings
                         </a>
-                        <a class="dropdown-item {{ Request::is('setting*') ? 'active' : null }}"
+                        <a class="dropdown-item {{ Request::is('payment*') ? 'active' : null }}"
                             href="{{ route('settings.payement.index') }}">
                             Payment Settings
+                        </a>
+                        <a class="dropdown-item {{ Request::is('plan*') ? 'active' : null }}"
+                            href="{{ route('settings.plan.index') }}">
+                            Plan Settings
                         </a>
                     @endrole
                     @role('user')

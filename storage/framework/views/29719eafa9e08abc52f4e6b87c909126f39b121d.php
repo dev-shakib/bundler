@@ -65,9 +65,13 @@
                             href="<?php echo e(route('setting.index')); ?>">
                             Settings
                         </a>
-                        <a class="dropdown-item <?php echo e(Request::is('setting*') ? 'active' : null); ?>"
+                        <a class="dropdown-item <?php echo e(Request::is('payment*') ? 'active' : null); ?>"
                             href="<?php echo e(route('settings.payement.index')); ?>">
                             Payment Settings
+                        </a>
+                        <a class="dropdown-item <?php echo e(Request::is('plan*') ? 'active' : null); ?>"
+                            href="<?php echo e(route('settings.plan.index')); ?>">
+                            Plan Settings
                         </a>
                     <?php endif; ?>
                     <?php if (Auth::check() && Auth::user()->hasRole('user')): ?>

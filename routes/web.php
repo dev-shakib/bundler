@@ -92,6 +92,8 @@ Route::group(['middleware' => ['auth', 'activated', 'activity', 'twostep', 'chec
     );
     Route::get('payment/settings',['as' => 'settings.payement.index','uses'=>'\App\Http\Controllers\SettingController@paymentSettingPage']);
     Route::post('payment/settings',['as' => 'setting.store.payment','uses'=>'\App\Http\Controllers\SettingController@paymentSettingUpdate']);
+    Route::get('plan/settings',['as' => 'settings.plan.index','uses'=>'\App\Http\Controllers\SettingController@planSettingPage']);
+    Route::post('plan/settings',['as' => 'setting.store.plan','uses'=>'\App\Http\Controllers\SettingController@planSettingUpdate']);
     Route::resource(
         'section',
         \App\Http\Controllers\SectionController::class,

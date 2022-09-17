@@ -183,7 +183,8 @@ return [
         Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
-
+        Facade\Ignition\IgnitionServiceProvider::class,
+        Livewire\LivewireServiceProvider::class,
     ],
 
     /*
