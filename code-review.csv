@@ -1,0 +1,2 @@
+sha,filename,url,lines,title,comment,priority,category,additional,id,private
+"448725c881fb5d94c5ea7514ee26c2be40a45bda","\app\Http\Controllers\DocumentController.php","","31:3-44:5","Delete  Files","File -> if exist -> unlink -> redirect back","0","Code-Style","web.php -> bundle/files/delete/file={id}","22ff56e2-04b4-495d-8ee9-2ea6996168df","0"

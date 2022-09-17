@@ -44,7 +44,6 @@ class DocumentController extends Controller
     }
     public function show($bundle_id,$section_id,$id)
     {
-
         $file = File::with(['section','bundle'])->where('id',$id);
         if($file->count() > 0)
         {
@@ -214,28 +213,11 @@ class DocumentController extends Controller
                 $pagecount = $mpdf->SetSourceFile($sourcePath);
                 $max_page_count = $totalPage+$pagecount;
                 for($i=1;$i<=$pagecount;$i++){
-                        $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
+                        $mpdf->AddPage('');
                         $import_page = $mpdf->ImportPage($i);
                         $mpdf->UseTemplate($import_page,10, 10, 190, 270);
 
-                        $mpdf->setFooter( ['odd' => array (
-                        'R' => array (
-                            'content' => $sec->serial_alpha.'{PAGENO}',
-                            'font-size' => 10,
-                            'font-style' => 'B',
-                            'font-family' => 'serif',
-                            'color'=>'red'
-                        ),
-                        'line' => 1,
-                    ),
-                    'even' => array ( 'R' => array (
-                            'content' => $sec->serial_alpha.'{PAGENO}',
-                            'font-size' => 10,
-                            'font-style' => 'B',
-                            'font-family' => 'serif',
-                            'color'=>'#000000'
-                        ),
-                        'line' => 1,)]);
+
                 }
                 $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
                 unlink(storage_path("app/public/files/".$filename[2]));
@@ -252,27 +234,10 @@ class DocumentController extends Controller
                 $mpdf = new \Mpdf\Mpdf();
                 $pagecount = $mpdf->SetSourceFile($sourcePath);
                 for($i=1;$i<=$pagecount;$i++){
-                        $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
+                        $mpdf->AddPage('');
                         $import_page = $mpdf->ImportPage($i);
                         $mpdf->UseTemplate($import_page,10, 10, 190, 270);
-                        $mpdf->setFooter( ['odd' => array (
-                            'R' => array (
-                                'content' => $sec->serial_alpha.'{PAGENO}',
-                                'font-size' => 10,
-                                'font-style' => 'B',
-                                'font-family' => 'serif',
-                                'color'=>'red'
-                            ),
-                            'line' => 1,
-                            ),
-                                'even' => array ( 'R' => array (
-                                    'content' => $sec->serial_alpha.'{PAGENO}',
-                                'font-size' => 10,
-                                'font-style' => 'B',
-                                'font-family' => 'serif',
-                                'color'=>'#000000'
-                            ),
-                            'line' => 1,)]);
+
                 }
                 $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
                 unlink(storage_path("app/public/files/".$filename[2]));
@@ -288,27 +253,10 @@ class DocumentController extends Controller
                 $pagecount = $mpdf->SetSourceFile($sourcePath);
 
                 for($i=1;$i<=$pagecount;$i++){
-                    $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
+                    $mpdf->AddPage('');
                     $import_page = $mpdf->ImportPage($i);
                     $mpdf->UseTemplate($import_page,10, 10, 190, 270);
-                    $mpdf->setFooter( ['odd' => array (
-                                'R' => array (
-                                    'content' => $sec->serial_alpha.'{PAGENO}',
-                                    'font-size' => 10,
-                                    'font-style' => 'B',
-                                    'font-family' => 'serif',
-                                    'color'=>'red'
-                                ),
-                                'line' => 1,
-                                ),
-                                'even' => array ( 'R' => array (
-                                        'content' => $sec->serial_alpha.'{PAGENO}',
-                                        'font-size' => 10,
-                                        'font-style' => 'B',
-                                        'font-family' => 'serif',
-                                        'color'=>'#000000'
-                                    ),
-                                'line' => 1,)]);
+
 
 
                     if($enrolled_package->package_id == 1){
@@ -498,28 +446,11 @@ class DocumentController extends Controller
                 }
             }
             for($i=1;$i<=$pagecount;$i++){
-                $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
+                $mpdf->AddPage('');
                 $import_page = $mpdf->ImportPage($i);
                     $mpdf->UseTemplate($import_page,10, 10, 190, 270);
 
-                $mpdf->setFooter( ['odd' => array (
-                'R' => array (
-                    'content' => $sec->serial_alpha.'{PAGENO}',
-                    'font-size' => 10,
-                    'font-style' => 'B',
-                    'font-family' => 'serif',
-                    'color'=>'red'
-                ),
-                'line' => 2,
-                ),
-                'even' => array ( 'R' => array (
-                        'content' => $sec->serial_alpha.'{PAGENO}',
-                        'font-size' => 10,
-                        'font-style' => 'B',
-                        'font-family' => 'serif',
-                        'color'=>'#000000'
-                    ),
-                    'line' => 2,)]);
+
             }
             $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
             unlink(storage_path("app/public/files/".$filename[2]));
@@ -562,27 +493,10 @@ class DocumentController extends Controller
                 }
             }
             for($i=1;$i<=$pagecount;$i++){
-                    $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
+                    $mpdf->AddPage('');
                     $import_page = $mpdf->ImportPage($i);
                     $mpdf->UseTemplate($import_page,10, 10, 190, 270);
-                    $mpdf->setFooter( ['odd' => array (
-                        'R' => array (
-                            'content' => $sec->serial_alpha.'{PAGENO}',
-                            'font-size' => 10,
-                            'font-style' => 'B',
-                            'font-family' => 'serif',
-                            'color'=>'red'
-                        ),
-                        'line' => 2,
-                    ),
-                    'even' => array ( 'R' => array (
-                            'content' => $sec->serial_alpha.'{PAGENO}',
-                            'font-size' => 10,
-                            'font-style' => 'B',
-                            'font-family' => 'serif',
-                            'color'=>'#000000'
-                        ),
-                        'line' => 2,)]);
+
              }
             $mpdf->output($sourcePath,\Mpdf\Output\Destination::FILE);
             unlink(storage_path("app/public/files/".$filename[2]));
@@ -627,27 +541,10 @@ class DocumentController extends Controller
             }
 
             for($i=1;$i<=$pagecount;$i++){
-                    $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
+                    $mpdf->AddPage('');
                     $import_page = $mpdf->ImportPage($i);
                     $mpdf->UseTemplate($import_page,10, 10, 190, 270);
-                    $mpdf->setFooter( ['odd' => array (
-                    'R' => array (
-                        'content' => $sec->serial_alpha.'{PAGENO}',
-                        'font-size' => 10,
-                        'font-style' => 'B',
-                        'font-family' => 'serif',
-                        'color'=>'red'
-                    ),
-                    'line' => 2,
-                ),
-                'even' => array ( 'R' => array (
-                        'content' => $sec->serial_alpha.'{PAGENO}',
-                        'font-size' => 10,
-                        'font-style' => 'B',
-                        'font-family' => 'serif',
-                        'color'=>'#000000'
-                    ),
-                    'line' => 2,)]);
+
 
                     if($enrolled_package->package_id == 1){
                         $admin_setting = Setting::where(['type'=>"admin",'name'=>"watermark_setting"])->first();
@@ -771,8 +668,10 @@ class DocumentController extends Controller
         // $this->pdfPageNumbering($files);
 
         $pdf = PDFMerger::init();
+        $msourceArray = [];
         foreach($sections as $sec)
         {
+
             if (!file_exists(public_path('pdf'))) {
                 mkdir(public_path('pdf'), 0777, true);
             }
@@ -809,8 +708,48 @@ class DocumentController extends Controller
                     file_put_contents('pdf/section'.$sec->id.'.pdf', $output);
                     $pdf->addPDF(public_path('pdf/section'.$sec->id.'.pdf'), 'all');
             }
+
             foreach($sec->files as $f){
-                $pdf->addPDF(public_path("pdf/".$f->filename), 'all');
+
+                $sourcePath=public_path("pdf/".$f->filename);
+                $mpdf = new \Mpdf\Mpdf();
+                $mpdf->SetDisplayMode(50);
+                $sect = Section::where('id',$sec->id)->first();
+                $totalPage = File::where('section_id',$sect->id)->sum('gSerial');
+                $totalPage = $totalPage+1;
+                // Specify a PDF template
+                $pagecount = $mpdf->SetSourceFile($sourcePath);
+                $files = File::where('bundle_id',$sect->bundle_id)->sum('totalPage');
+                for($i=1;$i<=$pagecount;$i++){
+                    $mpdf->AddPage('','NEXT-ODD',intval($totalPage++),'1','off');
+                    $import_page = $mpdf->ImportPage($i);
+                    $mpdf->UseTemplate($import_page,10, 10, 190, 270);
+                    $mpdf->setFooter( ['odd' => array (
+                    'R' => array (
+                        'content' => $sect->serial_alpha.'{PAGENO}',
+                        'font-size' => 10,
+                        'font-style' => 'B',
+                        'font-family' => 'serif',
+                        'color'=>'red'
+                    ),
+                    'line' => 2,
+                    ),
+                    'even' => array ( 'R' => array (
+                        'content' => $sec->serial_alpha.'{PAGENO}',
+                        'font-size' => 10,
+                        'font-style' => 'B',
+                        'font-family' => 'serif',
+                        'color'=>'#000000'
+                    ),
+                    'line' => 2,)]);
+                    File::where('id',$f->id)->update(['gSerial'=>$pagecount]);
+                }
+                $msourcePath=public_path("pdf/".uniqid().'.pdf');
+                array_push($msourceArray, $msourcePath);
+                $mpdf->output($msourcePath,\Mpdf\Output\Destination::FILE);
+
+                $pdf->addPDF($msourcePath, 'all');
+
             }
         }
         $bundle = Bundle::where("id",$bundle_id)->first();
@@ -821,7 +760,10 @@ class DocumentController extends Controller
             }
 
         $pdf->save(public_path('generated_pdf/'.$fileName));
-
+        foreach($msourceArray as $ms)
+        {
+            unlink($ms);
+        }
         //add page number
         // $this->pdfPageNumbering($fileName);
 
@@ -847,6 +789,7 @@ class DocumentController extends Controller
 
             generatedTable::create(['bundle_id'=>$bundle_id,'auto_deleted_at'=>$auto_delete_date,'filename'=>$fileName,'paid'=>1]);
         }
+        File::where('bundle_id',$bundle_id)->update(['gSerial'=>null]);
         Alert::success('Generated', 'BUNDLE GENERATED SUCCESSFULLY');
         return redirect()->back();
     }
