@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Setting;
 use Intervention\Image\ImageManagerStatic as Image;
+use Auth;
 class SettingController extends Controller
 {
     /**
@@ -12,6 +13,53 @@ class SettingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function paymentSettingPage()
+    {
+        $data['PAYPAL_CLIENT_ID'] = Setting::where('name','PAYPAL_CLIENT_ID')->first();
+        $data['PAYPAL_CLIENT_SECRET'] = Setting::where('name','PAYPAL_CLIENT_SECRET')->first();
+        $data['STRIPE_PUBLISHABLE_KEY'] = Setting::where('name','STRIPE_PUBLISHABLE_KEY')->first();
+        $data['STRIPE_SECRET_KEY'] = Setting::where('name','STRIPE_SECRET_KEY')->first();
+
+        return view('backend.pages.settings.payment.index',$data);
+    }
+    private function checkSettingAvailable($prams, $data)
+    {
+        $co = Setting::where(['user_id'=>$prams['user_id'],'name'=>$prams['setting_name']]);
+        if($co->count() > 0)
+        {
+            Setting::where(['user_id'=>$prams['user_id'],'name'=>$prams['setting_name']])->update($data);
+        }else{
+            $data['user_id'] = $prams['user_id'];
+            $data['name'] = $prams['setting_name'];
+            Setting::create($data);
+        }
+        return true;
+    }
+    public function paymentSettingUpdate(Request $request)
+    {
+        $data['type'] =$request->type;
+        if($request->type == "paypal")
+        {
+            $prams['user_id'] = Auth::user()->id;
+            $prams['setting_name'] = "PAYPAL_CLIENT_ID";
+            $data['value'] = $request->PAYPAL_CLIENT_ID;
+            $this->checkSettingAvailable($prams,$data);
+            $prams['setting_name'] = "PAYPAL_CLIENT_SECRET";
+            $data['value'] = $request->PAYPAL_CLIENT_SECRET;
+            $this->checkSettingAvailable($prams,$data);
+            return redirect()->back();
+        }else{
+            $prams['user_id'] = Auth::user()->id;
+            $prams['setting_name'] = "STRIPE_PUBLISHABLE_KEY";
+            $data['value'] = $request->STRIPE_PUBLISHABLE_KEY;
+            $this->checkSettingAvailable($prams,$data);
+            $prams['setting_name'] = "STRIPE_SECRET_KEY";
+            $data['value'] = $request->STRIPE_SECRET_KEY;
+            $this->checkSettingAvailable($prams,$data);
+            return redirect()->back();
+
+        }
+    }
     public function index()
     {
         $user_id = auth()->user()->id;
@@ -26,10 +74,6 @@ class SettingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.

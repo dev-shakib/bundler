@@ -4,16 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Payment;
+use App\Models\Setting;
 use Omnipay\Omnipay;
 class PaypalController extends Controller
 {
     private $gateway;
     public function __construct(Request $request)
     {
+        $PAYPAL_CLIENT_ID = Setting::where('name','PAYPAL_CLIENT_ID')->first();
+        $PAYPAL_CLIENT_SECRET = Setting::where('name','PAYPAL_CLIENT_SECRET')->first();
 
         $this->gateway = Omnipay::create('PayPal_Rest');
-        $this->gateway->setClientId(env('PAYPAL_CLIENT_ID'));
-        $this->gateway->setSecret(env('PAYPAL_CLIENT_SECRET'));
+        $this->gateway->setClientId(data_get($PAYPAL_CLIENT_ID,'value',''));
+        $this->gateway->setSecret(data_get($PAYPAL_CLIENT_SECRET,'value',''));
         $this->gateway->setTestMode(true);
 
     }
