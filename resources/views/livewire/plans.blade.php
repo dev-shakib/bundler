@@ -81,8 +81,8 @@ $own_watermark = $plan->DatasByProps('own_watermark');
                         wire:model.defer="storage_validity.{{ $plan->id }}.status" id="storage_validity"
                         class="form-control">
                         <option value="">STATUS</option>
-                        <option value="0" @if ($storage_validity && $storage_validity->status == 0) selected @endif>DISABLE</option>
-                        <option value="1" @if ($storage_validity && $storage_validity->status == 1) selected @endif>ENABLE</option>
+                        <option value="0" @if (!empty($storage_validity) && $storage_validity->status == 0) selected @endif>DISABLE</option>
+                        <option value="1" @if (!empty($storage_validity) && $storage_validity->status == 1) selected @endif>ENABLE</option>
                     </select>
                     @error('storage_validity.status')
                         <div class="alert alert-danger">{{ $message }}</div>
@@ -91,12 +91,13 @@ $own_watermark = $plan->DatasByProps('own_watermark');
                 <td width="30%">
                     <input type="checkbox"
                         wire:click="store($event.target.value,'storage_validity.{{ $plan->id }}.values')"
-                        @if ($storage_validity && $storage_validity->values == 'unlimited') checked @endif name="storage_validity.value"
-                        wire:model.defer="storage_validity.{{ $plan->id }}.value" value="unlimited" id="">
+                        @if (!empty($storage_validity) && $storage_validity->values == 'unlimited') checked @endif name="storage_validity.value"
+                        wire:model.defer="storage_validity.{{ $plan->id }}.values" value="unlimited"
+                        id="storage_validity.{{ $plan->id }}.values">
                     UNLIMITED<br>
                     <input type="number"
                         wire:change="store($event.target.value,'storage_validity.{{ $plan->id }}.values')"
-                        @if ($storage_validity) value="{{ $storage_validity->values }}" @endif
+                        @if (!empty($storage_validity)) value="{{ $storage_validity->values }}" @endif
                         wire:keyup="store($event.target.value,'storage_validity.{{ $plan->id }}.values')"
                         name="storage_validity.value" wire:model.defer="storage_validity.{{ $plan->id }}.value"
                         placeholder="in days. ex:60" class="form-control" id="storage_validity.value">

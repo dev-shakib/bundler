@@ -42,11 +42,14 @@ class Plans extends Component
     }
     public function store($value,$properties)
     {
-        $this->validateOnly($properties);
         $propsAtt = explode('.',$properties);
         $name= $propsAtt[0];
         if($propsAtt[0] == "price")
         {
+            if(empty($value))
+            {
+                $value=0;   
+            }
             $this->package->price = $value;
             $this->package->save();
 
