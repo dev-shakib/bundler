@@ -48,3 +48,4 @@ yarn-error.log
 /public/storage
 /storage/*.key
 /storage
+/public/php.ini
