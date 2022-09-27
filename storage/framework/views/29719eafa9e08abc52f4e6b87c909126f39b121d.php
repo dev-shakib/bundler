@@ -3,12 +3,13 @@
     <!-- Left navbar links -->
     <ul class="navbar-nav align-items-center">
         <li>
-            <button class="btn btn-sm btn-primary" onclick="history.back()" data-toggle="tooltip" data-placement="bottom" title="Back"><i class="fa fa-long-arrow-left"></i></button>
+            <button class="btn btn-sm btn-primary" onclick="history.back()" data-toggle="tooltip" data-placement="bottom"
+                title="Back"><i class="fa fa-long-arrow-left"></i></button>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="<?php echo e(route('home')); ?>" class="brand-link">
                 <img src="<?php echo e(asset('admin')); ?>/img/AdminLTELogo.png" alt="AdminLTE Logo"
-                class="brand-image img-circle elevation-3" style="opacity: .8">
+                    class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="text-dark">Bundler</span>
             </a>
         </li>
@@ -24,8 +25,8 @@
             <?php endif; ?>
         <?php else: ?>
             <li class="nav-item dropdown">
-                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false" v-pre>
                     <?php if(Auth::User()->profile && Auth::user()->profile->avatar_status == 1): ?>
                         <img src="<?php echo e(Auth::user()->profile->avatar); ?>" alt="<?php echo e(Auth::user()->name); ?>"
                             class="user-avatar-nav">
@@ -36,51 +37,60 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <?php if (Auth::check() && Auth::user()->hasRole('admin')): ?>
-                    <a class="dropdown-item <?php echo e(Request::is('users', 'users/' . Auth::user()->id, 'users/' . Auth::user()->id . '/edit') ? 'active' : null); ?>"
-                        href="<?php echo e(url('/users')); ?>">
-                        <?php echo trans('titles.adminUserList'); ?>
+                        <a class="dropdown-item <?php echo e(Request::is('users', 'users/' . Auth::user()->id, 'users/' . Auth::user()->id . '/edit') ? 'active' : null); ?>"
+                            href="<?php echo e(url('/users')); ?>">
+                            <?php echo trans('titles.adminUserList'); ?>
 
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item <?php echo e(Request::is('roles') || Request::is('permissions') ? 'active' : null); ?>"
-                        href="<?php echo e(route('laravelroles::roles.index')); ?>">
-                        <?php echo trans('titles.laravelroles'); ?>
-
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item <?php echo e(Request::is('users/create') ? 'active' : null); ?>"
-                        href="<?php echo e(url('/users/create')); ?>">
-                        <?php echo trans('titles.adminNewUser'); ?>
-
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item <?php echo e(Request::is('package*') ? 'active' : null); ?>"
-                        href="<?php echo e(route('package.index')); ?>">
-                        <?php echo trans('titles.adminPackage'); ?>
-
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item <?php echo e(Request::is('setting*') ? 'active' : null); ?>"
-                        href="<?php echo e(route('setting.index')); ?>">
-                        Settings
-                    </a>
-                    <?php endif; ?>
-                    <?php if (Auth::check() && Auth::user()->hasRole('user')): ?>
-                    <a class="dropdown-item <?php echo e(Request::is('bundle*') ? 'active' : null); ?>"
-                        href="<?php echo e(route('bundle.index')); ?>">
-                        Bundle List
-                    </a>
-                    <?php
-                          $enrolled_package = auth()
-                              ->user()
-                              ->load('enrolledPackage')->enrolledPackage;
-                    ?>
-                    <?php if($enrolled_package->package_id == 3): ?>
+                        </a>
                         <div class="dropdown-divider"></div>
-                        <a href="<?php echo e(route('setting.index')); ?>" class="dropdown-item <?php echo e(Request::is('setting*') ? 'active' : null); ?>">
+                        <a class="dropdown-item <?php echo e(Request::is('roles') || Request::is('permissions') ? 'active' : null); ?>"
+                            href="<?php echo e(route('laravelroles::roles.index')); ?>">
+                            <?php echo trans('titles.laravelroles'); ?>
+
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item <?php echo e(Request::is('users/create') ? 'active' : null); ?>"
+                            href="<?php echo e(url('/users/create')); ?>">
+                            <?php echo trans('titles.adminNewUser'); ?>
+
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item <?php echo e(Request::is('package*') ? 'active' : null); ?>"
+                            href="<?php echo e(route('package.index')); ?>">
+                            <?php echo trans('titles.adminPackage'); ?>
+
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item <?php echo e(Request::is('setting*') ? 'active' : null); ?>"
+                            href="<?php echo e(route('setting.index')); ?>">
                             Settings
                         </a>
+                        <a class="dropdown-item <?php echo e(Request::is('payment*') ? 'active' : null); ?>"
+                            href="<?php echo e(route('settings.payement.index')); ?>">
+                            Payment Settings
+                        </a>
+                        <a class="dropdown-item <?php echo e(Request::is('plan*') ? 'active' : null); ?>"
+                            href="<?php echo e(route('settings.plan.index')); ?>">
+                            Plan Settings
+                        </a>
                     <?php endif; ?>
+                    <?php if (Auth::check() && Auth::user()->hasRole('user')): ?>
+                        <a class="dropdown-item <?php echo e(Request::is('bundle*') ? 'active' : null); ?>"
+                            href="<?php echo e(route('bundle.index')); ?>">
+                            Bundle List
+                        </a>
+                        <?php
+                            $enrolled_package = auth()
+                                ->user()
+                                ->load('enrolledPackage')->enrolledPackage;
+                        ?>
+                        <?php if($enrolled_package->package_id == 3): ?>
+                            <div class="dropdown-divider"></div>
+                            <a href="<?php echo e(route('setting.index')); ?>"
+                                class="dropdown-item <?php echo e(Request::is('setting*') ? 'active' : null); ?>">
+                                Settings
+                            </a>
+                        <?php endif; ?>
                     <?php endif; ?>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item <?php echo e(Request::is('profile/' . Auth::user()->name, 'profile/' . Auth::user()->name . '/edit') ? 'active' : null); ?>"

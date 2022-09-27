@@ -59,6 +59,6 @@
     {{ csrf_field() }}
 </form>
 <script>
-    var publishable_key = '{{ env('STRIPE_PUBLISHABLE_KEY') }}';
+    var publishable_key = "{{ data_get($STRIPE_PUBLISHABLE_KEY, 'value', '') }}";
 </script>
 <script src="{{ asset('/js/card.js') }}"></script>

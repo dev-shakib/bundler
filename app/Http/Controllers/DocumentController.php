@@ -62,6 +62,7 @@ class DocumentController extends Controller
             return ['success'=>true,'message'=>'Updated'];
         }
     }
+    
      public function packages()
     {
         $enrolled_package = auth()
@@ -151,6 +152,7 @@ class DocumentController extends Controller
                     }];
             }
     }
+
     public function rename(Request $request)
     {
         $name = $request->name;
@@ -164,6 +166,7 @@ class DocumentController extends Controller
         Alert::success('Updated', 'File renamed Successfully');
         return redirect()->route('section.show', [$file->section_id]);
     }
+
     public function update(Request $request)
     {
         if (!file_exists(storage_path('app/public/files'))) {
@@ -659,6 +662,7 @@ class DocumentController extends Controller
         }
         return view('backend.pages.bundle.files.create',['section'=>$section,'bundle_id'=>$bundle_id,'section_id'=>$section_id]);
     }
+
     public function generate($bundle_id)
     {
         $files = File::where(["user_id"=>auth()->user()->id,'bundle_id'=>$bundle_id])->get();

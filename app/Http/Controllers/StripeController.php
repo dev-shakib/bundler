@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Payment;
 use Omnipay\Omnipay;
+use App\Models\Setting;
 class StripeController extends Controller
 {
 
@@ -13,8 +14,10 @@ class StripeController extends Controller
 
     public function __construct()
     {
+        $STRIPE_SECRET_KEY = Setting::where('name','STRIPE_SECRET_KEY')->first();
+
         $this->gateway = Omnipay::create('Stripe\PaymentIntents');
-        $this->gateway->setApiKey(env('STRIPE_SECRET_KEY'));
+        $this->gateway->setApiKey(data_get($STRIPE_SECRET_KEY,'value',''));
         $this->completePaymentUrl = url("payment/stripe/success/");
     }
 
@@ -22,7 +25,8 @@ class StripeController extends Controller
     {
         $amount =request('amount');
         $package_id =request('package_id');
-        return view('backend.pages.plan.stripe',['amount'=>$amount,'package_id'=>$package_id]);
+        $STRIPE_PUBLISHABLE_KEY = Setting::where('name','STRIPE_PUBLISHABLE_KEY')->first();
+        return view('backend.pages.plan.stripe',['amount'=>$amount,'package_id'=>$package_id,'STRIPE_PUBLISHABLE_KEY'=>$STRIPE_PUBLISHABLE_KEY]);
     }
 
     public function charge(Request $request,$package_id)

@@ -41,4 +41,11 @@ return [
     'laravelBlocker'    => 'Blocker',
 
     'laravelroles'      => 'Roles Administration',
+
+    // Choose Plan
+    'bundle_limit' => 'Bundle Limit',
+    'page_limit' => 'Page Limit',
+    'storage_validity' => 'Storage Validity',
+    'default_watermark' => 'Default Watermark',
+    'own_watermark' => 'User Watermark',
 ];

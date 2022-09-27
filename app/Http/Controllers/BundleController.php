@@ -29,6 +29,7 @@ class BundleController extends Controller
          $bundle = Bundle::with('section')->where('user_id',$user->id)->get();
         return view('backend.pages.bundle.index',['bundle'=>$bundle]);
     }
+
     public function store(Request $request)
     {
         $user = Auth::user();
@@ -74,6 +75,7 @@ class BundleController extends Controller
         Alert::success('Created', 'Bundle Created Successfully');
         return redirect()->route('bundle.show_single', [$bundle->slug,$bundle->id]);
     }
+
     public function show($slug,$id)
     {
         $user = Auth::user();
@@ -84,6 +86,7 @@ class BundleController extends Controller
         $bundle = Bundle::with('section')->where(['user_id'=>$user->id,"slug"=>$slug,"id"=>$id])->first();
         return view('backend.pages.bundle.show',['bundle'=>$bundle]);
     }
+
     public function edit($id)
     {
         $user = Auth::user();
@@ -94,6 +97,7 @@ class BundleController extends Controller
          $bundle = Bundle::with('section')->where(['user_id'=>$user->id,"id"=>$id])->first();
         return view('backend.pages.bundle.edit',['bundle'=>$bundle]);
     }
+
     public function update(Request $request,$id)
     {
         $user = Auth::user();
@@ -106,6 +110,7 @@ class BundleController extends Controller
         Alert::success('Updated', 'Bundle Name Updated Successfully');
         return redirect()->route('bundle.index');
     }
+
     public function destroy($id)
     {
         $bundle = Bundle::where('id',$id);
@@ -152,6 +157,7 @@ class BundleController extends Controller
             dump("no data found");
         }
     }
+    
     public function generated_destroy($id)
     {
         $bundle = generatedTable::with('bundle')->where('id',$id);

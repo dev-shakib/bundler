@@ -186,7 +186,24 @@
                                         <div class="pricing-content">
                                             <ul>
                                                 @foreach ($p->plan as $plan)
-                                                    <li>{{ $plan->name }}</li>
+                                                    <li>@lang('titles.' . $plan->name) :
+                                                        @if ($plan->status == 0 && is_null($plan->values))
+                                                            No
+                                                        @elseif($plan->status == 1 && is_null($plan->values))
+                                                            Yes
+                                                        @else
+                                                            @if ($plan->status == 1)
+                                                                @if ($plan->name == 'storage_validity')
+                                                                    {{ $plan->values }}
+                                                                    Days
+                                                                @else
+                                                                    {{ $plan->values }}
+                                                                @endif
+                                                            @else
+                                                                Unlimited
+                                                            @endif
+                                                        @endif
+                                                    </li>
                                                 @endforeach
                                             </ul>
                                         </div>
