@@ -82,7 +82,7 @@ Route::group(['middleware' => ['auth', 'activated', 'activity', 'twostep', 'chec
         \App\Http\Controllers\BundleController::class,
 
     );
-    Route::get('/bundle/{bundle_name}/number={}', ['as' => 'bundle.show_single',   'uses' => 'App\Http\Controllers\BundleController@show']);
+    Route::get('/bundle/{bundle_name}/number={id}', ['as' => 'bundle.show_single',   'uses' => 'App\Http\Controllers\BundleController@show']);
     Route::get('/bundle/generated-bundle/bundle-list/number={bundle_id}', ['as' => 'public.bundle.generated_bundle',   'uses' => 'App\Http\Controllers\BundleController@generated_bundle']);
     Route::delete('/bundle/generated_bundle/number={bundle_id}', ['as' => 'bundle.generated.destroy',   'uses' => 'App\Http\Controllers\BundleController@generated_destroy']);
     Route::resource(
