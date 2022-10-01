@@ -17,7 +17,7 @@ $own_watermark = $plan->DatasByProps('own_watermark');
                     <select name="bundle_limit.status" wire:model.defer="bundle_limit.{{ $plan->id }}.status"
                         wire:change="store($event.target.value,'bundle_limit.{{ $plan->id }}.status')"
                         class="form-control">
-                        <option value="">STATUS</option>
+                        <option value="" @if (empty($bundle_limit)) selected @endif disabled>-- select --</option>
                         <option value="0" @if (!empty($bundle_limit) && $bundle_limit->status == 0) selected @endif>DISABLE</option>
                         <option value="1" @if (!empty($bundle_limit) && $bundle_limit->status == 1) selected @endif>ENABLE</option>
                     </select>
@@ -48,7 +48,7 @@ $own_watermark = $plan->DatasByProps('own_watermark');
                         wire:change="store($event.target.value,'page_limit.{{ $plan->id }}.status')"
                         wire:model.defer="page_limit.{{ $plan->id }}.status" id="page_limit.status"
                         class="form-control">
-                        <option value="">STATUS</option>
+                        <option value="" @if (empty($page_limit)) selected @endif disabled>-- select --</option>
                         <option value="0" @if (!empty($page_limit) && $page_limit->status == 0) selected @endif>DISABLE</option>
                         <option value="1" @if (!empty($page_limit) && $page_limit->status == 1) selected @endif>ENABLE</option>
                     </select>
@@ -80,7 +80,7 @@ $own_watermark = $plan->DatasByProps('own_watermark');
                         wire:change="store($event.target.value,'storage_validity.{{ $plan->id }}.status')"
                         wire:model.defer="storage_validity.{{ $plan->id }}.status" id="storage_validity"
                         class="form-control">
-                        <option value="">STATUS</option>
+                        <option value="" @if (empty($storage_validity)) selected @endif disabled>-- select --</option>
                         <option value="0" @if (!empty($storage_validity) && $storage_validity->status == 0) selected @endif>DISABLE</option>
                         <option value="1" @if (!empty($storage_validity) && $storage_validity->status == 1) selected @endif>ENABLE</option>
                     </select>
@@ -113,7 +113,7 @@ $own_watermark = $plan->DatasByProps('own_watermark');
                         wire:change="store($event.target.value,'default_watermark.{{ $plan->id }}.status')"
                         wire:model.defer="default_watermark.{{ $plan->id }}.status" id="default_watermark"
                         class="form-control">
-                        <option value="">STATUS</option>
+                        <option value="" @if (empty($default_watermark)) selected @endif disabled>-- select --</option>
                         <option value="0" @if (!empty($default_watermark) && $default_watermark->status == 0) selected @endif>DISABLE</option>
                         <option value="1" @if (!empty($default_watermark) && $default_watermark->status == 1) selected @endif>ENABLE</option>
                     </select>
@@ -129,7 +129,7 @@ $own_watermark = $plan->DatasByProps('own_watermark');
                         wire:change="store($event.target.value,'own_watermark.{{ $plan->id }}.status')"
                         id="own_watermark.status" wire:model.defer="own_watermark.{{ $plan->id }}.status"
                         class="form-control">
-                        <option value="">STATUS</option>
+                        <option value="" @if (empty($own_watermark)) selected @endif disabled>-- select --</option>
                         <option value="0" @if (!empty($own_watermark) && $own_watermark->status == 0) selected @endif>DISABLE</option>
                         <option value="1" @if (!empty($own_watermark) && $own_watermark->status == 1) selected @endif>ENABLE</option>
                     </select>

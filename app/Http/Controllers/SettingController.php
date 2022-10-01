@@ -71,29 +71,30 @@ class SettingController extends Controller
 
     public function planSettingUpdate(Request $request)
     {
-        $data['type'] =$request->type;
-        if($request->type == "paypal")
-        {
-            $prams['user_id'] = Auth::user()->id;
-            $prams['setting_name'] = "PAYPAL_CLIENT_ID";
-            $data['value'] = $request->PAYPAL_CLIENT_ID;
-            $this->checkSettingAvailable($prams,$data);
-            $prams['setting_name'] = "PAYPAL_CLIENT_SECRET";
-            $data['value'] = $request->PAYPAL_CLIENT_SECRET;
-            $this->checkSettingAvailable($prams,$data);
-            return redirect()->back();
-        }else{
-            $prams['user_id'] = Auth::user()->id;
-            $prams['setting_name'] = "STRIPE_PUBLISHABLE_KEY";
-            $data['value'] = $request->STRIPE_PUBLISHABLE_KEY;
-            $this->checkSettingAvailable($prams,$data);
-            $prams['setting_name'] = "STRIPE_SECRET_KEY";
-            $data['value'] = $request->STRIPE_SECRET_KEY;
-            $this->checkSettingAvailable($prams,$data);
-            return redirect()->back();
+        // $data['type'] =$request->type;
+        // if($request->type == "paypal")
+        // {
+        //     $prams['user_id'] = Auth::user()->id;
+        //     $prams['setting_name'] = "PAYPAL_CLIENT_ID";
+        //     $data['value'] = $request->PAYPAL_CLIENT_ID;
+        //     $this->checkSettingAvailable($prams,$data);
+        //     $prams['setting_name'] = "PAYPAL_CLIENT_SECRET";
+        //     $data['value'] = $request->PAYPAL_CLIENT_SECRET;
+        //     $this->checkSettingAvailable($prams,$data);
+        //     return redirect()->back();
+        // }else{
+        //     $prams['user_id'] = Auth::user()->id;
+        //     $prams['setting_name'] = "STRIPE_PUBLISHABLE_KEY";
+        //     $data['value'] = $request->STRIPE_PUBLISHABLE_KEY;
+        //     $this->checkSettingAvailable($prams,$data);
+        //     $prams['setting_name'] = "STRIPE_SECRET_KEY";
+        //     $data['value'] = $request->STRIPE_SECRET_KEY;
+        //     $this->checkSettingAvailable($prams,$data);
+        //     return redirect()->back();
 
-        }
+        // }
     }
+    
     public function index()
     {
         $user_id = auth()->user()->id;
